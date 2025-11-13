@@ -2,7 +2,7 @@
 import { useSkin } from "@hooks/useSkin";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 // ** Icons Imports
 import { Facebook, Twitter, Mail, GitHub } from "react-feather";
@@ -16,7 +16,6 @@ import {
   Col,
   CardTitle,
   CardText,
-  Form,
   Label,
   Input,
   Button,
@@ -42,7 +41,7 @@ const Login = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const loginDataForSend = {
-        gmail: values.user,
+        phoneOrGmail: values.user,
         password: values.password,
         rememberMe: values.rememberMe,
       };
@@ -54,7 +53,7 @@ const Login = () => {
         setItem("token", response.token);
 
         if (response.message === "ارسال پیامک انجام شد.") {
-          setItem("email", loginDataForSend.gmail);
+          setItem("email", loginDataForSend.phoneOrGmail);
           setItem("password", loginDataForSend.password);
           navigate("/twostep");
         } else {
