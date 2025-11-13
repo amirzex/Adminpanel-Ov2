@@ -1,13 +1,15 @@
 // ** React Imports
 import { useSkin } from "@hooks/useSkin";
 import { Link } from "react-router-dom";
-
+import * as Yup from "yup";
+import { Link, useNavigate } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
 // ** Icons Imports
 import { Facebook, Twitter, Mail, GitHub } from "react-feather";
 
 // ** Custom Components
 import InputPasswordToggle from "@components/input-password-toggle";
-
+import { setItem } from "../@core/service/common/storage.services";
 // ** Reactstrap Imports
 import {
   Row,
@@ -23,14 +25,49 @@ import {
 // ** Illustrations Imports
 import illustrationsLight from "@src/assets/images/pages/login-v2.svg";
 import illustrationsDark from "@src/assets/images/pages/login-v2-dark.svg";
-
+import { Sendloginrequest } from "../@core/service/api/Getuserlist/Adminuserlist";
 // ** Styles
 import "@styles/react/pages/page-authentication.scss";
 
 const Login = () => {
   const { skin } = useSkin();
-
+  const navigate = useNavigate();
   const source = skin === "dark" ? illustrationsDark : illustrationsLight;
+
+  const loginSchema = Yup.object().shape({
+    user: Yup.string().required("Email or phone is required"),
+    password: Yup.string().required("Password is required"),
+  });
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const loginDataForSend = {
+        gmail: values.user,
+        password: values.password,
+        rememberMe: values.rememberMe,
+      };
+
+      const response = await Sendloginrequest(loginDataForSend);
+
+      if (response) {
+        alert("ورود موفقیت‌آمیز بود");
+        setItem("token", response.token);
+
+        if (response.message === "ارسال پیامک انجام شد.") {
+          setItem("email", loginDataForSend.gmail);
+          setItem("password", loginDataForSend.password);
+          navigate("/twostep");
+        } else {
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please check your credentials.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="auth-wrapper auth-cover">
@@ -121,45 +158,79 @@ const Login = () => {
             <CardText className="mb-2">
               Please sign-in to your account and start the adventure
             </CardText>
-            <Form
-              className="auth-login-form mt-2"
-              onSubmit={(e) => e.preventDefault()}
+            <Formik
+              initialValues={{ user: "", password: "", rememberMe: false }}
+              validationSchema={loginSchema}
+              onSubmit={handleSubmit}
             >
-              <div className="mb-1">
-                <Label className="form-label" for="login-email">
-                  Email
-                </Label>
-                <Input
-                  type="email"
-                  id="login-email"
-                  placeholder="john@example.com"
-                  autoFocus
-                />
-              </div>
-              <div className="mb-1">
-                <div className="d-flex justify-content-between">
-                  <Label className="form-label" for="login-password">
-                    Password
-                  </Label>
-                  <Link to="/forgot-password">
-                    <small>Forgot Password?</small>
-                  </Link>
-                </div>
-                <InputPasswordToggle
-                  className="input-group-merge"
-                  id="login-password"
-                />
-              </div>
-              <div className="form-check mb-1">
-                <Input type="checkbox" id="remember-me" />
-                <Label className="form-check-label" for="remember-me">
-                  Remember Me
-                </Label>
-              </div>
-              <Button tag={Link} to="/" color="primary" block>
-                Sign in
-              </Button>
-            </Form>
+              {({ errors, touched, isSubmitting }) => (
+                <Form className="auth-login-form mt-2">
+                  <div className="mb-1">
+                    <Label className="form-label" htmlFor="login-email">
+                      Email or Phone
+                    </Label>
+                    <Field
+                      as={Input}
+                      type="text"
+                      id="login-email"
+                      name="user"
+                      placeholder="john@example.com or +123456789"
+                      autoFocus
+                      className={
+                        errors.user && touched.user ? "is-invalid" : ""
+                      }
+                    />
+                    {errors.user && touched.user && (
+                      <div className="invalid-feedback d-block">
+                        {errors.user}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mb-1">
+                    <div className="d-flex justify-content-between">
+                      <Label className="form-label" htmlFor="login-password">
+                        Password
+                      </Label>
+                      <Link to="/forgot-password">
+                        <small>Forgot Password?</small>
+                      </Link>
+                    </div>
+                    <Field
+                      as={InputPasswordToggle}
+                      className={`input-group-merge ${
+                        errors.password && touched.password ? "is-invalid" : ""
+                      }`}
+                      id="login-password"
+                      name="password"
+                    />
+                    {errors.password && touched.password && (
+                      <div className="invalid-feedback d-block">
+                        {errors.password}
+                      </div>
+                    )}
+                  </div>
+                  <div className="form-check mb-1">
+                    <Field
+                      as={Input}
+                      type="checkbox"
+                      id="remember-me"
+                      name="rememberMe"
+                    />
+                    <Label className="form-check-label" htmlFor="remember-me">
+                      Remember Me
+                    </Label>
+                  </div>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    block
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Signing in..." : "Sign in"}
+                  </Button>
+                </Form>
+              )}
+            </Formik>
             <p className="text-center mt-2">
               <span className="me-25">New on our platform?</span>
               <Link to="/register">
