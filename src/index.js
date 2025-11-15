@@ -41,25 +41,28 @@ import "./assets/scss/style.scss";
 
 // ** Service Worker
 import * as serviceWorker from "./serviceWorker";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // ** Lazy load app
 const LazyApp = lazy(() => import("./App"));
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-
+const queryClient = new QueryClient();
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <Suspense fallback={<Spinner />}>
-        <ThemeContext>
-          <LazyApp />
-          <Toaster
-            position={themeConfig.layout.toastPosition}
-            toastOptions={{ className: "react-hot-toast" }}
-          />
-        </ThemeContext>
-      </Suspense>
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<Spinner />}>
+          <ThemeContext>
+            <LazyApp />
+            <Toaster
+              position={themeConfig.layout.toastPosition}
+              toastOptions={{ className: "react-hot-toast" }}
+            />
+          </ThemeContext>
+        </Suspense>
+      </QueryClientProvider>
     </Provider>
   </BrowserRouter>
 );
