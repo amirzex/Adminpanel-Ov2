@@ -12,6 +12,14 @@ export default [
     title: "لیست کاربران",
     icon: <Mail size={20} />,
     navLink: "/second-page",
+    children: [
+      {
+        id: "invoiceList",
+        title: "List",
+        icon: <Circle size={12} />,
+        navLink: "/apps/invoice/list",
+      },
+    ],
   },
   {
     id: "smaplePage",
