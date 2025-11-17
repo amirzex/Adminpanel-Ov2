@@ -8,11 +8,12 @@ import BillingCurrentPlan from './BillingCurrentPlan'
 
 const BillingTab = () => {
   return (
-    <Fragment>
-      <BillingCurrentPlan />
-      <PaymentMethods />
-      <BillingAddress />
-    </Fragment>
+    <div>Billing</div>
+    // <Fragment>
+    //   <BillingCurrentPlan />
+    //   <PaymentMethods />
+    //   <BillingAddress />
+    // </Fragment>
   )
 }
 

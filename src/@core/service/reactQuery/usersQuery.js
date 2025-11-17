@@ -4,6 +4,7 @@ import {
   getcousrid,
   Getuserdetail,
   Sendloginrequest,
+  useCreateUser,
 } from "../api/Getuserlist/Adminuserlist.js";
 
 // Login mutation
@@ -13,13 +14,11 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (loginInfo) => Sendloginrequest(loginInfo),
     onSuccess: (data) => {
-
       queryClient.invalidateQueries(["userList"]);
       queryClient.invalidateQueries(["courses"]);
     },
   });
 };
-
 
 export const useAdminUserList = (
   pageNumber = 1,
@@ -30,13 +29,13 @@ export const useAdminUserList = (
   return useQuery({
     queryKey: ["adminUsers", pageNumber, rowsPerPage, sortType, sortingCol],
     queryFn: () => Getcourseuserlist(),
-    staleTime: 1000 * 60 * 5, 
+    staleTime: 1000 * 60 * 5,
     select: (data) => ({
       data: data?.listUser,
-      rol: data?.userRoles,
+      rol: data?.roles,
       total: data?.totalCount,
     }),
-    enabled: true, 
+    enabled: true,
   });
 };
 
@@ -52,12 +51,23 @@ export const useUserDetail = (userId) => {
   });
 };
 
-
 export const useTopCourses = (count = 5) => {
   return useQuery({
     queryKey: ["courses", "top", count],
     queryFn: getcousrid,
-    staleTime: 1000 * 60 * 15, 
+    staleTime: 1000 * 60 * 15,
     select: (data) => data?.data || [],
+  });
+};
+
+export const useUserDetailPost = () => {
+  return useMutation({
+    mutationFn: useCreateUser,
+    onSuccess: (data) => {
+      console.log("User created successfully:", data);
+    },
+    onError: (error) => {
+      console.error("Error creating user:", error.response?.data || error.message);
+    },
   });
 };

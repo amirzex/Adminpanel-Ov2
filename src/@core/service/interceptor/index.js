@@ -26,7 +26,6 @@ instance.interceptors.response.use(onSuccess, onError);
 
 instance.interceptors.request.use((opt) => {
   const token = getItem("token");
-  // console.log(token);
   opt.headers.Authorization = "Bearer " + token;
 
   return opt;

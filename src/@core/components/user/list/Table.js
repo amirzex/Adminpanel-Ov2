@@ -186,7 +186,7 @@ const CustomHeader = ({
 const UsersList = () => {
   // ** Store Vars
   const { data: store } = useAdminUserList();
-  const { data: userData } = useUserDetail(2);
+  // const { data: userData } = useUserDetail(2);
   // const dispatch = useDispatch();
   // const store = useSelector((state) => state.users);
 
