@@ -39,6 +39,18 @@ const Getcourseuserlist = async () => {
   }
 };
 
+const GetUserCommentList = async (userId) => {
+  try {
+    const respone = await http.get(`/Course/CommentManagment?userId=${userId}`);
+
+    console.log("user comment list: ", respone);
+
+    return respone;
+  } catch (error) {
+    console.log("error from user comment list admin : ", error);
+  }
+};
+
 const Addnewuser = async (userData) => {
   try {
     const response = await http.post("/User/CreateUser", userData, {
@@ -189,4 +201,5 @@ export {
   updateUserDetail,
   useCreateUser,
   useAccessUser,
+  GetUserCommentList,
 };

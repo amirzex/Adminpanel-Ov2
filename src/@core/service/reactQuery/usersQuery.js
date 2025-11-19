@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Getcourseuserlist,
   getcousrid,
+  GetUserCommentList,
   Getuserdetail,
   Sendloginrequest,
   useAccessUser,
@@ -40,6 +41,18 @@ export const useAdminUserList = (
   });
 };
 
+export const useUsercommentList = (userId) => {
+  return useQuery({
+    queryKey: ["UsersComment", userId],
+    queryFn: () => GetUserCommentList(),
+    staleTime: 1000 * 60 * 5,
+    select: (data) => ({
+      data: data?.comments,
+      total: data?.totalCount,
+    }),
+    enabled: true,
+  });
+};
 export const useUserDetail = (userId) => {
   return useQuery({
     queryKey: ["userDetail", userId],
