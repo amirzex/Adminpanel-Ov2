@@ -83,9 +83,9 @@ const UserView = () => {
   };
 
   return (
-    <div className="app-user-view">
+    <div className="app-user-view ">
       <Row>
-        <Col xl="12" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+        <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
           <UserInfoCard selectedUser={userInfo} />
           <Card>
             <CardBody>

@@ -19,7 +19,7 @@ const UsersList = () => {
   const { data } = useAdminUserList();
   
   return (
-    <div className="app-user-list">
+    <div className="app-user-list ">
       <Row>
         <Col lg="3" sm="6">
           <StatsHorizontal

@@ -33,7 +33,14 @@ import {
 // ** Renders Client Columns
 const renderClient = (row) => {
   if (row?.pictureAddress?.length) {
-    return <Avatar className="me-1" img={row.pictureAddress} width="32" height="32" />;
+    return (
+      <Avatar
+        className="me-1 overflow-hidden"
+        img={row.pictureAddress}
+        width="32"
+        height="32"
+      />
+    );
   } else {
     return (
       <Avatar
@@ -60,7 +67,7 @@ const renderRoles = (row) => {
     return <span className="text-muted">No roles assigned</span>;
 
   const roles = row.userRoles.split(", ");
-  const primaryRole = roles[0]; 
+  const primaryRole = roles[0]; // Show first role with icon
   const Icon = roleIcons[primaryRole]?.icon || User;
 
   return (
@@ -83,7 +90,7 @@ const statusObj = {
   inactive: "light-secondary",
 };
 
-export const columns = [
+export const columns = (actions = {}) => [
   {
     name: "کاربر",
     sortable: true,
@@ -97,11 +104,10 @@ export const columns = [
           <Link
             to={`/users/view/${row.id}`}
             className="user_name text-truncate text-body"
-            onClick={() => store.dispatch(getUser(row.id))}
           >
             <span className="fw-bolder">{`${row.fname} ${row.lname}`}</span>
           </Link>
-          <small className="text-truncate text-muted mb-0">{row.email}</small>
+          <small className="text-truncate text-muted mb-0">{row.gmail}</small>
         </div>
       </div>
     ),
@@ -156,6 +162,15 @@ export const columns = [
     ),
   },
   {
+    name: "تاریخ ثبت نام",
+    minWidth: "180px",
+    sortable: true,
+    sortField: "insertDate",
+    selector: (row) => row.insertDate,
+    cell: (row) =>
+      row.insertDate ? new Date(row.insertDate).toLocaleString("fa-IR") : "-",
+  },
+  {
     name: "اقدامات",
     minWidth: "100px",
     cell: (row) => (
@@ -169,19 +184,21 @@ export const columns = [
               tag={Link}
               className="w-100"
               to={`/apps/user/view/${row.id}`}
-              // onClick={() => store.dispatch(getUser(row.id))}
             >
               <FileText size={14} className="me-50" />
-              <span className="align-middle">Details</span>
+              <span className="align-middle">جزئیات</span>
             </DropdownItem>
             <DropdownItem
               tag="a"
               href="/"
               className="w-100"
-              onClick={(e) => e.preventDefault()}
+              onClick={(e) => {
+                e.preventDefault();
+                if (actions.onEdit) actions.onEdit(row);
+              }}
             >
               <Archive size={14} className="me-50" />
-              <span className="align-middle">Edit</span>
+              <span className="align-middle">ویرایش</span>
             </DropdownItem>
             <DropdownItem
               tag="a"
@@ -193,7 +210,7 @@ export const columns = [
               }}
             >
               <Trash2 size={14} className="me-50" />
-              <span className="align-middle">Delete</span>
+              <span className="align-middle">حذف</span>
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>

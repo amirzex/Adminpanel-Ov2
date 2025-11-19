@@ -27,7 +27,9 @@ const getcousrid = async () => {
 
 const Getcourseuserlist = async () => {
   try {
-    const respone = await http.get("/User/UserMannage");
+    const respone = await http.get(
+      "/User/UserMannage?PageNumber=1&RowsOfPage=1000&SortingCol=DESC&SortType=InsertDate"
+    );
 
     console.log("admin api user list: ", respone);
 
@@ -73,9 +75,9 @@ const Getuserdetail = async (userId) => {
   }
 };
 
-const useCreateUser  = async (userData) => {
+const useCreateUser = async (userData) => {
   try {
-    const response = await http.post("/User/CreateUser",userData);
+    const response = await http.post("/User/CreateUser", userData);
     console.log("create user:", response);
     return response;
   } catch (error) {

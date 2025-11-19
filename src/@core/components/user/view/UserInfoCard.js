@@ -270,9 +270,9 @@ const UserInfoCard = ({ selectedUser }) => {
         twoStepAuth: Boolean(formData.twoStepAuth),
         userAbout: String(formData.userAbout || ""),
         currentPictureAddress: String(formData.currentPictureAddress || ""),
-        // linkdinProfile: String(formData.linkdinProfile || ''),
+        linkdinProfile: String(formData.linkdinProfile || ""),
 
-        // telegramLink: "https://t.me/amirzex70",
+        telegramLink: "https://t.me/amirzex70",
         // formData.telegramLink || ''
         receiveMessageEvent: Boolean(formData.receiveMessageEvent),
         homeAdderess: String(formData.homeAdderess || ""),
@@ -314,7 +314,6 @@ const UserInfoCard = ({ selectedUser }) => {
           })) || [],
 
         userProfileId: 55021,
-        // formData.userProfileId || null
       };
 
       const response = await updateUserDetail(userData);
@@ -904,7 +903,7 @@ const UserInfoCard = ({ selectedUser }) => {
                 </div>
               </Col>
               <Col xs={12} className="text-center mt-2 pt-50">
-                <Button type="submit" className="me-1" color="primary">
+                <Button type="submit" className="me-1" color="primary" onClick={handleSubmiT}>
                   Submit
                 </Button>
                 <Button
