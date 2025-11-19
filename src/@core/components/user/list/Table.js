@@ -1,7 +1,10 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 // ** React Query
-import { useAdminUserList } from "../../../service/reactQuery/usersQuery";
+import {
+  useAccessPost,
+  useAdminUserList,
+} from "../../../service/reactQuery/usersQuery";
 // ** Invoice List Sidebar
 import Sidebar from "./Sidebar";
 import UserEditModal from "../list/UserEditModal";
@@ -98,6 +101,7 @@ const CustomHeader = ({
 const UsersList = () => {
   // ** Store Vars
   const { data: store } = useAdminUserList();
+  const { data: Access } = useAccessPost();
 
   // ** States
   const [sort, setSort] = useState("desc");
@@ -108,6 +112,36 @@ const UsersList = () => {
   const [sortType, setSortType] = useState("ASC");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const { mutate: updateAccess, isLoading, isError } = useAccessPost();
+  const [selectedRole, setSelectedRole] = React.useState("");
+
+  const roles = [
+    { id: 1, label: "Teacher" },
+    { id: 2, label: "Admin" },
+  ];
+
+  const handleSave = () => {
+    if (!selectedRole) return;
+
+    const payload = {
+      roleId: Number(selectedRole),
+      userId: selectedUser.id,
+    };
+
+    updateAccess(payload, {
+      onSuccess: () => {
+        alert("Role updated successfully");
+      },
+      onError: (err) => {
+        console.error(
+          "Error updating role:",
+          err.response?.data || err.message
+        );
+      },
+    });
+  };
+
   const [currentRole, setCurrentRole] = useState({
     value: "",
     label: "انتخاب نقش",
@@ -320,7 +354,7 @@ const UsersList = () => {
             pagination
             responsive
             paginationServer
-            columns={columns ({
+            columns={columns({
               onEdit: (user) => {
                 setSelectedUser(user);
                 setEditModalOpen(true);
@@ -356,7 +390,31 @@ const UsersList = () => {
             <h4>
               ویرایش کاربر: {selectedUser.fname} {selectedUser.lname}
             </h4>
-            {/* Add your edit form here */}
+
+            <Col md={6} xs={12}>
+              <Label for="roleId">نقش کاربر</Label>
+              <Input
+                type="select"
+                id="roleId"
+                value={selectedRole}
+                onChange={(e) => setSelectedRole(e.target.value)}
+              >
+                <option value="">انتخاب کنید...</option>
+                <option value={1}>Teacher</option>
+                <option value={2}>Admin</option>
+              </Input>
+            </Col>
+
+            <Button
+              color="primary"
+              onClick={handleSave}
+              className="mt-2"
+              disabled={isLoading}
+            >
+              {isLoading ? "در حال ذخیره..." : "ذخیره تغییرات"}
+            </Button>
+
+            {isError && <p style={{ color: "red" }}>خطا در ذخیره نقش کاربر</p>}
           </div>
         )}
       </UserEditModal>

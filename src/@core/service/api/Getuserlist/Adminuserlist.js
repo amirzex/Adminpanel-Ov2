@@ -145,6 +145,41 @@ const updateUserDetail = async (userData) => {
   }
 };
 
+const useAccessUser = async (userData) => {
+  try {
+    const response = await http.post("/User/AddUserAccess", userData);
+    console.log("create user:", response);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      switch (error.response.status) {
+        case 400:
+          throw new Error(
+            "Invalid user data: " + (error.response.data?.message || "")
+          );
+        case 401:
+          throw new Error("Unauthorized - Please login again");
+        case 403:
+          throw new Error("Forbidden - You don't have permission");
+        case 404:
+          throw new Error("User not found");
+        case 500:
+          throw new Error("Server error - Please try again later");
+        default:
+          throw new Error(
+            `Request failed with status ${error.response.status}`
+          );
+      }
+    } else if (error.request) {
+      throw new Error(
+        "No response from server - Check your network connection"
+      );
+    } else {
+      throw new Error("Request setup error: " + error.message);
+    }
+  }
+};
+
 export {
   Getcourseuserlist,
   getcousrid,
@@ -153,4 +188,5 @@ export {
   Getuserdetail,
   updateUserDetail,
   useCreateUser,
+  useAccessUser,
 };

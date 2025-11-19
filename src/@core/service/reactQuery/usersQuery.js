@@ -4,6 +4,7 @@ import {
   getcousrid,
   Getuserdetail,
   Sendloginrequest,
+  useAccessUser,
   useCreateUser,
 } from "../api/Getuserlist/Adminuserlist.js";
 
@@ -67,7 +68,24 @@ export const useUserDetailPost = () => {
       console.log("User created successfully:", data);
     },
     onError: (error) => {
-      console.error("Error creating user:", error.response?.data || error.message);
+      console.error(
+        "Error creating user:",
+        error.response?.data || error.message
+      );
+    },
+  });
+};
+export const useAccessPost = () => {
+  return useMutation({
+    mutationFn: useAccessUser,
+    onSuccess: (data) => {
+      console.log("Add user Access successfully :", data);
+    },
+    onError: (error) => {
+      console.error(
+        "Error creating user:",
+        error.response?.data || error.message
+      );
     },
   });
 };

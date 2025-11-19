@@ -50,34 +50,28 @@ const statusColors = {
 };
 
 const statusOptions = [
-  { value: "active", label: "Active" },
-  { value: "inactive", label: "Inactive" },
-  { value: "suspended", label: "Suspended" },
+  { value: true, label: "فعال" },
+  { value: false, label: "غیرفعال" },
 ];
 
 const roleOptions = [
-  { isStudent: "student", label: "Student" },
-  { isTecher: "teacher", label: "teacher" },
-  // Add more roles if needed, e.g.:
-  // { value: 'teacher', label: 'Teacher' }
+  { value: "student", label: "دانشجو" },
+  { value: "teacher", label: "مدرس" },
 ];
 
 const twoStepAuthOptions = [
-  { value: "yes", label: "yes" },
-  { value: "no", label: "no" },
-  // { value: 'french', label: 'French' },
-  // { value: 'german', label: 'German' },
-  // { value: 'dutch', label: 'Dutch' }
+  { value: true, label: "بله" },
+  { value: false, label: "خیر" },
 ];
 
 const isDeleteOptions = [
-  { value: "yes", label: "yes" },
-  { value: "no", label: "no" },
+  { value: true, label: "بله" },
+  { value: false, label: "خیر" },
 ];
 
 const genderOptions = [
-  { value: true, label: "male" },
-  { value: false, label: "female" },
+  { value: true, label: "مرد" },
+  { value: false, label: "زن" },
 ];
 
 const MySwal = withReactContent(Swal);
@@ -85,114 +79,6 @@ const MySwal = withReactContent(Swal);
 const UserInfoCard = ({ selectedUser }) => {
   // ** State
   const [show, setShow] = useState(false);
-
-  // update user information
-  // const handleupdate = async (formData) => {
-  //   try {
-
-  //     if (!formData?.id) {
-  //       throw new Error("User ID is required for update");
-  //     }
-  //           const userData = {
-
-  //             id: selectedUser.id, //1200312000
-  //             fName: string(formData.fname) ,
-  //             lName: string(formData.lName),
-  //             userName: string(formData.username),
-  //             gmail: string(formData.gmail),
-  //             phoneNumber: string(formData.phoneNumber),
-  //             active: true, //1200312000
-  //             isDelete: false, //1200312000
-  //             isTecher: false, //1200312000
-  //             isStudent: true, //1200312000
-  //             recoveryEmail: string(formData.recoveryEmail),
-  //             twoStepAuth: true, //1200312000
-  //             userAbout: string(formData.userAbout),
-  //             currentPictureAddress: formData.currentPictureAddress,
-  //             linkdinProfile: formData.linkdinProfile,
-  //             telegramLink: formData.telegramLink,
-  //             receiveMessageEvent: true, //1200312000
-  //             homeAdderess: formData.homeAdderess,
-  //             nationalCode: formData.nationalCode,
-  //             gender: true, //1200312000
-  //             latitude: formData.latitude,
-  //             longitude: formData.longitude,
-  //             insertDate: formData.insertDate, //1200312000
-  //             birthDay: string(formData.birthDay), //1200312000
-
-  //             roles: formData.roles[
-  //               {
-  //                 id: formData.id, //1200312000
-  //                 roleName: formData.roleName,
-  //                 roleParentName: formData.roleParentName
-  //               },
-  //               {
-  //                 id: formData.id, //1200312000
-  //                 roleName: formData.roleName,
-  //                 roleParentName: formData.roleParentName
-  //               }
-  //               ],
-  //               courses: formData.courses[
-  //                 {
-  //                   title: formData.title,
-  //                   describe: formData.describe,
-  //                   tumbImageAddress: formData.tumbImageAddress,
-  //                   lastUpdate: formData.lastUpdate, //1200312000
-  //                   courseId: formData.courseId //1200312000
-  //                 }
-  //               ],
-  //               coursesReseves: formData.coursesReseves [
-  //                 {
-  //                   reserveId: formData.reserveId, //1200312000
-  //                   courseId: formData.courseId, //1200312000
-  //                   courseName: formData.courseName,
-  //                   studentId: formData.studentId, //1200312000
-  //                   studentName: formData.studentName,
-  //                   reserverDate: formData.reserverDate, //1200312000
-  //                   accept: true //1200312000
-  //                 }
-  //               ],
-  //               userProfileId: formData.userProfileId //1200312000
-  //                 };
-
-  //     const response = await updateUserDetail(userData);
-
-  //     console.log('Update successful:', response);
-
-  //     return { success: true, data: response.data };
-
-  //   } catch (error) {
-
-  //     let errorMessage = "An error occurred during update";
-
-  //     if (error.response) {
-  //       switch (error.response.status) {
-  //         case 400:
-  //           errorMessage = `Invalid data: ${error.response.data?.message || "Check your input"}`;
-  //           break;
-  //         case 401:
-  //           errorMessage = "Session expired - Please login again";
-  //           break;
-  //         case 403:
-  //           errorMessage = "You don't have permission to update this user";
-  //           break;
-  //         case 404:
-  //           errorMessage = "User not found";
-  //           break;
-  //         case 500:
-  //           errorMessage = "Server error - Please try again later";
-  //           break;
-  //       }
-  //     } else if (error.request) {
-  //       errorMessage = "No response from server - Check your connection";
-  //     } else {
-  //       errorMessage = error.message || errorMessage;
-  //     }
-
-  //     return { success: false, error: errorMessage };
-  //   }
-  // }
-
   // ** Hook
   const {
     reset,
@@ -253,69 +139,39 @@ const UserInfoCard = ({ selectedUser }) => {
         });
         return { success: false, error: "Please fill all required fields" };
       }
-
       const userData = {
         id: selectedUser.id,
-        fName: String(formData.fname),
-        lName: String(formData.lName),
-        userName: String(formData.username),
-
-        gmail: String(formData.gmail || ""),
-        phoneNumber: String(formData.phoneNumber || ""),
+        fName: string(formData.fName || ""),
+        lName: string(formData.lName || ""),
+        userName: string(formData.userName || ""),
+        gmail: string(formData.gmail || ""),
+        phoneNumber: string(formData.phoneNumber || ""),
         active: true,
         isDelete: false,
-        isTecher: Boolean(formData.isTecher), // Convert to boolean
-        isStudent: Boolean(formData.isStudent), // Convert to boolean
-        recoveryEmail: String(formData.recoveryEmail || ""),
-        twoStepAuth: Boolean(formData.twoStepAuth),
-        userAbout: String(formData.userAbout || ""),
-        currentPictureAddress: String(formData.currentPictureAddress || ""),
-        linkdinProfile: String(formData.linkdinProfile || ""),
-
-        telegramLink: "https://t.me/amirzex70",
-        // formData.telegramLink || ''
-        receiveMessageEvent: Boolean(formData.receiveMessageEvent),
-        homeAdderess: String(formData.homeAdderess || ""),
-        nationalCode: String(formData.nationalCode || ""),
-        gender: Boolean(formData.gender),
-        latitude: String(formData.latitude || ""),
-        longitude: String(formData.longitude || ""),
+        isTecher: Boolean(formData.isTecher ?? false),
+        isStudent: Boolean(formData.isStudent ?? false),
+        recoveryEmail: string(formData.recoveryEmail || ""),
+        twoStepAuth: Boolean(formData.twoStepAuth ?? false),
+        userAbout: string(formData.userAbout || ""),
+        currentPictureAddress: string(formData.currentPictureAddress || ""),
+        linkdinProfile: string(formData.linkdinProfile || ""),
+        telegramLink: string(formData.telegramLink || "https://t.me/amirzex70"),
+        receiveMessageEvent: Boolean(formData.receiveMessageEvent ?? false),
+        homeAdderess: string(formData.homeAdderess || ""),
+        nationalCode: string(formData.nationalCode || ""),
+        gender: formData.gender !== undefined ? Boolean(formData.gender) : null,
+        latitude: isFinite(Number(formData.latitude))
+          ? string(formData.latitude)
+          : "",
+        longitude: isFinite(Number(formData.longitude))
+          ? string(formData.longitude)
+          : "",
         insertDate: new Date().toISOString(),
-        birthDay: formData.birthDay
-          ? new Date(formData.birthDay).toISOString()
-          : null,
-
-        // Your nested objects (assuming they exist in formData)
-        roles:
-          formData.roles?.map((role) => ({
-            id: role.id,
-            roleName: String(role.roleName || ""),
-            roleParentName: String(role.roleParentName || ""),
-          })) || [],
-
-        courses:
-          formData.courses?.map((course) => ({
-            title: String(course.title || ""),
-            describe: String(course.describe || ""),
-            tumbImageAddress: String(course.tumbImageAddress || ""),
-            lastUpdate: new Date().toISOString(),
-            courseId: course.courseId,
-          })) || [],
-
-        coursesReseves:
-          formData.coursesReseves?.map((reserve) => ({
-            reserveId: reserve.reserveId,
-            courseId: reserve.courseId,
-            courseName: String(reserve.courseName || ""),
-            studentId: reserve.studentId,
-            studentName: String(reserve.studentName || ""),
-            reserverDate: new Date().toISOString(),
-            accept: Boolean(reserve.accept),
-          })) || [],
-
-        userProfileId: 55021,
+        birthDay:
+          formData.birthDay && !isNaN(new Date(formData.birthDay))
+            ? new Date(formData.birthDay).toISOString()
+            : "",
       };
-
       const response = await updateUserDetail(userData);
       setShow(false);
       return { success: true, data: response.data };
@@ -348,27 +204,45 @@ const UserInfoCard = ({ selectedUser }) => {
     });
   };
 
-  // const onSubmit = data => {
-  //   if (Object.values(data).every(field => field.length > 0)) {
-  //     setShow(false)
-  //   } else {
-  //     for (const key in data) {
-  //       if (data[key].length === 0) {
-  //         setError(key, {
-  //           type: 'manual'
-  //         })
-  //       }
-  //     }
-  //   }
-  // }
+  const [selectedRoles, setSelectedRoles] = useState([]);
+  const [selectedActive, setSelectedActive] = useState([]);
+  const [SelectedDelete, setSelectedDelete] = useState([]);
+  const [selectedGender, setSelectedGender] = useState([]);
+  const [selectedStep, setSelectedStep] = useState([]);
 
-  // const handleReset = () => {
-  //   reset({
-  //     username: selectedUser.username,
-  //     lastName: selectedUser.fullName.split(' ')[1],
-  //     firstName: selectedUser.fullName.split(' ')[0]
-  //   })
-  // }
+  const handleRoleChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedRoles((prev) =>
+      checked ? [...prev, value] : prev.filter((role) => role !== value)
+    );
+  };
+  const handleActiveChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedActive((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    );
+  };
+
+  const handleDeleteChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedDelete((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    );
+  };
+
+  const handleGenderChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedGender((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    );
+  };
+
+  const handleStepChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedStep((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    );
+  };
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
@@ -526,14 +400,16 @@ const UserInfoCard = ({ selectedUser }) => {
         ></ModalHeader>
         <ModalBody className="px-sm-5 pt-50 pb-5">
           <div className="text-center mb-2">
-            <h1 className="mb-1">Edit User Information</h1>
-            <p>Updating user details will receive a privacy audit.</p>
+            <h1 className="mb-1">ویرایش اطلاعات کاربر</h1>
+            <p>
+              به‌روزرسانی جزئیات کاربر، یک ممیزی حریم خصوصی دریافت خواهد کرد.
+            </p>
           </div>
           <Form onSubmit={handleSubmit(handleSubmiT)}>
             <Row className="gy-1 pt-75">
               <Col md={6} xs={12}>
                 <Label className="form-label" for="fname">
-                  First Name
+                  نام
                 </Label>
                 <Controller
                   defaultValue=""
@@ -548,14 +424,14 @@ const UserInfoCard = ({ selectedUser }) => {
                       invalid={errors.fname && true}
                       onChange={(e) =>
                         field.onChange(e.target.value.toString())
-                      } // Ensure string
+                      }
                     />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
                 <Label className="form-label" for="lName">
-                  Last Name
+                  نام خانوادگی
                 </Label>
                 <Controller
                   defaultValue=""
@@ -570,14 +446,14 @@ const UserInfoCard = ({ selectedUser }) => {
                       invalid={errors.lName && true}
                       onChange={(e) =>
                         field.onChange(e.target.value.toString())
-                      } // Ensure string
+                      }
                     />
                   )}
                 />
               </Col>
               <Col xs={6}>
                 <Label className="form-label" for="userName">
-                  Username
+                  نام کاربری
                 </Label>
                 <Controller
                   defaultValue=""
@@ -592,42 +468,14 @@ const UserInfoCard = ({ selectedUser }) => {
                       invalid={errors.userName && true}
                       onChange={(e) =>
                         field.onChange(e.target.value.toString())
-                      } // Ensure string
+                      }
                     />
                   )}
                 />
               </Col>
-              {/* <Col xs={6}>
-                <Label className='form-label' for='linkdinProfile'>
-                  linkdinProfile
-                </Label>
-                <Controller
-                  defaultValue=''
-                  control={control}
-                  id='linkdinProfile'
-                  name='linkdinProfile'
-                  render={({ field }) => (
-                    <Input {...field} id='linkdinProfile' placeholder='linkdinProfile' invalid={errors.linkdinProfile && true} />
-                  )}
-                />
-              </Col> */}
-              {/* <Col xs={6}>
-                <Label className='form-label' for='telegramLink'>
-                  telegramLink
-                </Label>
-                <Controller
-                  defaultValue=''
-                  control={control}
-                  id='telegramLink'
-                  name='telegramLink'
-                  render={({ field }) => (
-                    <Input {...field} id='telegramLink' placeholder='telegramLink' invalid={errors.telegramLink && true} />
-                  )}
-                />
-              </Col> */}
               <Col xs={6}>
                 <Label className="form-label" for="nationalCode">
-                  nationalCode
+                  کد ملی
                 </Label>
                 <Controller
                   defaultValue=""
@@ -646,7 +494,7 @@ const UserInfoCard = ({ selectedUser }) => {
               </Col>
               <Col xs={12}>
                 <Label className="form-label" for="userAbout">
-                  userAbout
+                  درباره کاربر
                 </Label>
                 <Controller
                   defaultValue=""
@@ -668,7 +516,7 @@ const UserInfoCard = ({ selectedUser }) => {
               </Col>
               <Col xs={12}>
                 <Label className="form-label" for="homeAdderess">
-                  homeAdderess
+                  آدرس خانه
                 </Label>
                 <Controller
                   defaultValue=""
@@ -732,38 +580,8 @@ const UserInfoCard = ({ selectedUser }) => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="active">
-                  Status:
-                </Label>
-                <Select
-                  id="active"
-                  isClearable={false}
-                  className="react-select"
-                  classNamePrefix="select"
-                  options={statusOptions}
-                  theme={selectThemeColors}
-                  defaultValue={
-                    statusOptions[
-                      statusOptions.findIndex(
-                        (i) => i.value === selectedUser.active
-                      )
-                    ]
-                  }
-                />
-              </Col>
-              {/* <Col md={6} xs={12}>
-                <Label className='form-label' for='tax-id'>
-                  Tax ID
-                </Label>
-                <Input
-                  id='tax-id'
-                  placeholder='Tax-1234'
-                  defaultValue={selectedUser.contact.substr(selectedUser.contact.length - 4)}
-                />
-              </Col> */}
-              <Col md={6} xs={12}>
                 <Label className="form-label" for="phoneNumber">
-                  phoneNumber
+                  شماره تلفن
                 </Label>
                 <Controller
                   defaultValue={selectedUser.phoneNumber || ""}
@@ -784,94 +602,164 @@ const UserInfoCard = ({ selectedUser }) => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="isDelete">
-                  isDelete
-                </Label>
-                <Select
-                  id="isDelete"
-                  isClearable={false}
-                  className="react-select"
-                  classNamePrefix="select"
-                  options={isDeleteOptions}
-                  theme={selectThemeColors}
-                  defaultValue={isDeleteOptions[0]}
-                  onChange={(selectedOption) => {
-                    const apiValue =
-                      selectedOption.value === "yes" ? true : false;
-                    // Send apiValue to your API
-                  }}
-                />
-              </Col>
-              <Col md={6} xs={12}>
                 <Label className="form-label" for="birthDay">
-                  Birth Date
+                  تاریخ تولد
                 </Label>
                 <Controller
-                  defaultValue=""
                   control={control}
-                  id="birthDay"
                   name="birthDay"
+                  defaultValue=""
                   render={({ field }) => (
                     <Input
                       {...field}
                       type="date"
                       id="birthDay"
-                      onChange={(e) => {
-                        const formattedDate = e.target.value
-                          ? `${e.target.value}T00:00:00`
-                          : "";
-                        field.onChange(formattedDate);
-                      }}
-                      invalid={errors.birthDay && true}
+                      value={field.value || ""}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      invalid={!!errors.birthDay}
                     />
                   )}
                 />
+                {errors.birthDay && (
+                  <FormFeedback>{errors.birthDay.message}</FormFeedback>
+                )}
+              </Col>
+
+              <Col md={6} xs={12}>
+                <Label className="form-label d-block" for="active">
+                  وضعیت:
+                </Label>
+                {statusOptions.map((isactive) => (
+                  <div
+                    className="form-check form-check-inline"
+                    key={isactive.value}
+                  >
+                    <Input
+                      type="checkbox"
+                      id={`isactive-${isactive.value}`}
+                      name="active"
+                      value={isactive.value}
+                      className="form-check-input"
+                      onChange={handleActiveChange}
+                      checked={selectedActive.includes(isactive.value)}
+                    />
+                    <Label
+                      className="form-check-label"
+                      for={`isactive-${isactive.value}`}
+                    >
+                      {isactive.label}
+                    </Label>
+                  </div>
+                ))}
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="gender">
-                  gender
+                <Label className="form-label d-block" for="isDelete">
+                  حذف
                 </Label>
-                <Select
-                  id="gender"
-                  isClearable={false}
-                  className="react-select"
-                  classNamePrefix="select"
-                  options={genderOptions}
-                  theme={selectThemeColors}
-                  defaultValue={genderOptions[0]}
-                  onChange={(selectedOption) => {
-                    const apiGenderValue = selectedOption.value; // This will be true (male) or false (female)
-                    // Send apiGenderValue directly to your API
-                  }}
-                />
+                {isDeleteOptions.map((isdelete) => (
+                  <div
+                    className="form-check form-check-inline"
+                    key={isdelete.value}
+                  >
+                    <Input
+                      type="checkbox"
+                      id={`isdelete-${isdelete.value}`}
+                      name="isDelete"
+                      value={isdelete.value}
+                      className="form-check-input"
+                      onChange={handleDeleteChange}
+                      checked={SelectedDelete.includes(isdelete.value)}
+                    />
+                    <Label
+                      className="form-check-label"
+                      for={`isdelete-${isdelete.value}`}
+                    >
+                      {isdelete.label}
+                    </Label>
+                  </div>
+                ))}
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="twoStepAuth">
-                  twoStepAuth
+                <Label className="form-label d-block" for="gender">
+                  جنسیت
                 </Label>
-                <Select
-                  id="twoStepAuth"
-                  isClearable={false}
-                  className="react-select"
-                  classNamePrefix="select"
-                  options={twoStepAuthOptions}
-                  theme={selectThemeColors}
-                  defaultValue={twoStepAuthOptions[0]}
-                />
+                {genderOptions.map((gender) => (
+                  <div
+                    className="form-check form-check-inline"
+                    key={gender.value}
+                  >
+                    <Input
+                      type="checkbox"
+                      id={`gender-${gender.value}`}
+                      name="gender"
+                      value={gender.value}
+                      className="form-check-input"
+                      onChange={handleGenderChange}
+                      checked={selectedGender.includes(gender.value)}
+                    />
+                    <Label
+                      className="form-check-label"
+                      for={`gender-${gender.value}`}
+                    >
+                      {gender.label}
+                    </Label>
+                  </div>
+                ))}
+              </Col>
+
+              <Col md={6} xs={12}>
+                <Label className="form-label d-block" for="twoStepAuth">
+                  تایید دو مرحله‌ای
+                </Label>
+                {twoStepAuthOptions.map((option) => (
+                  <div
+                    className="form-check2 form-check-inline"
+                    key={option.value}
+                  >
+                    <Input
+                      type="checkbox"
+                      id={`twoStepAuth-${option.value}`}
+                      name="twoStepAuth"
+                      value={option.value}
+                      className="form-check-input"
+                      onChange={handleStepChange}
+                      checked={selectedStep.includes(option.value)}
+                    />
+                    <Label
+                      className="form-check-label"
+                      for={`twoStepAuth-${option.value}`}
+                    >
+                      {option.label}
+                    </Label>
+                  </div>
+                ))}
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="role">
-                  Role
+                <Label className="form-label d-block" for="role">
+                  نقش
                 </Label>
-                <Select
-                  id="role"
-                  isClearable={false}
-                  className="react-select"
-                  classNamePrefix="select"
-                  options={roleOptions}
-                  theme={selectThemeColors}
-                  defaultValue={roleOptions[0]}
-                />
+                {roleOptions.map((role) => (
+                  <div
+                    className="form-check form-check-inline"
+                    key={role.value}
+                  >
+                    <Input
+                      type="checkbox"
+                      id={`role-${role.value}`}
+                      name="roles"
+                      value={role.value}
+                      className="form-check-input"
+                      onChange={handleRoleChange}
+                      checked={selectedRoles.includes(role.value)}
+                    />
+                    <Label
+                      className="form-check-label"
+                      for={`role-${role.value}`}
+                    >
+                      {role.label}
+                    </Label>
+                  </div>
+                ))}
               </Col>
               <Col xs={12}>
                 <div className="d-flex align-items-center mt-1">
@@ -898,12 +786,17 @@ const UserInfoCard = ({ selectedUser }) => {
                     className="form-check-label fw-bolder"
                     for="billing-switch"
                   >
-                    Use as a billing address?
+                    به عنوان آدرس صورتحساب استفاده شود؟
                   </Label>
                 </div>
               </Col>
               <Col xs={12} className="text-center mt-2 pt-50">
-                <Button type="submit" className="me-1" color="primary" onClick={handleSubmiT}>
+                <Button
+                  type="submit"
+                  className="me-1"
+                  color="primary"
+                  onSubmit={() => handleSubmiT()}
+                >
                   Submit
                 </Button>
                 <Button
