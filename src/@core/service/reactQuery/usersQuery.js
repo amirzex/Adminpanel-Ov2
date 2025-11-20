@@ -27,10 +27,11 @@ export const useAdminUserList = (
   rowsPerPage = 10,
   sortType = "DESC",
   sortingCol = "InsertDate",
+  roleId = ""
 ) => {
   return useQuery({
     queryKey: ["adminUsers", pageNumber, rowsPerPage, sortType, sortingCol],
-    queryFn: () => Getcourseuserlist(),
+    queryFn: () => Getcourseuserlist(roleId),
     staleTime: 1000 * 60 * 5,
     select: (data) => ({
       data: data?.listUser,

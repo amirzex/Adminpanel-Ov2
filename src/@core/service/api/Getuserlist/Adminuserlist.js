@@ -25,10 +25,10 @@ const getcousrid = async () => {
   } catch (error) {}
 };
 
-const Getcourseuserlist = async () => {
+const Getcourseuserlist = async (roleId) => {
   try {
     const respone = await http.get(
-      "/User/UserMannage?PageNumber=1&RowsOfPage=1000&SortingCol=DESC&SortType=InsertDate"
+      `/User/UserMannage?PageNumber=1&RowsOfPage=1000&SortingCol=DESC&SortType=InsertDate&roleId=${roleId}`
     );
 
     console.log("admin api user list: ", respone);

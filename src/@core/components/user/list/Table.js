@@ -102,6 +102,7 @@ const UsersList = () => {
   // ** Store Vars
   const { data: store } = useAdminUserList();
   const { data: Access } = useAccessPost();
+  console.log("rols", store?.rol);
 
   // ** States
   const [sort, setSort] = useState("desc");
@@ -181,14 +182,12 @@ const UsersList = () => {
       );
     }
 
-    
     if (currentPlan.value) {
       filteredData = filteredData.filter(
         (user) => user.profileCompletionPercentage === currentPlan.value
       );
     }
 
-    
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       filteredData = filteredData.filter(
@@ -203,25 +202,16 @@ const UsersList = () => {
     return filteredData;
   };
 
-  
   const paginatedData = dataToRender().slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
 
-  
   const roleOptions = [
     { value: "", label: "انتخاب نقش" },
-    { value: "Administrator", label: "مدیر سیستم" },
-    { value: "Teacher", label: "استاد" },
-    { value: "Employee.Admin", label: "مدیر کارمند" },
-    { value: "Employee.Writer", label: "نویسنده" },
-    { value: "Student", label: "دانشجو" },
-    { value: "CourseAssistance", label: "دستیار دوره" },
-    { value: "TournamentAdmin", label: "مدیر مسابقات" },
-    { value: "Referee", label: "داور" },
-    { value: "TournamentMentor", label: "مربی مسابقات" },
-    { value: "Support", label: "پشتیبان" },
+    { id: 3, label: "استاد" },
+    { id: 2, label: "دانشجو" },
+    { value: 1, label: "ادمین" },
   ];
 
   const planOptions = [
@@ -238,25 +228,21 @@ const UsersList = () => {
     { value: "False", label: "غیرفعال", number: 2 },
   ];
 
-  
   const handlePagination = (page) => {
     setCurrentPage(page.selected + 1);
   };
 
-  
   const handlePerPage = (e) => {
     const value = parseInt(e.currentTarget.value);
     setRowsPerPage(value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
-  
   const handleFilter = (val) => {
     setSearchTerm(val);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
-  
   const CustomPagination = () => {
     const count = Number(Math.ceil(dataToRender().length / rowsPerPage));
 
@@ -307,7 +293,7 @@ const UsersList = () => {
                 theme={selectThemeColors}
                 onChange={(data) => {
                   setCurrentRole(data);
-                  setCurrentPage(1); 
+                  setCurrentPage(1);
                 }}
               />
             </Col>
@@ -322,7 +308,7 @@ const UsersList = () => {
                 value={currentPlan}
                 onChange={(data) => {
                   setCurrentPlan(data);
-                  setCurrentPage(1); 
+                  setCurrentPage(1);
                 }}
               />
             </Col>
@@ -337,7 +323,7 @@ const UsersList = () => {
                 value={currentStatus}
                 onChange={(data) => {
                   setCurrentStatus(data);
-                  setCurrentPage(1); 
+                  setCurrentPage(1);
                 }}
               />
             </Col>
@@ -400,8 +386,8 @@ const UsersList = () => {
                 onChange={(e) => setSelectedRole(e.target.value)}
               >
                 <option value="">انتخاب کنید...</option>
-                <option value={1}>Teacher</option>
-                <option value={2}>Admin</option>
+                <option value={2}>Teacher</option>
+                <option value={1}>Admin</option>
               </Input>
             </Col>
 
