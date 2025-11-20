@@ -26,7 +26,7 @@ export const useAdminUserList = (
   pageNumber = 1,
   rowsPerPage = 10,
   sortType = "DESC",
-  sortingCol = "InsertDate"
+  sortingCol = "InsertDate",
 ) => {
   return useQuery({
     queryKey: ["adminUsers", pageNumber, rowsPerPage, sortType, sortingCol],

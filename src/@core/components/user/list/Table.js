@@ -181,14 +181,14 @@ const UsersList = () => {
       );
     }
 
-    // Apply plan filter (profile completion)
+    
     if (currentPlan.value) {
       filteredData = filteredData.filter(
         (user) => user.profileCompletionPercentage === currentPlan.value
       );
     }
 
-    // Apply search filter
+    
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       filteredData = filteredData.filter(
@@ -203,13 +203,13 @@ const UsersList = () => {
     return filteredData;
   };
 
-  // ** Pagination on filtered data
+  
   const paginatedData = dataToRender().slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
 
-  // ** User filter options
+  
   const roleOptions = [
     { value: "", label: "انتخاب نقش" },
     { value: "Administrator", label: "مدیر سیستم" },
@@ -238,25 +238,25 @@ const UsersList = () => {
     { value: "False", label: "غیرفعال", number: 2 },
   ];
 
-  // ** Function to handle pagination
+  
   const handlePagination = (page) => {
     setCurrentPage(page.selected + 1);
   };
 
-  // ** Function to handle rows per page
+  
   const handlePerPage = (e) => {
     const value = parseInt(e.currentTarget.value);
     setRowsPerPage(value);
-    setCurrentPage(1); // Reset to first page when rows per page changes
+    setCurrentPage(1); 
   };
 
-  // ** Function to handle search query
+  
   const handleFilter = (val) => {
     setSearchTerm(val);
-    setCurrentPage(1); // Reset to first page when search term changes
+    setCurrentPage(1); 
   };
 
-  // ** Custom Pagination
+  
   const CustomPagination = () => {
     const count = Number(Math.ceil(dataToRender().length / rowsPerPage));
 
@@ -307,7 +307,7 @@ const UsersList = () => {
                 theme={selectThemeColors}
                 onChange={(data) => {
                   setCurrentRole(data);
-                  setCurrentPage(1); // Reset to first page
+                  setCurrentPage(1); 
                 }}
               />
             </Col>
@@ -322,7 +322,7 @@ const UsersList = () => {
                 value={currentPlan}
                 onChange={(data) => {
                   setCurrentPlan(data);
-                  setCurrentPage(1); // Reset to first page
+                  setCurrentPage(1); 
                 }}
               />
             </Col>
@@ -337,7 +337,7 @@ const UsersList = () => {
                 value={currentStatus}
                 onChange={(data) => {
                   setCurrentStatus(data);
-                  setCurrentPage(1); // Reset to first page
+                  setCurrentPage(1); 
                 }}
               />
             </Col>
