@@ -67,7 +67,7 @@ const renderRoles = (row) => {
     return <span className="text-muted">No roles assigned</span>;
 
   const roles = row.userRoles.split(", ");
-  const primaryRole = roles[0]; // Show first role with icon
+  const primaryRole = roles[0]; 
   const Icon = roleIcons[primaryRole]?.icon || User;
 
   return (
@@ -154,10 +154,10 @@ export const columns = (actions = {}) => [
     selector: (row) => row.active,
     cell: (row) => (
       <Badge
-        color={row.active === "True" ? "light-success" : "light-secondary"}
+        color={row.active === true ? "light-success" : "light-secondary"}
         pill
       >
-        {row.active === "True" ? "Active" : "Inactive"}
+        {row.active === true ? "Active" : "Inactive"}
       </Badge>
     ),
   },
