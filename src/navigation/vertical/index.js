@@ -1,4 +1,13 @@
-import { Mail, Home, Airplay, Circle, User, Users, UserPlus } from "react-feather";
+import {
+  Mail,
+  Home,
+  Airplay,
+  Circle,
+  User,
+  Users,
+  UserPlus,
+  Book,
+} from "react-feather";
 
 export default [
   {
@@ -14,10 +23,29 @@ export default [
     navLink: "/users",
   },
   {
-    id: "createuser",
-    title: "ایحاد کاربر",
-    icon: <UserPlus size={20} />,
-    navLink: "/create/user",
+    id: "blogManagement",
+    title: "مدیریت اخبار و مقالات",
+    icon: <Book size={20} />,
+    children: [
+      {
+        id: "blogList",
+        title: "لیست اخبار و مقالات",
+        icon: <Circle size={20} />,
+        navLink: "/blogs",
+      },
+      {
+        id: "createBlog",
+        title: "افزودن اخبار و مقالات",
+        icon: <Circle size={20} />,
+        navLink: "/createBlog",
+      },
+      {
+        id: "blogCategories",
+        title: "مدیریت دسته بندی اخبار ",
+        icon: <Circle size={20} />,
+        navLink: "/blogCategories",
+      },
+    ],
   },
   {
     id: "smaplePage",

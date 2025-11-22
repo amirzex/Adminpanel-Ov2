@@ -12,6 +12,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 
 // ** Utils
 import { isObjEmpty } from "@utils";
+import { elements } from "chart.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -35,7 +36,11 @@ const Sample = lazy(() => import("../../pages/Sample"));
 const UserList = lazy(() =>
   import("../../@core/components/user/list/index.js")
 );
-const Wizard = lazy(() => import('../../@core/components/Forms/wizard/WizardHorizontal.js'))
+const News = lazy(() => import("../../pages/News.js"));
+
+const Wizard = lazy(() =>
+  import("../../@core/components/Forms/wizard/WizardHorizontal.js")
+);
 // ** Merge Routes
 const Routes = [
   {
@@ -99,8 +104,8 @@ const Routes = [
     element: <UserView />,
   },
   {
-    path: "/create/user",
-    element: <Wizard />,
+    element: <News />,
+    path: "/blogs",
   },
 ];
 

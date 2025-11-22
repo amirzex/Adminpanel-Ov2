@@ -16,7 +16,10 @@ import { useOnClickOutside } from "@hooks/useOnClickOutside";
 import "@styles/base/bootstrap-extended/_include.scss";
 import "./autocomplete.scss";
 
+
+
 const Autocomplete = (props) => {
+  
   // ** Refs
   const container = useRef(null);
   const inputElRef = useRef(null);
