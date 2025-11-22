@@ -25,21 +25,21 @@ import {
 import {
   useQueryWithDependencies,
   useQueryWithoutDependencies,
-} from "../../../utility/hooks/useCustomQuery";
+} from "../../../../utility/hooks/useCustomQuery.js";
 import { useMutation } from "@tanstack/react-query";
 
 // Api
 import {
   GetNewsCategory,
   GetNewsDetail,
-} from "../../../@core/services/api/get-api";
-import { UpdateNews } from "../../../@core/services/api/put-api";
+} from "../../../service/api/Getnewslist/GetNews.js";
+import { UpdateNews } from "../../../service/api/Getnewslist/GetNews";
 
 // Redux
 import { useDispatch } from "react-redux";
 
 // Constants
-import EditNewsFields from "../../../@core/constants/news-manage/EditNewsField";
+import EditNewsFields from "../../../components/news/news-manage/EditNewsField.js";
 
 const EditBlog = ({ isOpen, toggle, refetch }) => {
   const [initialValues, setInitialValues] = useState({});

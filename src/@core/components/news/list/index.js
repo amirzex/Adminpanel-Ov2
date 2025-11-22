@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Col, Row } from "reactstrap";
 import { Book, Eye, EyeOff } from "react-feather";
-// import fallback from "../../../assets/fallback/e130ac93e37ec7e0f666ec4a8637f368.jpg";
+import fallback from "../../../assets/fallback/code back.jpg";
 import ComponentSpinner from "../../../components/spinner/Loading-spinner.js";
 
 // Custom Components
@@ -48,9 +48,8 @@ import useFormData from "../../../../utility/hooks/useFormData.js";
 
 const NewsTable = () => {
   const [activeView, setActiveView] = useState("grid");
-  const newsParams = useSelector((state) => state.NewsList);
+  const newsParams = useSelector((state) => state.news);
   const dispatch = useDispatch();
-
   const { data, isSuccess, refetch, isLoading } = useQueryWithDependencies(
     "GET_NEWS_LIST",
     GetNewsList,
@@ -116,7 +115,7 @@ const NewsTable = () => {
                 sortOptions={NewsSortOption}
               />
               <ListSearchbar QueryFunction={handleQuery} />
-              <div className="grid-view">
+              <div className="grid-view ">
                 {isSuccess &&
                   data.news?.map((item, index) => (
                     <ProductCards
@@ -135,7 +134,7 @@ const NewsTable = () => {
                       currentView={item.currentView}
                       handleActiveOrDetective={handleActiveOrDetective}
                       status={item.isActive}
-                      // fallback={fallback}
+                      fallback={fallback}
                     />
                   ))}
               </div>

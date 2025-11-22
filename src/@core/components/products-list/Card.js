@@ -2,11 +2,12 @@
 import classnames from "classnames";
 import { Star, Calendar, Eye, Activity } from "react-feather";
 import { Link } from "react-router-dom";
+import fallback from "../../assets/fallback/code back.jpg";
 
 // ** Reactstrap Imports
 import { Card, CardBody } from "reactstrap";
 import { UnitPrice } from "../../../utility/hooks/separation-price/index";
-// import ImageFallBack from "../../assets/fallback/e130ac93e37ec7e0f666ec4a8637f368.jpg";
+import ImageFallBack from "../../components/image-fallback/";
 import ChangeStatusButton from "./ChangeStatusButton";
 
 const ProductCards = (props) => {
@@ -28,7 +29,7 @@ const ProductCards = (props) => {
 
   // ** Renders products
   return (
-    <Card className="ecommerce-card relative">
+    <Card className="ecommerce-card relative ">
       <ChangeStatusButton
         handleActiveOrDetective={handleActiveOrDetective}
         id={id}
@@ -39,16 +40,17 @@ const ProductCards = (props) => {
           className="item-img text-center p-0"
           style={{ height: "200px", width: "100%" }}
         >
-          {/* <ImageFallBack
+          <ImageFallBack
             className="img-fluid card-img-top w-100 h-100"
             src={image}
             fallback={fallback}
-          /> */}
+          />{" "}
+          *
         </div>
       </Link>
       <CardBody>
         <Link to={href + id}>
-          {currentRate !== null ? (
+          {/* {currentRate !== null ? (
             <div className="item-wrapper">
               <div className="item-rating">
                 <ul className="unstyled-list list-inline">
@@ -67,7 +69,7 @@ const ProductCards = (props) => {
                 </ul>
               </div>
             </div>
-          ) : null}
+          ) : null} */}
           <h4 className="item-name mt-75">{title}</h4>
           <p className="item-description fs-5">{miniDescribe}</p>
           <hr />

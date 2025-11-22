@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 
 // Custom Components
-import GoalOverview from "../../../@core/components/goal-overview";
+import GoalOverview from "../../../components/goal-overview/index";
 import StatsHorizontal from "@components/widgets/stats/StatsHorizontal";
 import CommentTab from "./CommentTab";
 
@@ -26,20 +26,21 @@ import { Heart, User, Users, Eye, MessageCircle } from "react-feather";
 import { ThemeColors } from "@src/utility/context/ThemeColors";
 
 // Api
-import { GetRepliesComments } from "../../../@core/services/api/get-api";
+import { GetRepliesComments } from "../../../../@core/service/api/Getnewslist/GetNews";
 import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import HandleIdentityEditorJs from "../../../utility/create-editorjs-blocks/IdentityEditorJs";
+import HandleIdentityEditorJs from "../../../../utility/create-editorjs-blocks/IdentityEditorJs.jsx";
 
 const NewsTabs = ({ active, toggleTab }) => {
   const { colors } = useContext(ThemeColors);
   const detail = useSelector((state) => state.NewsDetail);
+  console.log("active::::",detail)
 
   const StatsItems = [
     {
       label: "تعداد بازدید ها",
       icon: Eye,
-      value: detail?.newsDetails?.currentView,
+      value: detail?.detailsNewsDto?.currentView,
     },
     {
       label: "تعداد کامنت ها",

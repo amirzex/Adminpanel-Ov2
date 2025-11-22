@@ -1,5 +1,5 @@
 // Customize
-import ChangeMoment from "../../../utility/moment";
+import ChangeMoment from "../../../../utility/hooks/moment/index";
 
 export const NewsInformation = (data) => {
   const detailNews = [

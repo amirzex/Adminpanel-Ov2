@@ -33,8 +33,8 @@ const CommentTab = ({ newsCom, NewsRepById, repCom }) => {
               </tr>
             </thead>
             <tbody>
-              {newsCom.length > 0 &&
-                newsCom.map((item, index) => {
+              {newsCom?.length > 0 &&
+                newsCom?.map((item, index) => {
                   return (
                     <tr key={index}>
                       <td style={{ maxWidth: "120px" }} className=" px-1">
@@ -70,7 +70,7 @@ const CommentTab = ({ newsCom, NewsRepById, repCom }) => {
                 })}
             </tbody>
           </Table>
-          {newsCom.length == 0 && (
+          {newsCom?.length == 0 && (
             <span
               className="my-2 w-100 text-center"
               style={{ display: "block" }}

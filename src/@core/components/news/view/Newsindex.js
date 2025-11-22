@@ -1,27 +1,27 @@
 import { Col, Row } from "reactstrap";
-import fallback from "../../../assets/images/portrait/small/blogs.png";
-import ComponentSpinner from "../../../@core/components/spinner/Loading-spinner.js";
+import fallback from "../../../assets/fallback/code back.jpg";
+import ComponentSpinner from "../../../components/spinner/Loading-spinner.js";
 
 // Custom Components
-import NewsTabs from "./Tabs";
-import EditBlog from "./EditBlog";
+import NewsTabs from "./Tabs.js";
+import EditBlog from "./EditBlog.js";
 
 // React Imports
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // Redux
-import { getNewsComments, getNewsDetails } from "../store/NewsDetail";
+import { getNewsComments, getNewsDetails } from "../store/NewsDetail.js";
 
 // Api
 import { GetNewsDetail } from "../../../service/api/Getnewslist/GetNews";
-import { ActiveDeactiveNews } from "../../../@core/services/api/put-api";
-import { useQueryWithDependencies } from "../../../utility/hooks/useCustomQuery";
+import { ActiveDeactiveNews } from "../../../service/api/Getnewslist/GetNews";
+import { useQueryWithDependencies } from "../../../../utility/hooks/useCustomQuery.js";
 import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import useFormData from "../../../utility/hooks/useFormData";
-import InfoCard from "../../../@core/components/item-detail-components/InfoCard";
-import { NewsInformation } from "../../../@core/constants/news-manage/Details";
+import useFormData from "../../../../utility/hooks/useFormData.js";
+import InfoCard from "../../../../@core/components/item-detail-components/InfoCard";
+import { NewsInformation } from "../../../components/news/news-manage/Details.js";
 
 const NewsView = () => {
   const dispatch = useDispatch();

@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // Images
-import fallback from "../../../assets/images/portrait/small/image-not-found.png";
+import fallback from "../../../assets/fallback/code back.jpg";
 import Avatar from "@components/avatar";
 
 // ** Reactstrap Imports

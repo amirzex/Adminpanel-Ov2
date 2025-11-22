@@ -1,16 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  Query: undefined,
   PageNumber: 1,
   RowsOfPage: 15,
   SortingCol: null,
-  SortType: null,
-  Query: "",
-  IsActive: true,
+  isActive: true,
 };
 
-const NewsList = createSlice({
-  name: "news-list",
+const EventsList = createSlice({
+  name: "events-list",
   initialState,
   reducers: {
     handlePageNumber: (state, action) => {
@@ -19,17 +18,14 @@ const NewsList = createSlice({
     handleRowsOfPage: (state, action) => {
       state.RowsOfPage = action.payload;
     },
-    handleSortingCol: (state, action) => {
-      state.SortingCol = action.payload;
-    },
-    handleSortType: (state, action) => {
-      state.SortType = action.payload;
-    },
     handleQuery: (state, action) => {
       state.Query = action.payload;
     },
     handleIsActive: (state, action) => {
-      state.IsActive = action.payload;
+      state.isActive = action.payload;
+    },
+    handleSortingCol: (state, action) => {
+      state.SortingCol = action.payload;
     },
   },
 });
@@ -37,9 +33,8 @@ const NewsList = createSlice({
 export const {
   handlePageNumber,
   handleRowsOfPage,
-  handleSortingCol,
-  handleSortType,
   handleQuery,
   handleIsActive,
-} = NewsList.actions;
-export default NewsList.reducer;
+  handleSortingCol,
+} = EventsList.actions;
+export default EventsList.reducer;
