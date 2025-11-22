@@ -37,10 +37,16 @@ const UserList = lazy(() =>
   import("../../@core/components/user/list/index.js")
 );
 const News = lazy(() => import("../../pages/News.js"));
+const CourseView = lazy(() => import("../../@core/components/courses/view/index.js"));
+
+
+
+
 
 const Wizard = lazy(() =>
   import("../../@core/components/Forms/wizard/WizardHorizontal.js")
 );
+
 // ** Merge Routes
 const Routes = [
   {
@@ -106,6 +112,10 @@ const Routes = [
   {
     element: <News />,
     path: "/blogs",
+  },,
+  {
+    element: <CourseView />,
+    path: "/courses",
   },
 ];
 
