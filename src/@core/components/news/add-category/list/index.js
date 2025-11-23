@@ -10,29 +10,29 @@ import {
   Table,
   UncontrolledDropdown,
 } from "reactstrap";
-import GeneralStatistics from "../../../../@core/components/generalStatistics";
-import { useQueryWithoutDependencies } from "../../../../utility/hooks/useCustomQuery";
-import { GetNewsCategory } from "../../../../@core/services/api/get-api";
+import GeneralStatistics from "../../../../components/generalStatistics/index";
+import { useQueryWithoutDependencies } from "../../../../../utility/hooks/useCustomQuery.js";
+import { GetNewsCategory } from "../../../../service/api/Getnewslist/GetNews";
 import {
   categoryNewsTableTitles,
   StatisticsOfNewsCategories,
-} from "../../../../@core/constants/news-manage/Options";
-import HeaderTable from "../../../../@core/components/header-table/HeaderTable";
-import ImageFallBack from "../../../../@core/components/image-fallback";
-import fallback from "../../../../assets/images/cards/coursee.jfif";
+} from "../../../../components/news/news-manage/Options.js";
+import HeaderTable from "../../../../components/header-table/HeaderTable";
+import ImageFallBack from "../../../../components/image-fallback/index";
+import fallback from "../../../../assets/fallback/code back.jpg";
 import { Edit, FileText, MoreVertical } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
-import CustomPagination from "../../../../@core/components/pagination";
+import CustomPagination from "../../../../components/pagination/index";
 import {
   handleAllList,
   handleQuery,
   handleRowsOfPage,
 } from "../store/BlogCategoryList";
-import ListSearchbar from "../../../../@core/components/products-list/ListSearchbar";
-import ListHeader from "../../../../@core/components/products-list/ListHeader";
+import ListSearchbar from "../../../../components/products-list/ListSearchbar.js";
+import ListHeader from "../../../../components/products-list/ListHeader.js";
 import AddBlogCategoryWrapper from "../create/CreateNewsModal";
 import CategoryNewsDetails from "../view";
-import ComponentSpinner from "../../../../@core/components/spinner/Loading-spinner.js";
+import ComponentSpinner from "../../../../components/spinner/Loading-spinner.js";
 
 const BlogCategoriesWrapper = () => {
   const dispatch = useDispatch();

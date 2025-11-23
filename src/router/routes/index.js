@@ -13,6 +13,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 // ** Utils
 import { isObjEmpty } from "@utils";
 import { elements } from "chart.js";
+import BlogCategories from "../../pages/BlogCategories.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -115,6 +116,10 @@ const Routes = [
   {
     element: <CreateNews />,
     path: "/createBlog",
+  },
+  {
+    element: <BlogCategories />,
+    path: "/blogCategories",
   },
 ];
 

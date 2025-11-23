@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
-import ImageFallBack from "../../../../@core/components/image-fallback";
-import { useQueryWithDependencies } from "../../../../utility/hooks/useCustomQuery";
+import ImageFallBack from "../../../../components/image-fallback/index";
+import { useQueryWithDependencies } from "../../../../../utility/hooks/useCustomQuery";
 import { GetNewsCategoryWithId } from "../../../../service/api/Getnewslist/GetNews";
-import fallback from "../../../../assets/images/cards/coursee.jfif";
-import ChangeMoment from "../../../../utility/moment";
+import fallback from "../../../../assets/fallback/code back.jpg";
+import ChangeMoment from "../../../../../utility/hooks/moment/index";
 
 const CategoryNewsDetails = ({ showModal, setShowModal, id }) => {
   console.log(id);

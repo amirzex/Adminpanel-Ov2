@@ -95,6 +95,37 @@ const CreateNews = async (data) => {
   }
 };
 
+const CreateNewsCategory = async (data, refetch) => {
+  try {
+    const dataObj = useFormData(data);
+    const response = await http.post("/News/CreateNewsCategory", dataObj, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (response.success) {
+      toast.success(response.message);
+      refetch();
+    } else toast.error(response.message);
+    return response;
+  } catch (error) {
+    throw new Error(error.response.data.ErrorMessage);
+  }
+};
+
+const UpdateNewsCategory = async (data, refetch) => {
+  try {
+    const dataObj = useFormData(data);
+    const response = await http.put("/News/UpdateNewsCategory", dataObj);
+    if (response.success) {
+      toast.success(response.message);
+      refetch();
+    } else toast.error(response.message);
+  } catch {
+    toast.error("مشکلی در ویرایش خبر به وجود آمد !");
+  }
+};
+
 export {
   GetNewsList,
   ActiveDeactiveNews,
@@ -103,5 +134,7 @@ export {
   GetNewsCategory,
   UpdateNews,
   GetNewsCategoryWithId,
-  CreateNews
+  CreateNews,
+  CreateNewsCategory,
+  UpdateNewsCategory,
 };

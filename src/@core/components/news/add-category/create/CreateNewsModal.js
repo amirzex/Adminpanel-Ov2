@@ -17,9 +17,9 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Camera } from "react-feather";
-import BlogCategoryValidation from "../../../../@core/validations/BlogCategory.Validation";
-import { CreateNewsCategory } from "../../../../@core/services/api/post-api";
-import { UpdateNewsCategory } from "../../../../@core/services/api/put-api";
+import BlogCategoryValidation from "../../../../validations/BlogCategory.Validation";
+import { CreateNewsCategory } from "../../../../service/api/Getnewslist/GetNews";
+import { UpdateNewsCategory } from "../../../../service/api/Getnewslist/GetNews";
 
 const AddBlogCategoryWrapper = ({
   showModal,
@@ -28,9 +28,7 @@ const AddBlogCategoryWrapper = ({
   variantState,
   categoryDetails,
 }) => {
-  // console.log(variantState)
   const [src, setSrc] = useState();
-  // console.log(categoryDetails);
 
   const titleVariant = {
     create: "افزودن دسته بندی جدید",
