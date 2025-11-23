@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
 import ImageFallBack from "../../../../@core/components/image-fallback";
 import { useQueryWithDependencies } from "../../../../utility/hooks/useCustomQuery";
-import { GetNewsCategoryWithId } from "../../../../@core/services/api/get-api";
+import { GetNewsCategoryWithId } from "../../../../service/api/Getnewslist/GetNews";
 import fallback from "../../../../assets/images/cards/coursee.jfif";
 import ChangeMoment from "../../../../utility/moment";
 

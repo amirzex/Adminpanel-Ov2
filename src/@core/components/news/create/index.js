@@ -9,7 +9,7 @@ import { NewsInfo, NewsPreview } from "./steps";
 import {
   ItemDescribeStep,
   ItemImageStep,
-} from "../../../@core/components/create-item-steps";
+} from "../../../components/create-item-steps";
 
 // ** Icons Imports
 import { FileText, Image, Info, Check } from "react-feather";

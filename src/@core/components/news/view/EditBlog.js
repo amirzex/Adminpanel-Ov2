@@ -55,7 +55,7 @@ const EditBlog = ({ isOpen, toggle, refetch }) => {
     isError,
   } = useQueryWithDependencies("GET_NEWS_DETAILS", GetNewsDetail, id, id);
 
-  console.log(newsDetail)
+  console.log(newsDetail);
 
   const { mutate } = useMutation({
     mutationKey: ["UPDATE_NEWS"],
@@ -95,58 +95,58 @@ const EditBlog = ({ isOpen, toggle, refetch }) => {
         <form onSubmit={formik.handleSubmit}>
           <Row className="gy-1 pt-75">
             <Col md="5" className="mb-1">
-              <Label className="form-label" for="title">
+              <Label className="form-label" for="Title">
                 عنوان
               </Label>
               <Input
-                id="title"
+                id="Title"
                 placeholder="عنوان خبر"
-                name="title"
+                name="Title"
                 onChange={formik.handleChange}
-                value={formik.values.title}
-                invalid={!!formik.errors.title}
+                value={formik.values.Title}
+                invalid={!!formik.errors.Title}
               />
-              <FormFeedback>{formik.errors.title}</FormFeedback>
+              <FormFeedback>{formik.errors.Title}</FormFeedback>
             </Col>
             <Col md="7" className="mb-1">
-              <Label className="form-label" for="googleTitle">
+              <Label className="form-label" for="GoogleTitle">
                 عنوان گوگل
               </Label>
               <Input
-                id="googleTitle"
-                name="googleTitle"
+                id="GoogleTitle"
+                name="GoogleTitle"
                 onChange={formik.handleChange}
-                value={formik.values.googleTitle}
-                invalid={!!formik.errors.googleTitle}
+                value={formik.values.GoogleTitle}
+                invalid={!!formik.errors.GoogleTitle}
                 placeholder="عنوان گوگل"
               />
-              <FormFeedback>{formik.errors.googleTitle}</FormFeedback>
+              <FormFeedback>{formik.errors.GoogleTitle}</FormFeedback>
             </Col>
             <Col md="6" className="mb-1">
-              <Label className="form-label" for="keyword">
+              <Label className="form-label" for="Keyword">
                 کلمات کلیدی
               </Label>
               <Input
-                id="keyword"
-                name="keyword"
+                id="Keyword"
+                name="Keyword"
                 placeholder="کلمات کلیدی"
                 onChange={formik.handleChange}
-                value={formik.values.keyword}
-                invalid={!!formik.errors.keyword}
+                value={formik.values.Keyword}
+                invalid={!!formik.errors.Keyword}
               />
             </Col>
             <Col md="6" className="mb-1">
-              <Label className="form-label" for="newsCatregoryId">
+              <Label className="form-label" for="NewsCatregoryId">
                 انتخاب دسته بندی
               </Label>
               <Input
-                id="newsCatregoryId"
-                name="newsCatregoryId"
+                id="NewsCatregoryId"
+                name="NewsCatregoryId"
                 type="select"
                 onChange={formik.handleChange}
                 placeholder=" دسته بندی"
                 defaultValue={
-                  isSuccess && newsDetail?.detailsNewsDto?.newsCatregoryId
+                  isSuccess && newsDetail?.detailsNewsDto?.NewsCatregoryId
                 }
               >
                 {successGetNewsCat &&
@@ -158,51 +158,51 @@ const EditBlog = ({ isOpen, toggle, refetch }) => {
               </Input>
             </Col>
             <Col md="6">
-              <Label className="form-label" for="miniDescribe">
+              <Label className="form-label" for="MiniDescribe">
                 توضیح کوتاه
               </Label>
               <Input
-                id="miniDescribe"
-                name="miniDescribe"
+                id="MiniDescribe"
+                name="MiniDescribe"
                 onChange={formik.handleChange}
-                value={formik.values.miniDescribe}
+                value={formik.values.MiniDescribe}
                 placeholder="توضیح کوتاه"
               />
             </Col>
             <Col md="6">
-              <Label className="form-label" for="describe">
+              <Label className="form-label" for="Describe">
                 توضیحات
               </Label>
               <Input
-                id="describe"
-                name="describe"
+                id="Describe"
+                name="Describe"
                 onChange={formik.handleChange}
-                value={formik.values.describe}
+                value={formik.values.Describe}
                 placeholder="توضیحات"
               />
             </Col>
             <Col md="7" className="mb-1">
-              <Label className="form-label" for="googleDescribe">
+              <Label className="form-label" for="GoogleDescribe">
                 توضیحات گوگل
               </Label>
               <Input
-                id="googleDescribe"
-                name="googleDescribe"
+                id="GoogleDescribe"
+                name="GoogleDescribe"
                 onChange={formik.handleChange}
-                value={formik.values.googleDescribe}
+                value={formik.values.GoogleDescribe}
                 placeholder="توضیحات گوگل"
               />
             </Col>
             <Col md="5" className="mb-1">
-              <Label className="form-label" for="currentImageAddress">
+              <Label className="form-label" for="CurrentImageAddress">
                 آپلود عکس
               </Label>
               <Input
-                id="currentImageAddress"
+                id="CurrentImageAddress"
                 type="file"
-                name="currentImageAddress"
+                name="CurrentImageAddress"
                 onChange={formik.handleChange}
-                value={formik.values.currentImageAddress}
+                value={formik.values.CurrentImageAddress}
                 placeholder="آپلود عکس"
               />
             </Col>

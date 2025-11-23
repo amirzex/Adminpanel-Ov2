@@ -18,7 +18,7 @@ import CommentNewsModal from "./CommentNewsModal";
 const CommentTab = ({ newsCom, NewsRepById, repCom }) => {
   const [repModal, setRepModal] = useState(false);
   const [comnttView, setComnttView] = useState(false);
-
+  console.log("newscom:", newsCom);
   return (
     <Fragment>
       <Card>
@@ -38,15 +38,26 @@ const CommentTab = ({ newsCom, NewsRepById, repCom }) => {
                   return (
                     <tr key={index}>
                       <td style={{ maxWidth: "120px" }} className=" px-1">
-                        {item?.autor}
+                        {item?.userId}
                       </td>
+                      {/* <td
+                        className="px-0 "
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "120px",
+                        }}
+                      >
+                        {item?.userId}
+                      </td>{" "} */}
                       <td
                         className="px-0 "
                         style={{
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "120px"
+                          maxWidth: "120px",
                         }}
                       >
                         {item?.title}
@@ -54,7 +65,6 @@ const CommentTab = ({ newsCom, NewsRepById, repCom }) => {
                       <td style={{ maxWidth: "160px" }} className=" p-0">
                         {item.describe}
                       </td>
-
                       <td className=" px-1">
                         {item?.replyCount > 0 && (
                           <Eye

@@ -2,12 +2,12 @@ import { useFormik } from "formik";
 import { Col, Form, Input, Label, Row } from "reactstrap";
 
 // Api
-import { GetNewsCategory } from "../../../../@core/services/api/get-api";
+import { GetNewsCategory } from "../../../../service/api/Getnewslist/GetNews";
 
 // Query
-import { useQueryWithoutDependencies } from "../../../../utility/hooks/useCustomQuery";
-import ButtonsForMove from "../../../../@core/components/button-for-move/ButtonsForMove";
-import CreateNewsValidations from "../../../../@core/validations/CreateNews.Validation";
+import { useQueryWithoutDependencies } from "../../../../../utility//hooks/useCustomQuery";
+import ButtonsForMove from "../../../../components/button-for-move/ButtonsForMove";
+import CreateNewsValidations from "../../../../../@core/validations/CreateNews.Validation";
 import { handleSetInfo } from "../../store/CreateNews";
 import { useDispatch } from "react-redux";
 

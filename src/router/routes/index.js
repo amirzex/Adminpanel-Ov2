@@ -38,7 +38,7 @@ const UserList = lazy(() =>
 );
 const News = lazy(() => import("../../pages/News.js"));
 const NewsDetails = lazy(() => import("../../pages/NewsDetails.js"));
-
+const CreateNews = lazy(() => import("../../pages/CreateNews.js"));
 const Wizard = lazy(() =>
   import("../../@core/components/Forms/wizard/WizardHorizontal.js")
 );
@@ -111,6 +111,10 @@ const Routes = [
   {
     element: <NewsDetails />,
     path: "/blogs/view/:id",
+  },
+  {
+    element: <CreateNews />,
+    path: "/createBlog",
   },
 ];
 

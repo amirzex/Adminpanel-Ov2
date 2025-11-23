@@ -1,3 +1,4 @@
+import useFormData from "../../../../utility/hooks/useFormData";
 import http from "../../interceptor/index";
 import toast from "react-hot-toast";
 
@@ -62,17 +63,45 @@ const UpdateNews = async (data, refetch) => {
     const response = await http.put("/News/UpdateNews", dataObj);
     if (response.success) {
       toast.success("خبر با موفقیت ویرایش شد !");
-      refetch()
+      refetch();
     } else toast.error(res.message);
   } catch {
     toast.error("مشکلی در ویرایش خبر به وجود آمد !");
   }
 };
 
+const GetNewsCategoryWithId = async (id) => {
+  try {
+    const response = await http.get(`/News/GetNewsCategory/${id}`);
+    return response;
+  } catch (error) {
+    return null;
+  }
+};
 
-export { GetNewsList,
-        ActiveDeactiveNews, 
-        GetNewsDetail, 
-        GetRepliesComments,
-        GetNewsCategory,
-        UpdateNews };
+const CreateNews = async (data) => {
+  try {
+    const dataObj = useFormData(data);
+    const response = await http.post("/News/CreateNews", dataObj, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (response.success) {
+      toast.success(response.message);
+    } else toast.error(response.message);
+  } catch (error) {
+    throw new Error(error.response.data.ErrorMessage);
+  }
+};
+
+export {
+  GetNewsList,
+  ActiveDeactiveNews,
+  GetNewsDetail,
+  GetRepliesComments,
+  GetNewsCategory,
+  UpdateNews,
+  GetNewsCategoryWithId,
+  CreateNews
+};

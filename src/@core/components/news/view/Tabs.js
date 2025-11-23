@@ -34,13 +34,12 @@ import HandleIdentityEditorJs from "../../../../utility/create-editorjs-blocks/I
 const NewsTabs = ({ active, toggleTab }) => {
   const { colors } = useContext(ThemeColors);
   const detail = useSelector((state) => state.NewsDetail);
-  console.log("active::::",detail)
 
   const StatsItems = [
     {
       label: "تعداد بازدید ها",
       icon: Eye,
-      value: detail?.detailsNewsDto?.currentView,
+      value: detail?.newsDetails?.currentView,
     },
     {
       label: "تعداد کامنت ها",

@@ -3,17 +3,17 @@ import { Badge, Button, Col, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 
 // Custom Component
-import ButtonsForMove from "../../../../@core/components/button-for-move/ButtonsForMove";
+import ButtonsForMove from "../../../../components/button-for-move/ButtonsForMove";
 
 // Api
-import { CreateNews } from "../../../../@core/services/api/post-api";
+import { CreateNews } from "../../../../service/api/Getnewslist/GetNews";
 
 // Image
-import fallback from "../../../../assets/images/portrait/small/image-not-found.png";
-import ImageFallBack from "../../../../@core/components/image-fallback";
-import { useQueryWithDependencies } from "../../../../utility/hooks/useCustomQuery";
-import { GetNewsCategoryWithId } from "../../../../@core/services/api/get-api";
-import CreateEditorJsBlocks from "../../../../utility/create-editorjs-blocks";
+import fallback from "../../../../assets/fallback/code back.jpg";
+import ImageFallBack from "../../../../components/image-fallback/index";
+import { useQueryWithDependencies } from "../../../../../utility/hooks/useCustomQuery";
+import { GetNewsCategoryWithId } from "../../../../service/api/Getnewslist/GetNews";
+import CreateEditorJsBlocks from "../../../../../utility/create-editorjs-blocks/index";
 import { useMutation } from "@tanstack/react-query";
 
 const NewsPreview = ({ stepper }) => {
