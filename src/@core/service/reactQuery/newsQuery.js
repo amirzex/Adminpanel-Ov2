@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import GetNewsList from "../api/Getnewslist/GetNews";
+import {GetNewsList} from "../../service/api/Getnewslist/GetNews";
 
 
 export const useNewsList = () => {

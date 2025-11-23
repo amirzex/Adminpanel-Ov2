@@ -8,13 +8,14 @@ import {
   UserPlus,
   Book,
   MessageSquare,
+  Globe,
 } from "react-feather";
 
 export default [
   {
     id: "home",
     title: "داشبورد",
-    icon: <Home size={20} />,
+    icon: <Globe size={20} />,
     navLink: "/home",
   },
   {
@@ -55,16 +56,21 @@ export default [
     navLink: "/comments",
   },
   {
-    id: "smaplePage",
-    title: "Sample Page",
-    icon: <Airplay size={20} />,
-    // navLink: "/sample",
+    id: "Buildings",
+    title: "ساختمان‌ها",
+    icon: <Home size={20} />,
     children: [
       {
-        id: "invoiceList",
-        title: "List",
+        id: "building's table",
+        title: "جدول ساختمان‌ها",
         icon: <Circle size={12} />,
-        navLink: "/apps/invoice/list",
+        navLink: "/building's",
+      },
+      {
+        id: "create new building",
+        title: " ایجاد ساختمان جدید",
+        icon: <Circle size={12} />,
+        navLink: "/create/Building",
       },
     ],
   },

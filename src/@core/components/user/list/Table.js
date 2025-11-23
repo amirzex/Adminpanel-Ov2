@@ -102,7 +102,6 @@ const UsersList = () => {
   // ** Store Vars
   const { data: store } = useAdminUserList();
   const { data: Access } = useAccessPost();
-  console.log("rols", store?.rol);
 
   // ** States
   const [sort, setSort] = useState("desc");
