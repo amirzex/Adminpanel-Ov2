@@ -1,0 +1,43 @@
+import { Col, Row } from "reactstrap";
+import GeneralStatistics from "../../components/generalStatistics/index";
+import { StatisticsOfComments } from "../../components/comments/comments";
+import { useQueryWithDependencies } from "../../../utility/hooks/useCustomQuery.js";
+import {GetAllComments} from "../../service/api/GetComment/GetComment";
+import Filters from "./Filter";
+import CommentsList from "./list/CommentsList";
+import ComponentSpinner from "../../components/spinner/Loading-spinner.js";
+
+const CommentsPage = () => {
+  const { data: commentData, isLoading } = useQueryWithDependencies(
+    "GET_COMMENT_DATA",
+    GetAllComments,
+    null,
+    { PageNumber: 1, RowsOfPage: 10000 }
+  );
+
+  if (isLoading) {
+    return <ComponentSpinner />;
+  }
+
+  return (
+    <div className="app-user-list">
+      <Row>
+        <Col sm="12">
+          <GeneralStatistics
+            data={commentData}
+            statisticsData={StatisticsOfComments}
+            resize="4"
+          />
+        </Col>
+        <Col sm="12">
+          <Filters />
+        </Col>
+        <Col sm="12">
+          <CommentsList />
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
+export default CommentsPage;

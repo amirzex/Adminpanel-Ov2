@@ -14,6 +14,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 import { isObjEmpty } from "@utils";
 import { elements } from "chart.js";
 import BlogCategories from "../../pages/BlogCategories.js";
+import Comments from "../../pages/Comments.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -120,6 +121,10 @@ const Routes = [
   {
     element: <BlogCategories />,
     path: "/blogCategories",
+  },
+  {
+    element: <Comments />,
+    path: "/comments",
   },
 ];
 

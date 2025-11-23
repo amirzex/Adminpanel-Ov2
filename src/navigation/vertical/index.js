@@ -7,6 +7,7 @@ import {
   Users,
   UserPlus,
   Book,
+  MessageSquare,
 } from "react-feather";
 
 export default [
@@ -46,6 +47,12 @@ export default [
         navLink: "/blogCategories",
       },
     ],
+  },
+  {
+    id: "commentsListPage",
+    title: "مدیریت کامنت ها",
+    icon: <MessageSquare size={20} />,
+    navLink: "/comments",
   },
   {
     id: "smaplePage",
