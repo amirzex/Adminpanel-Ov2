@@ -37,6 +37,7 @@ import {
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
+import { useDebounce } from "use-debounce";
 
 // ** Table Header
 const CustomHeader = ({
@@ -116,6 +117,16 @@ const UsersList = () => {
   const { mutate: updateAccess, isLoading, isError } = useAccessPost();
   const [selectedRole, setSelectedRole] = React.useState("");
 
+  const [debouncedSearch] = useDebounce(searchTerm, 500);
+  const filteredData = Array.isArray(store)
+    ? store.filter((user) =>
+        Object.values(user)
+          .join(" ")
+          .toLowerCase()
+          .includes((debouncedSearch || "").toLowerCase())
+      )
+    : [];
+
   const roles = [
     { id: 1, label: "Teacher" },
     { id: 2, label: "Admin" },
@@ -181,20 +192,22 @@ const UsersList = () => {
       );
     }
 
+    // Apply plan filter
     if (currentPlan.value) {
       filteredData = filteredData.filter(
         (user) => user.profileCompletionPercentage === currentPlan.value
       );
     }
 
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
+    // ✅ Use debouncedSearch instead of searchTerm
+    if (debouncedSearch) {
+      const searchLower = debouncedSearch.toLowerCase();
       filteredData = filteredData.filter(
         (user) =>
           user.fname?.toLowerCase().includes(searchLower) ||
           user.lname?.toLowerCase().includes(searchLower) ||
           user.gmail?.toLowerCase().includes(searchLower) ||
-          user.phoneNumber?.includes(searchTerm)
+          user.phoneNumber?.includes(debouncedSearch)
       );
     }
 
@@ -352,7 +365,7 @@ const UsersList = () => {
             data={paginatedData}
             subHeaderComponent={
               <CustomHeader
-                store={store}
+                store={filteredData}
                 searchTerm={searchTerm}
                 rowsPerPage={rowsPerPage}
                 handleFilter={handleFilter}
