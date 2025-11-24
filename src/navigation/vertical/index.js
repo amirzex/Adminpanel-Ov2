@@ -9,6 +9,8 @@ import {
   Book,
   MessageSquare,
   Globe,
+  Anchor,
+  HelpCircle,
 } from "react-feather";
 
 export default [
@@ -71,6 +73,25 @@ export default [
         title: " ایجاد ساختمان جدید",
         icon: <Circle size={12} />,
         navLink: "/create/Building",
+      },
+    ],
+  },
+  {
+    id: "/AssistanceWorkTable",
+    title: "دستیاران",
+    icon: <HelpCircle size={20} />,
+    children: [
+      {
+        id: "AssistanceWork List",
+        title: " فهرست دستیاران",
+        icon: <Circle size={12} />,
+        navLink: "/AssistanceWorkTable",
+      },
+      {
+        id: "create new building",
+        title: " ایجاد دستیارها",
+        icon: <Circle size={12} />,
+        navLink: "/create/Assistance",
       },
     ],
   },

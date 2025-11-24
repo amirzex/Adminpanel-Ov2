@@ -1,23 +1,21 @@
+import React, { useState } from "react";
+import DataTable from "react-data-table-component";
+import { columns } from "./columns";
+import { useAssistanceWork } from "../../../service/reactQuery/AssistanceWorkQuery";
+import { useDebounce } from "use-debounce";
 import {
-  Row,
-  Col,
   Button,
+  Col,
   Input,
+  Row,
   Card,
   CardBody,
   CardHeader,
 } from "reactstrap";
-import StatsHorizontal from "@components/widgets/stats/StatsHorizontal";
-import { Home, Edit } from "react-feather";
-import "@styles/react/apps/app-users.scss";
-import { useBuildingDetail } from "../../../service/reactQuery/BuildingQuery.js";
-import DataTable from "react-data-table-component";
-import { columns } from "./columns.js";
-import { useState } from "react";
-import EditBuildingModal from "./EditBuildingModal";
-import { useDebounce } from "use-debounce";
+import StatsHorizontal from "../../widgets/stats/StatsHorizontal";
+import { Edit, HelpCircle } from "react-feather";
+import EditAssistanceModal from "./EditModal";
 
-// 🎨 Custom styles for DataTable
 const customStyles = {
   headCells: {
     style: {
@@ -45,18 +43,17 @@ const customStyles = {
   },
 };
 
-const BuildingList = () => {
-  const { data } = useBuildingDetail();
+const GetAssistanceWork = () => {
+  const { data } = useAssistanceWork();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedBuilding, setSelectedBuilding] = useState(null);
+  const [selectedAssistance, setSelectedAssistance] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 🔑 Debounced search term (waits 500ms after typing stops)
   const [debouncedSearch] = useDebounce(searchTerm, 500);
 
-  const handleEdit = (building) => {
-    setSelectedBuilding(building);
+  const handleEdit = (assistance) => {
+    setSelectedAssistance(assistance); // store clicked row
     setModalOpen(true);
   };
 
@@ -69,7 +66,7 @@ const BuildingList = () => {
           color="primary"
           size="sm"
           onClick={() => handleEdit(row)}
-          className="rounded-pill px-3 py-1 fw-bold "
+          className="rounded-pill px-3 py-1 fw-bold"
         >
           <Edit size={16} className="me-1" /> ویرایش
         </Button>
@@ -77,9 +74,8 @@ const BuildingList = () => {
     },
   ];
 
-  // 🔎 Filter data using debounced value
-  const filteredData = (data || []).filter((building) =>
-    Object.values(building)
+  const filteredData = (data || []).filter((assistance) =>
+    Object.values(assistance)
       .join(" ")
       .toLowerCase()
       .includes((debouncedSearch || "").toLowerCase())
@@ -88,15 +84,15 @@ const BuildingList = () => {
   return (
     <Card className="shadow-lg border-0 rounded-3">
       <CardHeader className="bg-primary text-white text-center fw-bold fs-5">
-        مدیریت ساختمان‌ها
+        مدیریت دستیاران
       </CardHeader>
       <CardBody>
         <Row className="mb-3 align-items-center">
           <Col lg="3" sm="6" className="mb-2">
             <StatsHorizontal
               color="danger"
-              statTitle="Buildings"
-              icon={<Home size={22} />}
+              statTitle="دستیاران"
+              icon={<HelpCircle size={22} />}
               renderStats={
                 <h3
                   className="fw-bolder mb-0 text-dark"
@@ -108,10 +104,9 @@ const BuildingList = () => {
             />
           </Col>
           <Col lg="9" sm="12">
-            {/* Search input */}
             <Input
               type="text"
-              placeholder="🔍 جستجو ساختمان..."
+              placeholder="🔍 جستجو دستیاران..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="rounded-pill px-3 py-2"
@@ -121,7 +116,7 @@ const BuildingList = () => {
         </Row>
 
         <DataTable
-          title="📋 فهرست ساختمان‌ها"
+          title="📋 فهرست دستیاران"
           columns={extendedColumns}
           data={filteredData}
           pagination
@@ -131,14 +126,15 @@ const BuildingList = () => {
           customStyles={customStyles}
         />
 
-        <EditBuildingModal
+        {/* Pass selected row into modal */}
+        <EditAssistanceModal
           isOpen={modalOpen}
           toggle={() => setModalOpen(!modalOpen)}
-          selectedBuilding={selectedBuilding}
+          selectedAssistance={selectedAssistance}
         />
       </CardBody>
     </Card>
   );
 };
 
-export default BuildingList;
+export default GetAssistanceWork;

@@ -17,6 +17,8 @@ import BlogCategories from "../../pages/BlogCategories.js";
 import Comments from "../../pages/Comments.js";
 import GetBuilding from "../../pages/Building.js";
 import CreateBuildingForm from "../../@core/components/Building/list/CreateBuilding.js";
+import AssistanceWorkTable from "../../pages/AssistanceWorkTable.js";
+import CreateWorkForm from "../../@core/components/AssistanceWork/list/CreateAssistance.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -135,6 +137,14 @@ const Routes = [
   {
     element: <CreateBuildingForm />,
     path: "/create/Building",
+  },
+  {
+    element: <AssistanceWorkTable />,
+    path: "/AssistanceWorkTable",
+  },
+  {
+    element: <CreateWorkForm />,
+    path: "/create/Assistance",
   },
 ];
 
