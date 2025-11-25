@@ -14,6 +14,7 @@ import {
   Briefcase,
   Box,
   Target,
+  Terminal,
 } from "react-feather";
 
 export default [
@@ -152,6 +153,25 @@ export default [
         title: " ایجاد وضعیت ",
         icon: <Circle size={12} />,
         navLink: "/create/Status",
+      },
+    ],
+  },
+  {
+    id: "/Technology",
+    title: "وضعیت ها",
+    icon: <Terminal size={20} />,
+    children: [
+      {
+        id: "/Technology List",
+        title: " فهرست وضعیت ها",
+        icon: <Circle size={12} />,
+        navLink: "/Technology",
+      },
+      {
+        id: "create new Technology",
+        title: " ایجاد وضعیت ",
+        icon: <Circle size={12} />,
+        navLink: "/create/Technology",
       },
     ],
   },

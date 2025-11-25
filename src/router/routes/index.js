@@ -25,6 +25,8 @@ import Department from "../../pages/Department.js";
 import CreateDepartmentForm from "../../@core/components/Department/list/CreateDepartment.js";
 import Status from "../../pages/Status.js";
 import CreateStatusForm from "../../@core/components/Status/list/CreateStatus.js";
+import Technology from "../../pages/Technology.js";
+import CreateTechnologyForm from "../../@core/components/Technology/list/CreateTechnology.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -175,6 +177,14 @@ const Routes = [
   {
     element: <CreateStatusForm />,
     path: "/Create/Status",
+  },
+  {
+    element: <Technology />,
+    path: "/Technology",
+  },
+  {
+    element: <CreateTechnologyForm />,
+    path: "/Create/Technology",
   },
 ];
 
