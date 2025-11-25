@@ -13,6 +13,7 @@ import {
   HelpCircle,
   Briefcase,
   Box,
+  Target,
 } from "react-feather";
 
 export default [
@@ -132,6 +133,25 @@ export default [
         title: " ایجاد دپارتمان ",
         icon: <Circle size={12} />,
         navLink: "/create/Department's",
+      },
+    ],
+  },
+  {
+    id: "/Status",
+    title: "وضعیت ها",
+    icon: <Target size={20} />,
+    children: [
+      {
+        id: "/Status List",
+        title: " فهرست وضعیت ها",
+        icon: <Circle size={12} />,
+        navLink: "/Status",
+      },
+      {
+        id: "create new Status",
+        title: " ایجاد وضعیت ",
+        icon: <Circle size={12} />,
+        navLink: "/create/Status",
       },
     ],
   },

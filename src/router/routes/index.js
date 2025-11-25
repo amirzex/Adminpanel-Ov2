@@ -23,6 +23,8 @@ import ClassRoom from "../../pages/ClassRoom.js";
 import CreateClassRoomForm from "../../@core/components/ClassRoom/list/CreateClassRoom.js";
 import Department from "../../pages/Department.js";
 import CreateDepartmentForm from "../../@core/components/Department/list/CreateDepartment.js";
+import Status from "../../pages/Status.js";
+import CreateStatusForm from "../../@core/components/Status/list/CreateStatus.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -165,6 +167,14 @@ const Routes = [
   {
     element: <CreateDepartmentForm />,
     path: "/create/Department's",
+  },
+  {
+    element: <Status />,
+    path: "/Status",
+  },
+  {
+    element: <CreateStatusForm />,
+    path: "/Create/Status",
   },
 ];
 
