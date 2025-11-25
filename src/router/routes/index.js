@@ -27,6 +27,8 @@ import Status from "../../pages/Status.js";
 import CreateStatusForm from "../../@core/components/Status/list/CreateStatus.js";
 import Technology from "../../pages/Technology.js";
 import CreateTechnologyForm from "../../@core/components/Technology/list/CreateTechnology.js";
+import Term from "../../pages/Term.js";
+import CreateTermForm from "../../@core/components/Term/list/CreateTerm.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -185,6 +187,14 @@ const Routes = [
   {
     element: <CreateTechnologyForm />,
     path: "/Create/Technology",
+  },
+  {
+    element: <Term />,
+    path: "/Term",
+  },
+  {
+    element: <CreateTermForm />,
+    path: "/Create/Term",
   },
 ];
 

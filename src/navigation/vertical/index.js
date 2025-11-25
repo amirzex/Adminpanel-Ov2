@@ -15,6 +15,7 @@ import {
   Box,
   Target,
   Terminal,
+  Sunset,
 } from "react-feather";
 
 export default [
@@ -172,6 +173,25 @@ export default [
         title: " ایجاد وضعیت ",
         icon: <Circle size={12} />,
         navLink: "/create/Technology",
+      },
+    ],
+  },
+  {
+    id: "/Term",
+    title: "Term ها",
+    icon: <Sunset size={20} />,
+    children: [
+      {
+        id: "/Term List",
+        title: " فهرست Term ها",
+        icon: <Circle size={12} />,
+        navLink: "/Term",
+      },
+      {
+        id: "create new Term",
+        title: " ایجاد وضعیت ",
+        icon: <Circle size={12} />,
+        navLink: "/create/Term",
       },
     ],
   },
