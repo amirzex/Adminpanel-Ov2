@@ -11,6 +11,8 @@ import {
   Globe,
   Anchor,
   HelpCircle,
+  Briefcase,
+  Box,
 } from "react-feather";
 
 export default [
@@ -92,6 +94,44 @@ export default [
         title: " ایجاد دستیارها",
         icon: <Circle size={12} />,
         navLink: "/create/Assistance",
+      },
+    ],
+  },
+  {
+    id: "/ClassRoom",
+    title: "کلاس‌ها",
+    icon: <Briefcase size={20} />,
+    children: [
+      {
+        id: "ClassRoom List",
+        title: " فهرست کلاس‌ها",
+        icon: <Circle size={12} />,
+        navLink: "/ClassRoom",
+      },
+      {
+        id: "create new building",
+        title: " ایجاد کلاس‌ها",
+        icon: <Circle size={12} />,
+        navLink: "/create/ClassRoom",
+      },
+    ],
+  },
+  {
+    id: "/Department's",
+    title: "دپارتمان ها",
+    icon: <Box size={20} />,
+    children: [
+      {
+        id: "/Department List",
+        title: " فهرست دپارتمان ها",
+        icon: <Circle size={12} />,
+        navLink: "/Department's",
+      },
+      {
+        id: "create new Department",
+        title: " ایجاد دپارتمان ",
+        icon: <Circle size={12} />,
+        navLink: "/create/Department's",
       },
     ],
   },

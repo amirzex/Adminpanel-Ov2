@@ -19,6 +19,10 @@ import GetBuilding from "../../pages/Building.js";
 import CreateBuildingForm from "../../@core/components/Building/list/CreateBuilding.js";
 import AssistanceWorkTable from "../../pages/AssistanceWorkTable.js";
 import CreateWorkForm from "../../@core/components/AssistanceWork/list/CreateAssistance.js";
+import ClassRoom from "../../pages/ClassRoom.js";
+import CreateClassRoomForm from "../../@core/components/ClassRoom/list/CreateClassRoom.js";
+import Department from "../../pages/Department.js";
+import CreateDepartmentForm from "../../@core/components/Department/list/CreateDepartment.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -145,6 +149,22 @@ const Routes = [
   {
     element: <CreateWorkForm />,
     path: "/create/Assistance",
+  },
+  {
+    element: <ClassRoom />,
+    path: "/ClassRoom",
+  },
+  {
+    element: <CreateClassRoomForm />,
+    path: "/create/ClassRoom",
+  },
+  {
+    element: <Department />,
+    path: "/Department's",
+  },
+  {
+    element: <CreateDepartmentForm />,
+    path: "/create/Department's",
   },
 ];
 

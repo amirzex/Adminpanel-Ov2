@@ -5,7 +5,11 @@ import navbar from "./navbar";
 // User
 // import { FilterSlice, UserInfoSlice } from "../view/user/store";
 // News
-import { CreateNewsSlice, NewsDetail, NewsList } from "../@core/components/news/store";
+import {
+  CreateNewsSlice,
+  NewsDetail,
+  NewsList,
+} from "../@core/components/news/store";
 // Products
 import { CreateProductsSlice, ProductsList } from "../@core/products/store";
 // Events
@@ -23,7 +27,7 @@ import { BlogCategoryList } from "../@core/components/news/add-category/store";
 // import { ShopCategoryList } from "../view/shops/category-manage/store";
 // import { ProductCategoryList } from "../view/products/catgory-manage/store";
 //Building
-// import { BuildingList } from "../view/building/store";
+// import { BuildingList } from "../@core/components/Building/store/index";
 // ClassRome
 // import ClassList from "../view/classrome/store";
 // Department
@@ -48,37 +52,37 @@ import { BlogCategoryList } from "../@core/components/news/add-category/store";
 const rootReducer = {
   navbar,
   layout,
-//   UserInfoSlice,
-//   FilterSlice,
+  //   UserInfoSlice,
+  //   FilterSlice,
   NewsList,
   NewsDetail,
   CreateNewsSlice,
-//   CoursesList,
+  //   CoursesList,
   CreateProductsSlice,
   ProductsList,
-//   ShopList,
-//   CreateShopsSlice,
+  //   ShopList,
+  //   CreateShopsSlice,
   CommentList,
   EventsList,
   CreateEvent,
   BlogCategoryList,
-//   TechnologiesList,
-//   StatusList,
-//   LevelsList,
-//   ShopCategoryList,
-//   ProductCategoryList,
-//   BuildingList,
-//   ClassList,
-//   DepartmentList,
-//   TermList,
-//   SupportSlice,
-//   AssistanceWorkList,
-//   AssistanceCourseSlice,
-//   SchedualSlice,
-//   JobHistorySlice,
-//   CourseUserSlice,
-//   SchedualTeacherSlice,
-//   SchedualUserSlice,
+  //   TechnologiesList,
+  //   StatusList,
+  //   LevelsList,
+  //   ShopCategoryList,
+  //   ProductCategoryList,
+  // BuildingList,
+  // ClassList,
+  //   DepartmentList,
+  //   TermList,
+  //   SupportSlice,
+  //   AssistanceWorkList,
+  //   AssistanceCourseSlice,
+  //   SchedualSlice,
+  //   JobHistorySlice,
+  //   CourseUserSlice,
+  //   SchedualTeacherSlice,
+  //   SchedualUserSlice,
 };
 
 export default rootReducer;
