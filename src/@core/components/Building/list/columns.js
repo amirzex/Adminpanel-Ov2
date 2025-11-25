@@ -11,12 +11,12 @@ export const columns = [
   },
   {
     name: "عرض جغرافیایی",
-    selector: (row) => row.latitude,
+    selector: (row) => row.latitude.slice(0,2)+ " /N",
     sortable: true,
   },
   {
     name: "طول جغرافیایی",
-    selector: (row) => row.longitude,
+    selector: (row) => row.longitude.slice(0,2)+ " /S",
     sortable: true,
   },
 ];

@@ -17,6 +17,13 @@ const EditBuilding = async (data) => {
     const result = await http.put("/Building", data, {
       headers: { "Content-Type": "application/json" },
     });
+    if (result.success) {
+      toast.success(result.message);
+      return result;
+    } else {
+      toast.error(result.message);
+      throw new Error(result.message);
+    }
     return result;
   } catch (error) {
     console.error(

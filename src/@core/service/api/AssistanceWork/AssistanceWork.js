@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import http from "../../interceptor/index";
 
 const GetAssistanceWork = async () => {
@@ -48,6 +49,13 @@ const EditAssistance = async (data) => {
     const result = await http.put("/AssistanceWork", data, {
       headers: { "Content-Type": "application/json" },
     });
+    if (result.success) {
+      toast.success(result.message);
+      return result;
+    } else {
+      toast.error(result.message);
+      throw new Error(result.message);
+    }
     return result;
   } catch (error) {
     console.error(
@@ -57,4 +65,4 @@ const EditAssistance = async (data) => {
     throw error;
   }
 };
-export { GetAssistanceWork, createAssistance,EditAssistance };
+export { GetAssistanceWork, createAssistance, EditAssistance };

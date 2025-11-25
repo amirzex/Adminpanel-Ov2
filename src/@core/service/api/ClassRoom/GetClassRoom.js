@@ -1,5 +1,6 @@
 import { Toast } from "reactstrap";
 import http from "../../interceptor/index";
+import toast from "react-hot-toast";
 
 const GetAllClassRoom = async () => {
   try {
@@ -16,6 +17,13 @@ const EditClassRoom = async (data) => {
     const result = await http.put("/ClassRoom", data, {
       headers: { "Content-Type": "application/json" },
     });
+     if (result.success) {
+      toast.success(result.message);
+      return result;
+    } else {
+      Toast.error(result.message);
+      throw new Error(result.message);
+    }
     return result;
   } catch (error) {
     console.error(

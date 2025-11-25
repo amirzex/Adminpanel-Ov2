@@ -16,7 +16,13 @@ const EditDepartment = async (data) => {
     const result = await http.put("/Department", data, {
       headers: { "Content-Type": "application/json" },
     });
-    return result;
+    if (result.success) {
+      toast.success(result.message);
+      return result;
+    } else {
+      toast.error(result.message);
+      throw new Error(result.message);
+    }
   } catch (error) {
     console.error(
       "Error editing ClassRoom:",

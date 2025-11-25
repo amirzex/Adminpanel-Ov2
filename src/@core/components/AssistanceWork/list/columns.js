@@ -16,7 +16,7 @@ export const columns = [
   },
   {
     name: " تاریخ کار",
-    selector: (row) => row.workDate,
+    selector: (row) => row.workDate.slice(0,10),
     sortable: true,
   },
 ];
