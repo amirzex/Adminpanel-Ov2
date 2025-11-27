@@ -38,6 +38,8 @@ const UserList = lazy(() =>
 );
 const News = lazy(() => import("../../pages/News.js"));
 const CourseView = lazy(() => import("../../@core/components/courses/view/index.js"));
+const Coursedetails = lazy(() => import("../../@core/components/courses/details/view/index.js"));
+
 
 
 
@@ -117,6 +119,12 @@ const Routes = [
     element: <CourseView />,
     path: "/courses",
   },
+  ,
+  {
+    path: "/courses/courses/deatils/:id",
+    element: <Coursedetails />,
+  },
+  
 ];
 
 const getRouteMeta = (route) => {

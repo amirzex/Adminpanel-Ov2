@@ -21,3 +21,21 @@ export const UsecourseList = ({ page, rowsPerPage, sortColumn, sort, searchTerm 
     onError: (error) => console.error("Error fetching courses:", error),
   });
 };
+
+export const usecoursedatils = (id ) => {
+  const fetchCourses = async () => {
+    const response = await getApi(`/Course/${id}`);
+    return response;
+  };
+
+  return useQuery({
+    queryKey: ["courseList", id],
+    queryFn: fetchCourses,
+    onSuccess: (data) => {
+      console.log(" Courses fetched:", data);
+    },
+    onError: (error) => {
+      console.error(" Error fetching courses:", error);
+    },
+  });
+};

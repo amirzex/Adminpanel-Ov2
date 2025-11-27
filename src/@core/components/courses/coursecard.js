@@ -1,6 +1,7 @@
 // ** React Imports
 import { Card, CardImg, CardBody, CardTitle, CardText, CardFooter } from 'reactstrap';
 import imgDefault from '@src/assets/images/slider/03.jpg';
+import { Link } from 'react-router-dom';
 
 const formatDate = (dateString) => {
   if (!dateString) return "نامشخص";
@@ -9,6 +10,9 @@ const formatDate = (dateString) => {
 
 const Coursecard = ({ course }) => {
   return (
+
+
+    <Link to={`courses/deatils/${course?.courseId}` }>
     <Card className="mb-2 shadow-sm">
       <CardImg
         top
@@ -38,7 +42,7 @@ const Coursecard = ({ course }) => {
           <br />
           <strong>پایان:</strong> {formatDate(course?.endTime)}
       </CardFooter>
-    </Card>
+    </Card></Link>
   );
 };
 
