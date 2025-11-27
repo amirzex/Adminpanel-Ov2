@@ -1,6 +1,7 @@
 // services/reactQuery/courseQuery.js
 import { useQuery } from "@tanstack/react-query";
-import { getApi } from "../api/getApi";
+import { getApi,postApi,putApi } from "../api/getApi";
+
 
 export const UsecourseList = ({ page, rowsPerPage, sortColumn, sort, searchTerm }) => {
   const fetchCourses = async () => {
@@ -38,4 +39,26 @@ export const usecoursedatils = (id ) => {
       console.error(" Error fetching courses:", error);
     },
   });
+};export const deactiveCourse = async (id) => {
+  try {
+    const response = await putApi(
+      "/Course/ActiveAndDeactiveCourse",id
+    );
+    return response;
+  } catch (error) {
+    console.error("Error deactivating course:", error);
+    throw error;
+  }
 };
+
+export const updateCourse = async (courseData) => {
+  try {
+    const response = await putApi("/Course", courseData);
+    return response;
+  } catch (error) {
+    console.error("Error updating course:", error);
+    throw error;
+  }
+};
+
+

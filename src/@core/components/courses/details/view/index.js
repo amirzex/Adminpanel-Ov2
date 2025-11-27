@@ -2,8 +2,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-// ** React Query
-import { usecoursedatils } from "../../../../service/reactQuery/courseQuery";
+// ** React Query (simple async functions)
+import {
+  usecoursedatils,
+  updateCourse,
+  deactiveCourse
+} from "../../../../service/reactQuery/courseQuery";
 
 // ** React Hook Form
 import { useForm, Controller } from "react-hook-form";
@@ -32,43 +36,24 @@ import {
 
 // ** Components
 import Coursedetailstab from "../../details/view/Tabs";
+
+// ---------------- schema ----------------
 const schema = yup.object().shape({
   title: yup.string().required("عنوان دوره الزامی است"),
-  capacity: yup
-    .number()
-    .typeError("عدد وارد کنید")
-    .positive("عدد معتبر نیست")
-    .required("ظرفیت الزامی است"),
-
-  cost: yup
-    .number()
-    .typeError("عدد وارد کنید")
-    .min(0, "قیمت نمی‌تواند منفی باشد")
-    .required("قیمت الزامی است"),
-
-  miniDescribe: yup
-    .string()
-    .min(5, "حداقل ۵ کاراکتر")
-    .required("توضیح کوتاه الزامی است"),
-
-  describe: yup
-    .string()
-    .min(10, "حداقل ۱۰ کاراکتر")
-    .required("توضیحات کامل الزامی است"),
-
-  startTime: yup
-    .date()
-    .typeError("تاریخ معتبر نیست")
-    .required("تاریخ شروع الزامی است"),
-
+  capacity: yup.number().typeError("عدد وارد کنید").required("ظرفیت الزامی است"),
+  cost: yup.number().typeError("عدد وارد کنید").min(0).required("قیمت الزامی است"),
+  miniDescribe: yup.string().min(5).required("توضیح کوتاه الزامی است"),
+  describe: yup.string().min(10).required("توضیحات کامل الزامی است"),
+  startTime: yup.date().typeError("تاریخ نامعتبر").required(),
   endTime: yup
     .date()
-    .typeError("تاریخ معتبر نیست")
-    .min(yup.ref("startTime"), "پایان نمی‌تواند قبل از شروع باشد")
-    .required("تاریخ پایان الزامی است"),
-
+    .typeError("تاریخ نامعتبر")
+    .min(yup.ref("startTime"), "پایان قبل از شروع نمی‌شود")
+    .required(),
   uniqeUrlString: yup.string().required("آدرس یکتا الزامی است"),
 });
+
+// ---------------- component ----------------
 const Coursedetails = () => {
   const { id } = useParams();
   const [show, setShow] = useState(false);
@@ -84,7 +69,7 @@ const Coursedetails = () => {
     resolver: yupResolver(schema)
   });
 
-  // تبدیل editor به متن ساده
+  // ---------- parse description ----------
   let courseDescription = "";
   try {
     const parsed = JSON.parse(course?.describe || "");
@@ -93,7 +78,7 @@ const Coursedetails = () => {
     courseDescription = course?.describe || "";
   }
 
-  // مقداردهی فرم هنگام باز شدن مودال
+  // ---------- fill form ----------
   useEffect(() => {
     if (show && course) {
       reset({
@@ -109,26 +94,41 @@ const Coursedetails = () => {
     }
   }, [show, course]);
 
-  const onSubmit = (data) => {
+  // ---------- update course ----------
+  const onSubmit = async (data) => {
     const payload = {
       ...data,
-      id: course.id,
+      id: id,
       startTime: new Date(data.startTime).toISOString(),
-      endTime: new Date(data.endTime).toISOString(),
+      endTime: new Date(data.endTime).toISOString()
     };
-     
 
-    console.log("✅ API PAYLOAD:", payload);
-
-    // 🔴🔴🔴 اینجا باید API Update Course صدا زده شود
-    /*
-    updateCourse(payload).then(() => {
+    try {
+      await updateCourse(payload);
       setShow(false);
       refetch();
-    });
-    */
+    } catch (err) {
+      console.error("❌ Update Course Error:", err);
+    }
   };
 
+  // ---------- toggle active ----------
+  const handleToggleActive = async () => {
+    const payload = { 
+        active: !course.active
+     , id: id,
+   
+    };
+
+    try {
+      await deactiveCourse(payload);
+      refetch();
+    } catch (err) {
+      console.error("❌ Toggle Active Error:", err);
+    }
+  };
+
+  // ---------- states ----------
   if (isLoading)
     return (
       <div className="d-flex justify-content-center py-5">
@@ -138,143 +138,98 @@ const Coursedetails = () => {
 
   if (error)
     return <Alert color="danger">خطا در دریافت اطلاعات</Alert>;
+
+  // ---------------- render ----------------
   return (
     <div className="app-user-view">
       <Row>
-        {/* ستون چپ */}
+        {/* LEFT */}
         <Col xl="4" lg="5" md="12">
           <Card className="mb-2 shadow-sm">
             <CardImg
               top
-              src={
-                course.imageAddress
-                  ? course.imageAddress
-                  : "https://via.placeholder.com/500x300?text=No+Image"
-              }
-              alt={course.title}
+              src={course.imageAddress || "https://via.placeholder.com/500x300"}
               style={{ height: "240px", objectFit: "cover" }}
             />
             <CardBody>
-              <h3 className="mb-1">{course.title}</h3>
-              <Badge color={ "secondary"}>
-                {course.statusName === "started"
-                  ? "در حال برگزاری"
-                  : course.statusName === "upcoming"
-                    ? "در آینده"
-                    : "پایان یافته"}
+              <h3>{course.title}</h3>
+
+              <Badge color={course.active ? "success" : "danger"}>
+                {course.active ? "فعال" : "غیرفعال"}
               </Badge>
 
               <hr />
 
-              <p><strong>مدرس:</strong> {course.teacherName}</p>
-              <p><strong>قیمت:</strong> {course.cost ? `${course.cost} تومان` : "رایگان"}</p>
-
-              <p><strong>ظرفیت:</strong> {course.capacity}</p>
-              <p><strong>رزرو شده:</strong> {course.reserveUserTotal}</p>
-
-              <hr />
-
-              {/* <p><strong>شروع:</strong> {formatDate(course.startTime)}</p>
-              <p><strong>پایان:</strong> {formatDate(course.endTime)}</p> */}
+              <p><b>مدرس:</b> {course.teacherName}</p>
+              <p><b>قیمت:</b> {course.cost ? `${course.cost} تومان` : "رایگان"}</p>
+              <p><b>ظرفیت:</b> {course.capacity}</p>
+              <p><b>رزرو شده:</b> {course.reserveUserTotal}</p>
 
               <hr />
 
-              <p><strong>توضیح کوتاه:</strong></p>
+              <p><b>توضیح کوتاه:</b></p>
               <p className="text-muted">{course.miniDescribe}</p>
             </CardBody>
           </Card>
 
-          {/* اطلاعات مدرس */}
-          <Card>
+          <Card className="mb-1">
             <CardBody>
-              <h4><b>اطلاعات مدرس</b></h4>
-              <p><strong>نام:</strong> {course.teacherName}</p>
-              <p><strong>آیدی:</strong> {course.teacherId}</p>
-              <p><strong>سطح دوره:</strong> {course.courseLvlId}</p>
+              <h5>اطلاعات مدرس</h5>
+              <p>نام: {course.teacherName}</p>
+              <p>آیدی: {course.teacherId}</p>
             </CardBody>
           </Card>
-          <Button color="primary" onClick={() => setShow(true)}>
+
+          <Button color="primary" className="me-1" onClick={() => setShow(true)}>
             ویرایش
+          </Button>
+
+          <Button
+            color={course.active ? "danger" : "success"}
+            onClick={handleToggleActive}
+          >
+            {course.active ? "غیرفعال کردن" : "فعال کردن"}
           </Button>
         </Col>
 
-
-        {/* ستون راست */}
+        {/* RIGHT */}
         <Col xl="8" lg="7" md="12">
           <Card>
             <CardBody>
-              <h3 className="mb-2">توضیحات دوره</h3>
+              <h3>توضیحات دوره</h3>
               <p style={{ lineHeight: "28px" }}>{courseDescription}</p>
             </CardBody>
           </Card>
 
-          <Coursedetailstab active={"1"} toggleTab={() => { }} />
+          <Coursedetailstab active={"1"} toggleTab={() => {}} />
         </Col>
       </Row>
 
-      {/* ✅ MODAL EDIT */}
+      {/* EDIT MODAL */}
       <Modal isOpen={show} toggle={() => setShow(false)} className="modal-lg">
-        <ModalHeader toggle={() => setShow(false)}>
-          ویرایش دوره
-        </ModalHeader>
-
+        <ModalHeader toggle={() => setShow(false)}>ویرایش دوره</ModalHeader>
         <ModalBody>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className="gy-2">
+              {[
+                { name: "title", label: "عنوان" },
+                { name: "capacity", label: "ظرفیت", type: "number" },
+                { name: "cost", label: "قیمت", type: "number" },
+                { name: "uniqeUrlString", label: "Uniqe URL" }
+              ].map(({ name, label, type }) => (
+                <Col md={6} key={name}>
+                  <Label>{label}</Label>
+                  <Controller
+                    name={name}
+                    control={control}
+                    render={({ field }) => (
+                      <Input {...field} type={type} invalid={!!errors[name]} />
+                    )}
+                  />
+                  <FormFeedback>{errors[name]?.message}</FormFeedback>
+                </Col>
+              ))}
 
-              {/** title */}
-              <Col md={6}>
-                <Label>عنوان دوره</Label>
-                <Controller
-                  name="title"
-                  control={control}
-                  render={({ field }) => (
-                    <Input {...field} invalid={!!errors.title} />
-                  )}
-                />
-                <FormFeedback>{errors.title?.message}</FormFeedback>
-              </Col>
-
-              {/** capacity */}
-              <Col md={6}>
-                <Label>ظرفیت</Label>
-                <Controller
-                  name="capacity"
-                  control={control}
-                  render={({ field }) => (
-                    <Input {...field} type="number" invalid={!!errors.capacity} />
-                  )}
-                />
-                <FormFeedback>{errors.capacity?.message}</FormFeedback>
-              </Col>
-
-              {/** cost */}
-              <Col md={6}>
-                <Label>قیمت</Label>
-                <Controller
-                  name="cost"
-                  control={control}
-                  render={({ field }) => (
-                    <Input {...field} type="number" invalid={!!errors.cost} />
-                  )}
-                />
-                <FormFeedback>{errors.cost?.message}</FormFeedback>
-              </Col>
-
-              {/** uniqeUrlString */}
-              <Col md={6}>
-                <Label>Uniqe URL</Label>
-                <Controller
-                  name="uniqeUrlString"
-                  control={control}
-                  render={({ field }) => (
-                    <Input {...field} invalid={!!errors.uniqeUrlString} />
-                  )}
-                />
-                <FormFeedback>{errors.uniqeUrlString?.message}</FormFeedback>
-              </Col>
-
-              {/** miniDescribe */}
               <Col xs={12}>
                 <Label>توضیح کوتاه</Label>
                 <Controller
@@ -287,30 +242,27 @@ const Coursedetails = () => {
                 <FormFeedback>{errors.miniDescribe?.message}</FormFeedback>
               </Col>
 
-              {/** describe */}
               <Col xs={12}>
                 <Label>توضیحات کامل</Label>
                 <Controller
                   name="describe"
                   control={control}
                   render={({ field }) => (
-                    <Input {...field} type="textarea" rows="4" invalid={!!errors.describe}/>
+                    <Input {...field} type="textarea" rows={4} invalid={!!errors.describe} />
                   )}
                 />
                 <FormFeedback>{errors.describe?.message}</FormFeedback>
               </Col>
 
-              {/** dates */}
               <Col md={6}>
                 <Label>شروع</Label>
                 <Controller
                   name="startTime"
                   control={control}
                   render={({ field }) => (
-                    <Input {...field} type="date" invalid={!!errors.startTime}/>
+                    <Input {...field} type="date" invalid={!!errors.startTime} />
                   )}
                 />
-                <FormFeedback>{errors.startTime?.message}</FormFeedback>
               </Col>
 
               <Col md={6}>
@@ -319,10 +271,9 @@ const Coursedetails = () => {
                   name="endTime"
                   control={control}
                   render={({ field }) => (
-                    <Input {...field} type="date" invalid={!!errors.endTime}/>
+                    <Input {...field} type="date" invalid={!!errors.endTime} />
                   )}
                 />
-                <FormFeedback>{errors.endTime?.message}</FormFeedback>
               </Col>
 
               <Col xs={12} className="text-center mt-2">
@@ -333,7 +284,6 @@ const Coursedetails = () => {
                   انصراف
                 </Button>
               </Col>
-
             </Row>
           </Form>
         </ModalBody>
