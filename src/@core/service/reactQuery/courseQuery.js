@@ -1,7 +1,9 @@
 // services/reactQuery/courseQuery.js
 import { useQuery } from "@tanstack/react-query";
 import { getApi,postApi,putApi } from "../api/getApi";
-
+import toast from "react-hot-toast";
+import http from "../interceptor"
+import useFormData from "../../../utility/hooks/useFormData";
 
 export const UsecourseList = ({ page, rowsPerPage, sortColumn, sort, searchTerm }) => {
   const fetchCourses = async () => {
@@ -60,5 +62,83 @@ export const updateCourse = async (courseData) => {
     throw error;
   }
 };
+export const GetCreateCourse = async () => {
+  try {
+    const result = await http.get("/Course/GetCreate");
+    return result;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+
+ export const GetTechnologies = async () => {
+  try {
+    const result = await http.get("/Home/GetTechnologies");
+    return result;
+  } catch (error) {
+    console.log(error);
+    //   return [];
+  }
+};
+export const CreateCourse = async (value) => {
+  try {
+    const formData = useFormData(value);
+    const result = await toast.promise(http.post("/Course", formData), {
+      pending: "درحال افزودن",
+      success: "دوره با موفقیت اضافه شد",
+      error: "دوره اضافه نشد لطفا دوباره تلاش کنید",
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+    //   return [];
+  }
+};
+export const CreateImageApi = async (data) => {
+  console.log(data);
+  try {
+    const result = await toast.promise(
+      axios.post("https://api.segmind.com/v1/sdxl1.0-txt2img", data, {
+        responseType: "arraybuffer",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "SG_e223471534b9e8bd",
+        },
+      }),
+      {
+        loading: "درحال یافتن عکس",
+        success: "عکس با موفقیت پیدا شد",
+        error: "برای سرور مشکل به وجود امد لطفا بعدا تلاش کنید",
+      }
+    );
+    const pictureBlob = new Blob([result.data], { type: "image/jpeg" });
+    const pictureUrl = URL.createObjectURL(pictureBlob);
+    return pictureUrl;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const AddTechnologies = async (courseId, Techs) => {
+  // console.log(courseId,Techs)
+  if (courseId === "") toast.error("آیدی دوره وجود ندارد");
+  if (Techs.length == 0) toast.error("تکنولوژی دوره را انتخاب کنید");
+  try {
+    const result = await toast.promise(
+      http.post(`/Course/AddCourseTechnology?courseId=${courseId}`, Techs),
+      {
+        pending: "درحال ثبت...",
+        success: "با موفقیت انجام شد",
+        error: "لطفا دوباره تلاش کنید",
+      }
+    );
+    return result;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
 
 
