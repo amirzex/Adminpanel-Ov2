@@ -14,7 +14,7 @@ const ListSearchbar = ({ QueryFunction ,width}) => {
     clearTimeout(ref.current);
     const timeOut = setTimeout(() => {
       dispatch(QueryFunction(e));
-    }, 1000);
+    }, );
     ref.current = timeOut;
   };
 

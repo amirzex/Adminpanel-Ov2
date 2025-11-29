@@ -61,6 +61,7 @@ const NewsTable = () => {
     useQueryWithDependencies("GET_NEWS_ACTIVE", GetNewsList, null, {
       RowsOfPage: 1,
       IsActive: true,
+      Query:"next"
     });
 
   const { data: unActiveData, isSuccess: unActiveSuccess } =
@@ -115,7 +116,7 @@ const NewsTable = () => {
                 sortOptions={NewsSortOption}
               />
               <ListSearchbar QueryFunction={handleQuery} />
-              <div className="grid-view ">
+              <div class="d-flex flex-row flex-wrap">
                 {isSuccess &&
                   data.news?.map((item, index) => (
                     <ProductCards
