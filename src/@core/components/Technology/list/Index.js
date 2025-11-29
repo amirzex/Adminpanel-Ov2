@@ -93,7 +93,7 @@ const TechnologyList = () => {
           <Col lg="3" sm="6" className="mb-2">
             <StatsHorizontal
               color="danger"
-              statTitle="دپارتمان ها"
+              statTitle="فناوری ها"
               icon={<Terminal size={22} />}
               renderStats={
                 <h3
@@ -109,7 +109,7 @@ const TechnologyList = () => {
             {/* Search input */}
             <Input
               type="text"
-              placeholder="🔍 جستجو دپارتمان ها..."
+              placeholder="🔍 جستجو فناوری ها..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="rounded-pill px-3 py-2"
@@ -119,7 +119,7 @@ const TechnologyList = () => {
         </Row>
 
         <DataTable
-          title="📋 فهرست دپارتمان ها"
+          title="📋 فهرست فناوری ها"
           columns={extendedColumns}
           data={filteredData}
           pagination

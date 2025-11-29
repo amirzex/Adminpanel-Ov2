@@ -1,6 +1,6 @@
 import { Toast } from "reactstrap";
 import http from "../../interceptor/index";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const GetAllTechnology = async () => {
   try {
@@ -17,11 +17,12 @@ const EditTechnology = async (data) => {
     const result = await http.put("/Technology", data, {
       headers: { "Content-Type": "application/json" },
     });
+
     if (result.success) {
       toast.success(result.message);
       return result;
     } else {
-      Toast.error(result.message);
+      toast.error(result.message); 
       throw new Error(result.message);
     }
   } catch (error) {

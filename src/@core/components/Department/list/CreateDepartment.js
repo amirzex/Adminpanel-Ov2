@@ -9,7 +9,10 @@ import {
   CardHeader,
 } from "reactstrap";
 import { useState } from "react";
-import { useDepartmentCreate } from "../../../service/reactQuery/DepartmentQuery.js";
+import {
+  useDepartmentCreate,
+  useDepartmentDetail,
+} from "../../../service/reactQuery/DepartmentQuery.js";
 
 const CreateDepartmentForm = ({ onSuccess }) => {
   const [formValues, setFormValues] = useState({
@@ -19,7 +22,7 @@ const CreateDepartmentForm = ({ onSuccess }) => {
   });
 
   const { mutate, isLoading } = useDepartmentCreate();
-
+  const { data } = useDepartmentDetail();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -70,20 +73,22 @@ const CreateDepartmentForm = ({ onSuccess }) => {
               required
             />
           </FormGroup>
-
           <FormGroup>
-            <Label for="buildingId" className="fw-semibold">
-              ساختمان
-            </Label>
+            <Label for="departmentId">شناسه دپارتمان</Label>
             <Input
-              id="buildingId"
-              name="buildingId"
-              value={formValues.buildingId}
+              type="select"
+              id="departmentId"
+              name="departmentId"
+              value={formValues.departmentId}
               onChange={handleChange}
-              placeholder="مثال: 5"
-              className="rounded-pill"
-              required
-            />
+            >
+              <option value="">انتخاب دپارتمان...</option>
+              {data?.map((department) => (
+                <option key={department.id} value={department.id}>
+                  {department.buildingName}
+                </option>
+              ))}
+            </Input>
           </FormGroup>
           <div className="text-center mt-4">
             <Button

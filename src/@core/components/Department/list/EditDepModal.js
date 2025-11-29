@@ -10,7 +10,10 @@ import {
   Button,
 } from "reactstrap";
 import { useState, useEffect } from "react";
-import { useDepartmentEdit } from "../../../service/reactQuery/DepartmentQuery";
+import {
+  useDepartmentDetail,
+  useDepartmentEdit,
+} from "../../../service/reactQuery/DepartmentQuery";
 
 const EditDepModal = ({ isOpen, toggle, selectedBuilding }) => {
   const [formValues, setFormValues] = useState({
@@ -30,6 +33,7 @@ const EditDepModal = ({ isOpen, toggle, selectedBuilding }) => {
   }, [selectedBuilding]);
 
   const { mutate, isLoading } = useDepartmentEdit();
+  const { data } = useDepartmentDetail();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -74,13 +78,21 @@ const EditDepModal = ({ isOpen, toggle, selectedBuilding }) => {
           </FormGroup>
 
           <FormGroup>
-            <Label for="buildingId">شناسه ساختمان </Label>
+            <Label for="departmentId">شناسه دپارتمان</Label>
             <Input
-              id="buildingId"
-              name="buildingId"
-              value={formValues.buildingId}
+              type="select"
+              id="departmentId"
+              name="departmentId"
+              value={formValues.departmentId}
               onChange={handleChange}
-            />
+            >
+              <option value="">انتخاب دپارتمان...</option>
+              {data?.map((department) => (
+                <option key={department.id} value={department.id}>
+                  {department.buildingName}
+                </option>
+              ))}
+            </Input>
           </FormGroup>
         </Form>
       </ModalBody>

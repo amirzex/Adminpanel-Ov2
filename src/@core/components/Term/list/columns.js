@@ -7,12 +7,12 @@ export const columns = [
 
   {
     name: " تاریخ شروع",
-    selector: (row) => row.startDate,
+    selector: (row) => row.startDate.slice(0,10),
     sortable: true,
   },
   {
     name: " تاریخ پایان",
-    selector: (row) => row.endDate,
+    selector: (row) => row.endDate.slice(0,10),
     sortable: true,
   },
 ];

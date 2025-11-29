@@ -15,7 +15,7 @@ import { columns } from "./columns.js";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useDepartmentDetail } from "../../../service/reactQuery/DepartmentQuery.js";
-import EditDepModal from "./editDepModal.js";
+import EditDepModal from "../list/EditDepModal.js";
 
 const customStyles = {
   headCells: {

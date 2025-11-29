@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import { useState } from "react";
 import { useClassRoomCreate } from "../../../service/reactQuery/ClassRoomQuery.js";
+import { useBuildingDetail } from "../../../service/reactQuery/BuildingQuery.js";
 
 const CreateClassRoomForm = ({ onSuccess }) => {
   const [formValues, setFormValues] = useState({
@@ -20,7 +21,8 @@ const CreateClassRoomForm = ({ onSuccess }) => {
   });
 
   const { mutate, isLoading } = useClassRoomCreate();
-
+  const { data } = useBuildingDetail();
+  console.log("build:", data);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -87,21 +89,28 @@ const CreateClassRoomForm = ({ onSuccess }) => {
               required
             />
           </FormGroup>
-
           <FormGroup>
             <Label for="buildingId" className="fw-semibold">
               ساختمان
             </Label>
             <Input
+              type="select"
               id="buildingId"
               name="buildingId"
               value={formValues.buildingId}
               onChange={handleChange}
-              placeholder="مثال: 5"
               className="rounded-pill"
               required
-            />
+            >
+              <option value="">یک ساختمان انتخاب کنید</option>
+              {data?.map((building) => (
+                <option key={building.id} value={building.id}>
+                  {building.buildingName}
+                </option>
+              ))}
+            </Input>
           </FormGroup>
+
           <div className="text-center mt-4">
             <Button
               color="success"

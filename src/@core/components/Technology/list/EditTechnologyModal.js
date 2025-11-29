@@ -86,12 +86,22 @@ const EditTechnologyModal = ({ isOpen, toggle, selectedBuilding }) => {
             />
           </FormGroup>{" "}
           <FormGroup>
-            <Label for="iconAddress">آدرس آیکون </Label>
+            <Label for="iconAddress">آدرس آیکون</Label>
             <Input
               id="iconAddress"
               name="iconAddress"
-              value={formValues.iconAddress}
-              onChange={handleChange}
+              type="file" // file picker
+              accept="image/*" // only images
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  // just save the file name or path string
+                  setFormValues({
+                    ...formValues,
+                    iconAddress: file.name, // only the address/name
+                  });
+                }
+              }}
             />
           </FormGroup>
         </Form>

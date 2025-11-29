@@ -11,8 +11,11 @@ import {
 } from "reactstrap";
 import { useState, useEffect } from "react";
 import { useClassRoomEdit } from "../../../service/reactQuery/ClassRoomQuery";
+import { useBuildingDetail } from "../../../service/reactQuery/BuildingQuery";
 
 const EditRoomModal = ({ isOpen, toggle, selectedBuilding }) => {
+  const { data } = useBuildingDetail();
+
   const [formValues, setFormValues] = useState({
     id: "",
     classRoomName: "",
@@ -88,13 +91,21 @@ const EditRoomModal = ({ isOpen, toggle, selectedBuilding }) => {
           </FormGroup>
 
           <FormGroup>
-            <Label for="buildingId">شناسه ساختمان </Label>
+            <Label for="buildingId">شناسه ساختمان</Label>
             <Input
+              type="select"
               id="buildingId"
               name="buildingId"
               value={formValues.buildingId}
               onChange={handleChange}
-            />
+            >
+              <option value="">انتخاب ساختمان...</option>
+              {data?.map((building) => (
+                <option key={building.id} value={building.id}>
+                  {building.buildingName}
+                </option>
+              ))}
+            </Input>
           </FormGroup>
         </Form>
       </ModalBody>

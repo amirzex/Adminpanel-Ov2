@@ -159,18 +159,18 @@ export default [
   },
   {
     id: "/Technology",
-    title: "وضعیت ها",
+    title: "فناوری ها",
     icon: <Terminal size={20} />,
     children: [
       {
         id: "/Technology List",
-        title: " فهرست وضعیت ها",
+        title: " فهرست فناوری ها",
         icon: <Circle size={12} />,
         navLink: "/Technology",
       },
       {
         id: "create new Technology",
-        title: " ایجاد وضعیت ",
+        title: " ایجاد فناوری ",
         icon: <Circle size={12} />,
         navLink: "/create/Technology",
       },
