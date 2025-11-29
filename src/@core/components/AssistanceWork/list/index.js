@@ -16,33 +16,6 @@ import StatsHorizontal from "../../widgets/stats/StatsHorizontal";
 import { Edit, HelpCircle } from "react-feather";
 import EditAssistanceModal from "./EditModal";
 
-const customStyles = {
-  headCells: {
-    style: {
-      fontSize: "18px",
-      fontWeight: "bold",
-      backgroundColor: "#f8f9fa",
-      color: "#343a40",
-      borderBottom: "2px solid #dee2e6",
-    },
-  },
-  cells: {
-    style: {
-      fontSize: "16px",
-      padding: "12px",
-    },
-  },
-  rows: {
-    style: {
-      fontSize: "16px",
-      "&:hover": {
-        backgroundColor: "#f1f3f5",
-        cursor: "pointer",
-      },
-    },
-  },
-};
-
 const GetAssistanceWork = () => {
   const { data } = useAssistanceWork();
 
@@ -62,12 +35,7 @@ const GetAssistanceWork = () => {
     {
       name: "عملیات",
       cell: (row) => (
-        <Button
-          color="primary"
-          size="sm"
-          onClick={() => handleEdit(row)}
-          className="rounded-pill px-3 py-1 fw-bold"
-        >
+        <Button color="primary" size="sm" onClick={() => handleEdit(row)}>
           <Edit size={16} className="me-1" /> ویرایش
         </Button>
       ),
@@ -82,48 +50,40 @@ const GetAssistanceWork = () => {
   );
 
   return (
-    <Card className="shadow-lg border-0 rounded-3">
-      <CardHeader className="bg-primary text-white text-center fw-bold fs-5">
-        مدیریت دستیاران
-      </CardHeader>
+    <Card>
+      <CardHeader>مدیریت دستیاران</CardHeader>
       <CardBody>
-        <Row className="mb-3 align-items-center">
+        <Row className="mb-3">
           <Col lg="3" sm="6" className="mb-2">
-            <StatsHorizontal
-              color="danger"
-              statTitle="دستیاران"
-              icon={<HelpCircle size={22} />}
-              renderStats={
-                <h3
-                  className="fw-bolder mb-0 text-dark"
-                  style={{ fontSize: "20px" }}
-                >
-                  {data?.length}
-                </h3>
-              }
-            />
+            <div className="bg-white p-3 rounded shadow-sm">
+              <StatsHorizontal
+                color="danger"
+                statTitle="دستیاران"
+                icon={<HelpCircle size={20} />}
+                renderStats={
+                  <h6 className="mb-0 fw-bold text-dark">{data?.length}</h6>
+                }
+              />
+            </div>
           </Col>
           <Col lg="9" sm="12">
             <Input
               type="text"
-              placeholder="🔍 جستجو دستیاران..."
+              placeholder="جستجو دستیاران..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="rounded-pill px-3 py-2"
-              style={{ fontSize: "16px" }}
             />
           </Col>
         </Row>
 
         <DataTable
-          title="📋 فهرست دستیاران"
+          title="فهرست دستیاران"
           columns={extendedColumns}
           data={filteredData}
           pagination
           highlightOnHover
           striped
           responsive
-          customStyles={customStyles}
         />
 
         {/* Pass selected row into modal */}

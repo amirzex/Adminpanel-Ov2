@@ -61,7 +61,7 @@ const NewsTable = () => {
     useQueryWithDependencies("GET_NEWS_ACTIVE", GetNewsList, null, {
       RowsOfPage: 1,
       IsActive: true,
-      Query:"next"
+      Query: "",
     });
 
   const { data: unActiveData, isSuccess: unActiveSuccess } =
@@ -116,12 +116,12 @@ const NewsTable = () => {
                 sortOptions={NewsSortOption}
               />
               <ListSearchbar QueryFunction={handleQuery} />
-              <div class="d-flex flex-row flex-wrap">
+              <div className="d-flex flex-wrap justify-content-start gap-3">
                 {isSuccess &&
-                  data.news?.map((item, index) => (
+                  data.news?.map((item) => (
                     <ProductCards
-                      key={index}
-                      href={"/blogs/view/"}
+                      key={item.id}
+                      href={`/blogs/view/${item.id}`}
                       id={item.id}
                       image={item.currentImageAddressTumb}
                       currentRate={item.currentRate}
