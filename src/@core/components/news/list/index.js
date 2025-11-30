@@ -118,10 +118,10 @@ const NewsTable = () => {
               <ListSearchbar QueryFunction={handleQuery} />
               <div className="d-flex flex-wrap justify-content-start gap-3">
                 {isSuccess &&
-                  data.news?.map((item) => (
+                  data.news?.map((item, index) => (
                     <ProductCards
-                      key={item.id}
-                      href={`/blogs/view/${item.id}`}
+                      key={index}
+                      href={"/blogs/view/"}
                       id={item.id}
                       image={item.currentImageAddressTumb}
                       currentRate={item.currentRate}
@@ -140,9 +140,9 @@ const NewsTable = () => {
                   ))}
               </div>
               <CustomPagination
-                total={data?.totalCount}
-                current={newsParams?.PageNumber}
-                rowsPerPage={newsParams?.RowsOfPage}
+                total={data?.totalCount || 0}
+                current={newsParams?.PageNumber || 1} // ✅ default to page 1
+                rowsPerPage={newsParams?.RowsOfPage || 10} // ✅ default to 10 rows
                 handleClickFunc={handlePagination}
               />
             </div>
