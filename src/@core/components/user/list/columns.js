@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
+import { Tooltip } from "reactstrap";
+import { useState } from "react";
 
 // ** Store & Actions
 // import { store } from '@store/store'
@@ -53,7 +55,7 @@ const renderClient = (row) => {
   }
 };
 
-// ** Renders Role Columns
+// ** Renders Role Columns (all icons with Reactstrap tooltips)
 const renderRoles = (row) => {
   const roleIcons = {
     Administrator: { class: "text-danger", icon: Slack },
@@ -63,23 +65,45 @@ const renderRoles = (row) => {
     "Employee.Writer": { class: "text-info", icon: Edit2 },
   };
 
-  if (!row.userRoles)
+  if (!row.userRoles) {
     return <span className="text-muted">No roles assigned</span>;
+  }
 
-  const roles = row.userRoles.split(", ");
-  const primaryRole = roles[0]; 
-  const Icon = roleIcons[primaryRole]?.icon || User;
+  const roles = row.userRoles.split(",").map((r) => r.trim());
+
+  // Local state for tooltips
+  const [tooltipOpen, setTooltipOpen] = useState({});
+
+  const toggle = (role) => {
+    setTooltipOpen((prev) => ({ ...prev, [role]: !prev[role] }));
+  };
 
   return (
-    <span
-      className="text-truncate text-capitalize align-middle"
-      title={row.userRoles}
-    >
-      <Icon
-        size={18}
-        className={`${roleIcons[primaryRole]?.class || ""} me-50`}
-      />
-      {primaryRole} {roles.length > 1 ? `+${roles.length - 1}` : ""}
+    <span className="d-flex align-items-center">
+      {roles.map((role, i) => {
+        const Icon = roleIcons[role]?.icon || User;
+        const iconClass =
+          roleIcons[role]?.class ||
+          `text-${
+            ["primary", "success", "danger", "warning", "info", "secondary"][
+              i % 6
+            ]
+          }`;
+        const id = `role-icon-${row.id}-${i}`;
+
+        return (
+          <span key={i} id={id} className="me-50">
+            <Icon size={18} className={iconClass} />
+            <Tooltip
+              isOpen={tooltipOpen[role] || false}
+              target={id}
+              toggle={() => toggle(role)}
+            >
+              {role}
+            </Tooltip>
+          </span>
+        );
+      })}
     </span>
   );
 };
@@ -188,7 +212,7 @@ export const columns = (actions = {}) => [
               <FileText size={14} className="me-50" />
               <span className="align-middle">جزئیات</span>
             </DropdownItem>
-            
+
             <DropdownItem
               tag="a"
               href="/"
