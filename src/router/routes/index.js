@@ -29,6 +29,7 @@ import Technology from "../../pages/Technology.js";
 import CreateTechnologyForm from "../../@core/components/Technology/list/CreateTechnology.js";
 import Term from "../../pages/Term.js";
 import CreateTermForm from "../../@core/components/Term/list/CreateTerm.js";
+import CalendarComponent from "../../@core/components/schedual/calendar/index.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -195,6 +196,10 @@ const Routes = [
   {
     element: <CreateTermForm />,
     path: "/Create/Term",
+  },,
+  {
+    element: <CalendarComponent />,
+    path: "/calender",
   },
 ];
 
