@@ -16,6 +16,7 @@ import {
   Target,
   Terminal,
   Sunset,
+  Calendar,
 } from "react-feather";
 
 export default [
@@ -61,6 +62,12 @@ export default [
     title: "مدیریت کامنت ها",
     icon: <MessageSquare size={20} />,
     navLink: "/comments",
+  },,
+  {
+    id: "commentsListPage",
+    title: "برنامه ریزی",
+    icon: <Calendar size={20} />,
+    navLink: "/calender",
   },
   {
     id: "Buildings",
