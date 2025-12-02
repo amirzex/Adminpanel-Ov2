@@ -56,9 +56,15 @@ const UserList = lazy(() =>
 const News = lazy(() => import("../../pages/News.js"));
 const NewsDetails = lazy(() => import("../../pages/NewsDetails.js"));
 const CreateNews = lazy(() => import("../../pages/CreateNews.js"));
+const CourseView = lazy(() => import("../../@core/components/courses/view/index.js"));
+const Coursedetails = lazy(() => import("../../@core/components/courses/details/view/index.js"));
+const AddCourseSteps = lazy(() => import("../../@core/components/courses/create/index.js"));
+
+
 const Wizard = lazy(() =>
   import("../../@core/components/Forms/wizard/WizardHorizontal.js")
 );
+
 // ** Merge Routes
 const Routes = [
   {
@@ -200,6 +206,19 @@ const Routes = [
   {
     element: <CalendarComponent />,
     path: "/calender",
+  },,
+  {
+    element: <CourseView />,
+    path: "/courses",
+  },,
+  {
+    element: <AddCourseSteps />,
+    path: "/Creat/courses",
+  },
+  ,
+  {
+    path: "/courses/courses/deatils/:id",
+    element: <Coursedetails />,
   },
 ];
 

@@ -31,6 +31,12 @@ export default [
     title: "لیست کاربران",
     icon: <User size={20} />,
     navLink: "/users",
+  },,
+  {
+    id: "courselist",
+    title: "دوره ها ",
+    icon: <User size={20} />,
+    navLink: "/courses",
   },
   {
     id: "blogManagement",
