@@ -70,7 +70,7 @@ export default [
     navLink: "/comments",
   },,
   {
-    id: "commentsListPage",
+    id: "schedual",
     title: "برنامه ریزی",
     icon: <Calendar size={20} />,
     navLink: "/calender",

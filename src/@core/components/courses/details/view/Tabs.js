@@ -6,6 +6,7 @@ import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
 import { User, Lock, Bookmark, Bell, Link } from "react-feather";
+import CommentsListCourse from "../../../comments copy/list/CommentsList";
 
 // ** User Components
 // import InvoiceList from "./InvoiceList.js";
@@ -54,11 +55,12 @@ const Coursedetailstab = ({ active, toggleTab }) => {
       <TabContent activeTab={active}>
         <TabPane tabId="1">
 
-         
+         <CommentsListCourse />
+
           {/* <InvoiceList /> */}
         </TabPane>
         <TabPane tabId="2">
-
+          
           </TabPane>
         <TabPane tabId="3">
 
