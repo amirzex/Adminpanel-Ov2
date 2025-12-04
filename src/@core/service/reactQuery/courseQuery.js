@@ -81,6 +81,15 @@ export const GetCreateCourse = async () => {
     console.log(error);
     //   return [];
   }
+}; 
+export const Getreserveduser = async ({id}) => {
+  try {
+    const ress = await http.get(`/CourseReserve/${id}`);
+    return ress;
+  } catch (error) {
+    console.log(error);
+    //   return [];
+  }
 };
 export const CreateCourse = async (value) => {
   try {

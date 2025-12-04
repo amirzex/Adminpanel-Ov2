@@ -25,8 +25,8 @@ import {
 } from "reactstrap";
 import AddReplyCommentModal from "./AddReplyCommentModal";
 import {AddReplayComment} from "../../service/api/GetComment/GetComment";
-import HeaderTable from "../../components/header-table/HeaderTable";
-import { ReplayTableTitles } from "../../components/comments/comments";
+import HeaderTable from "../header-table/HeaderTable";
+import { ReplayTableTitles } from "../comments/comments";
 
 const ReplaysCommentModal = ({
   setCommentModal,

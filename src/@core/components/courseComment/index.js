@@ -1,11 +1,11 @@
 import { Col, Row } from "reactstrap";
-import GeneralStatistics from "../../components/generalStatistics/index";
-import { StatisticsOfComments } from "../../components/comments/comments";
+import GeneralStatistics from "../generalStatistics/index";
+import { StatisticsOfComments } from "../comments/comments/index.js";
 import { useQueryWithDependencies } from "../../../utility/hooks/useCustomQuery.js";
-import {GetAllComments} from "../../service/api/GetComment/GetComment";
+import {GetAllComments} from "../../service/api/GetComment/GetComment.js";
 import Filters from "./Filter";
 import CommentsList from "./list/CommentsList";
-import ComponentSpinner from "../../components/spinner/Loading-spinner.js";
+import ComponentSpinner from "../spinner/Loading-spinner.js";
 
 const CommentsPage = () => {
   const { data: commentData, isLoading } = useQueryWithDependencies(

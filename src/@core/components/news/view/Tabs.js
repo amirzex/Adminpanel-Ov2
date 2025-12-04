@@ -30,8 +30,11 @@ import { GetRepliesComments } from "../../../../@core/service/api/Getnewslist/Ge
 import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import HandleIdentityEditorJs from "../../../../utility/create-editorjs-blocks/IdentityEditorJs.jsx";
+import CommentsListnews from "../../newscomment/list/CommentsList.js";
 
-const NewsTabs = ({ active, toggleTab }) => {
+
+const NewsTabs = ({ active, toggleTab , id}) => {
+  console.log("tab,id",id);
   const { colors } = useContext(ThemeColors);
   const detail = useSelector((state) => state.NewsDetail);
 
@@ -123,11 +126,7 @@ const NewsTabs = ({ active, toggleTab }) => {
           <div className="divider divider-start">
             <div className="divider-text fs-2">کامنت ها</div>
           </div>
-          <CommentTab
-            newsCom={detail?.newsComments}
-            NewsRepById={mutate}
-            repCom={isSuccess && data}
-          />
+       <CommentsListnews id={id}/>
         </TabPane>
       </TabContent>
     </Fragment>

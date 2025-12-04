@@ -2,7 +2,18 @@
 import { Fragment, useState } from "react";
 
 // ** Reactstrap Imports
-import { Nav, NavItem, NavLink, TabContent, TabPane, Row, Col } from "reactstrap";
+import {
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
+  Row,
+  Col,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+} from "reactstrap";
 
 // ** Icons Imports
 import { User } from "react-feather";
@@ -16,15 +27,29 @@ import { UsecourseList } from "../../../service/reactQuery/courseQuery";
 
 const CoursesTabs = ({ active, toggleTab }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1); 
+  const rowsPerPage = 20;
 
   const { data, isLoading, isError } = UsecourseList({
-    page: 1,
-    rowsPerPage: 10,
+    page: page,
+    rowsPerPage: rowsPerPage,
     sort: "DESC",
     searchTerm: searchTerm,
   });
 
-  const handleSearch = (value) => setSearchTerm(value);
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    setPage(1); 
+  };
+
+
+  const totalPages = data?.totalPages || 1;
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
 
   return (
     <Fragment>
@@ -36,6 +61,7 @@ const CoursesTabs = ({ active, toggleTab }) => {
           </NavLink>
         </NavItem>
       </Nav>
+
       <TabContent activeTab={active}>
         <TabPane tabId="1">
           <ListSearchbar QueryFunction={handleSearch} width="w-100" />
@@ -50,6 +76,33 @@ const CoursesTabs = ({ active, toggleTab }) => {
               </Col>
             ))}
           </Row>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <Pagination className="mt-2 justify-content-center">
+              <PaginationItem disabled={page === 1}>
+                <PaginationLink
+                  previous
+                  onClick={() => handlePageChange(page - 1)}
+                />
+              </PaginationItem>
+
+              {[...Array(totalPages)].map((_, i) => (
+                <PaginationItem active={page === i + 1} key={i}>
+                  <PaginationLink onClick={() => handlePageChange(i + 1)}>
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem disabled={page === totalPages}>
+                <PaginationLink
+                  next
+                  onClick={() => handlePageChange(page + 1)}
+                />
+              </PaginationItem>
+            </Pagination>
+          )}
         </TabPane>
       </TabContent>
     </Fragment>

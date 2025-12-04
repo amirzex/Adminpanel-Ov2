@@ -24,12 +24,15 @@ import InfoCard from "../../../@core/components/item-detail-components/InfoCard"
 import { NewsInformation } from "../../../@core/constants/news-manage/Details";
 
 const NewsView = () => {
+  
   const dispatch = useDispatch();
 
   const { id } = useParams();
+  
 
   const [active, setActive] = useState("1");
   const [editModal, setEditModal] = useState(false);
+  
 
   const toggleTab = (tab) => {
     if (active !== tab) {
@@ -83,7 +86,7 @@ const NewsView = () => {
           />
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <NewsTabs active={active} toggleTab={toggleTab} />
+          <NewsTabs active={active} toggleTab={toggleTab} id={id} />
         </Col>
       </Row>
       <EditBlog isOpen={editModal} toggle={toggle} refetch={refetch} />

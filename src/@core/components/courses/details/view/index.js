@@ -34,10 +34,10 @@ import {
   FormFeedback
 } from "reactstrap";
 
-// ** Components
+
 import Coursedetailstab from "../../details/view/Tabs";
 
-// ---------------- schema ----------------
+
 const schema = yup.object().shape({
   title: yup.string().required("عنوان دوره الزامی است"),
   capacity: yup.number().typeError("عدد وارد کنید").required("ظرفیت الزامی است"),
@@ -53,11 +53,17 @@ const schema = yup.object().shape({
   uniqeUrlString: yup.string().required("آدرس یکتا الزامی است"),
 });
 
-// ---------------- component ----------------
+
 const Coursedetails = () => {
   const { id } = useParams();
   const [show, setShow] = useState(false);
+  const [active, setActive] = useState("1");
 
+  const toggleTab = (tab) => {
+    if (active !== tab) {
+      setActive(tab);
+    }
+  };
   const { data: course, isLoading, error, refetch } = usecoursedatils(id);
 
   const {
@@ -69,7 +75,7 @@ const Coursedetails = () => {
     resolver: yupResolver(schema)
   });
 
-  // ---------- parse description ----------
+
   let courseDescription = "";
   try {
     const parsed = JSON.parse(course?.describe || "");
@@ -78,7 +84,7 @@ const Coursedetails = () => {
     courseDescription = course?.describe || "";
   }
 
-  // ---------- fill form ----------
+
   useEffect(() => {
     if (show && course) {
       reset({
@@ -94,7 +100,7 @@ const Coursedetails = () => {
     }
   }, [show, course]);
 
-  // ---------- update course ----------
+
   const onSubmit = async (data) => {
     const payload = {
       ...data,
@@ -108,11 +114,11 @@ const Coursedetails = () => {
       setShow(false);
       refetch();
     } catch (err) {
-      console.error("❌ Update Course Error:", err);
+      console.error(" Update Course Error:", err);
     }
   };
 
-  // ---------- toggle active ----------
+
   const handleToggleActive = async () => {
     const payload = { 
         active: !course.active
@@ -124,11 +130,11 @@ const Coursedetails = () => {
       await deactiveCourse(payload);
       refetch();
     } catch (err) {
-      console.error("❌ Toggle Active Error:", err);
+      console.error(" Toggle Active Error:", err);
     }
   };
 
-  // ---------- states ----------
+
   if (isLoading)
     return (
       <div className="d-flex justify-content-center py-5">
@@ -139,7 +145,7 @@ const Coursedetails = () => {
   if (error)
     return <Alert color="danger">خطا در دریافت اطلاعات</Alert>;
 
-  // ---------------- render ----------------
+
   return (
     <div className="app-user-view">
       <Row>
@@ -201,7 +207,7 @@ const Coursedetails = () => {
             </CardBody>
           </Card>
 
-          <Coursedetailstab active={"1"} toggleTab={() => {} } id={id}/>
+          <Coursedetailstab active={active} toggleTab={toggleTab} id={id}/>
         </Col>
       </Row>
 

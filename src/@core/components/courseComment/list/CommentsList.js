@@ -18,8 +18,8 @@ import {
 } from "reactstrap";
 
 import CustomHeader from "./CustomHeader";
-import HeaderTable from "../../../components/header-table/HeaderTable";
-import { CommentTableTitles } from "../../../components/comments/comments";
+import HeaderTable from "../../header-table/HeaderTable";
+import { CommentTableTitles } from "../../comments/comments";
 
 import {
   AcceptCommentCourse,
@@ -36,7 +36,7 @@ import {
 } from "../../../../utility/hooks/useCustomQuery";
 
 import { useDispatch, useSelector } from "react-redux";
-import CustomPagination from "../../../components/pagination";
+import CustomPagination from "../../pagination";
 import { setPageNumber } from "../store/CommentsList";
 
 import AddReplyCommentModal from "../AddReplyCommentModal";

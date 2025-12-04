@@ -83,7 +83,7 @@ const NewsView = () => {
           />
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <NewsTabs active={active} toggleTab={toggleTab} />
+          <NewsTabs active={active} toggleTab={toggleTab} id={id} />
         </Col>
       </Row>
       <EditBlog isOpen={editModal} toggle={toggle} refetch={refetch} />

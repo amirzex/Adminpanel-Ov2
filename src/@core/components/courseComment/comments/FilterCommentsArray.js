@@ -1,4 +1,4 @@
-import { setAcceptComment, setSortCal, setSortType } from "../../../components/comments/store/CommentsList";
+import { setAcceptComment, setSortCal, setSortType } from "../../comments/store/CommentsList";
 
 const FilterCommentsArray = [
   {

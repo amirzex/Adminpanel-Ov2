@@ -6,7 +6,8 @@ import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
 import { User, Lock, Bookmark, Bell, Link } from "react-feather";
-import CommentsListCourse from "../../../comments copy/list/CommentsList";
+import CommentsListCourse from "../../../courseComment/list/CommentsList";
+import UsersListcourse from "../../../course reserved user/list";
 
 // ** User Components
 // import InvoiceList from "./InvoiceList.js";
@@ -18,7 +19,7 @@ import CommentsListCourse from "../../../comments copy/list/CommentsList";
 // import UserProjectsList from "./UserProjectsList";
 
 const Coursedetailstab = ({ active, toggleTab ,id}) => {
-  console.log(id);
+
   return (
     <Fragment>
       <Nav pills className="mb-2">
@@ -31,7 +32,7 @@ const Coursedetailstab = ({ active, toggleTab ,id}) => {
         <NavItem>
           <NavLink active={active === "2"} onClick={() => toggleTab("2")}>
             <Lock className="font-medium-3 me-50" />
-            <span className="fw-bold">Security</span>
+            <span className="fw-bold">دانشجویان ثبت‌نام شده</span>
           </NavLink>
         </NavItem>
         <NavItem>
@@ -61,7 +62,7 @@ const Coursedetailstab = ({ active, toggleTab ,id}) => {
           {/* <InvoiceList /> */}
         </TabPane>
         <TabPane tabId="2">
-          
+          <UsersListcourse id={id}/>
           </TabPane>
         <TabPane tabId="3">
 
