@@ -17,7 +17,8 @@ import CommentsListCourse from "../../../comments copy/list/CommentsList";
 // import Notifications from "./Notifications";
 // import UserProjectsList from "./UserProjectsList";
 
-const Coursedetailstab = ({ active, toggleTab }) => {
+const Coursedetailstab = ({ active, toggleTab ,id}) => {
+  console.log(id);
   return (
     <Fragment>
       <Nav pills className="mb-2">
@@ -55,7 +56,7 @@ const Coursedetailstab = ({ active, toggleTab }) => {
       <TabContent activeTab={active}>
         <TabPane tabId="1">
 
-         <CommentsListCourse />
+         <CommentsListCourse id={id} />
 
           {/* <InvoiceList /> */}
         </TabPane>

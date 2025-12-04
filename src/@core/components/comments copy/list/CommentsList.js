@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   MoreVertical,
   Trash,
-  Eye,
   User,
   CheckSquare,
   XSquare,
@@ -15,72 +14,71 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
+  Card,
 } from "reactstrap";
-import { Card } from "reactstrap";
-// import CommntModal from "./commentModall/comModal";
-// import "@styles/react/libs/react-select/_react-select.scss";
-// import "@styles/react/libs/tables/react-dataTable-component.scss";
-// import ReplyComment from "./reply/ReplyCom";
-// import { setPageNumber } from "../../../redux/slices/filter-box/commentSlice";
 
 import CustomHeader from "./CustomHeader";
 import HeaderTable from "../../../components/header-table/HeaderTable";
 import { CommentTableTitles } from "../../../components/comments/comments";
+
 import {
-  GetAllComments,
   AcceptCommentCourse,
   DeleteCourseComment,
   RejectCourseComment,
   GetReplayComments,
-  AddReplayComment
+  AddReplayComment,
+  GetCourseComments,
 } from "../../../service/api/GetComment/GetComment";
+
 import {
   useMutationWithRefetch,
   useQueryWithDependencies,
 } from "../../../../utility/hooks/useCustomQuery";
+
 import { useDispatch, useSelector } from "react-redux";
-import CustomPagination from "../../../components/pagination/index";
+import CustomPagination from "../../../components/pagination";
 import { setPageNumber } from "../store/CommentsList";
+
 import AddReplyCommentModal from "../AddReplyCommentModal";
 import ReplaysCommentModal from "../ReplaysCommentModal";
 
-const CommentsListCourse = () => {
-  const commentFilterObj = useSelector((state) => state.CommentList);
+const CommentsListCourse = ({ id }) => {
   const dispatch = useDispatch();
+  const commentFilterObj = useSelector((state) => state.CommentList);
 
   const [commentModal, setCommentModal] = useState(false);
+  const [repShow, setRepShow] = useState(false);
   const [courseId, setCourseId] = useState(null);
   const [commentId, setCommentId] = useState(null);
-  const idsObj = { courseId: courseId, commentId: commentId };
   const [describe, setDescribe] = useState("");
-  const [repShow, setRepShow] = useState(false);
 
-  // getting The data from Api with use Query
-  const { data: commentsData, refetch: refetchComment } =
+  const idsObj = { courseId, commentId };
+
+  /* -------------------- Queries -------------------- */
+
+  const { data: commentsData = [], refetch: refetchComment } =
     useQueryWithDependencies(
-      "GET_COMMENTS_DATA",
-      GetAllComments,
-      commentFilterObj,
+      ["GET_COMMENTS_DATA", id, commentFilterObj],
+      () => GetCourseComments(id),
       commentFilterObj
     );
 
-  const { data: ReplayData, refetch: refetchReplay } = useQueryWithDependencies(
-    "GET_REPLAY_COMMENT_DATA",
-    GetReplayComments,
-    idsObj,
-    idsObj,
-    {
-      // enabled: !!(idsObj.courseId && idsObj.commentId),
-    }
-  );
+  const { data: replayData, refetch: refetchReplay } =
+    useQueryWithDependencies(
+      ["GET_REPLAY_COMMENT_DATA", idsObj],
+      GetReplayComments,
+      idsObj
+    );
 
-  // Adding data from api with use mutation
+  /* -------------------- Mutations -------------------- */
+
   const { mutate: acceptComment } = useMutationWithRefetch(
     "ACCEPT_COMMENT",
     AcceptCommentCourse,
     refetchComment,
     refetchReplay
   );
+
   const { mutate: declineComment } = useMutationWithRefetch(
     "DECLINE_COMMENT",
     RejectCourseComment,
@@ -88,7 +86,6 @@ const CommentsListCourse = () => {
     refetchReplay
   );
 
-  // remove data from api with use mutation
   const { mutate: deleteComment } = useMutationWithRefetch(
     "DELETE_COMMENT",
     DeleteCourseComment,
@@ -96,39 +93,49 @@ const CommentsListCourse = () => {
     refetchReplay
   );
 
-  const DropdownItemArray = [
-    { text: "تایید", icon: CheckSquare, apiFunction: acceptComment },
-    { text: "حذف", icon: Trash, apiFunction: deleteComment },
-    { text: "رد کردن", icon: XSquare, apiFunction: declineComment },
-    {
-      text: "پاسخ",
-      icon: Send,
-      apiFunction: setCommentId,
-      other: () => {
-        setRepShow(!repShow);
-      },
-      SetCourseId: setCourseId,
-    },
-  ];
+  /* -------------------- Helpers -------------------- */
+
   const handlePagination = (page) => {
     dispatch(setPageNumber(page.selected + 1));
   };
+
+  const DropdownItemArray = [
+    { text: "تایید", icon: CheckSquare, action: acceptComment },
+    { text: "حذف", icon: Trash, action: deleteComment },
+    { text: "رد کردن", icon: XSquare, action: declineComment },
+    {
+      text: "پاسخ",
+      icon: Send,
+      action: (commentId) => {
+        setCommentId(commentId);
+        setRepShow(true);
+      },
+    },
+  ];
+
+  /* -------------------- Render -------------------- */
+
   return (
-    <div>
+    <>
       <Card>
-        <div className="react-dataTable ">
+        <div className="react-dataTable">
           <CustomHeader />
+
           <div style={{ overflowX: "auto" }}>
             <Table hover>
               <HeaderTable titles={CommentTableTitles} />
-              {commentsData?.comments?.length !== 0 ? (
-                commentsData?.comments?.map((item, index) => {
-                  const tooltipId = `tooltip-${index}`;
-                  return (
-                    <tbody key={index}>
-                      <tr>
+
+              <tbody>
+                {commentsData.length > 0 ? (
+                  commentsData.map((item) => {
+                    const actions = item.accept
+                      ? DropdownItemArray.slice(1)
+                      : DropdownItemArray.slice(0, 2);
+
+                    return (
+                      <tr key={item.id}>
+                        {/* Author */}
                         <td
-                          className=" px-0 "
                           style={{
                             maxWidth: "130px",
                             whiteSpace: "nowrap",
@@ -137,16 +144,20 @@ const CommentsListCourse = () => {
                           }}
                         >
                           <span className="mx-1 rounded border p">
-                            <User />
+                            <User size={14} />
                           </span>
-                          <span>{item.userFullName}</span>
+                          {item.author || "نامشخص"}
                         </td>
-                        <td className="pr-0 pl-1" style={{ maxWidth: "150px" }}>
-                          {item.commentTitle}
+
+                        {/* Title */}
+                        <td style={{ maxWidth: "150px" }}>
+                          {item.title && item.title !== "undefined"
+                            ? item.title
+                            : "-"}
                         </td>
+
+                        {/* Describe */}
                         <td
-                          className="pr-0 pl-1"
-                          id={tooltipId}
                           style={{
                             maxWidth: "200px",
                             whiteSpace: "nowrap",
@@ -154,42 +165,32 @@ const CommentsListCourse = () => {
                             textOverflow: "ellipsis",
                           }}
                         >
-                          {item.describe}
+                          {item.describe && item.describe !== "undefined"
+                            ? item.describe
+                            : "-"}
                         </td>
-                        <td className="px-0">{item.courseTitle}</td>
-                        <td className="px-0 text-center">
-                          {item.accept === true ? (
-                            <Badge pill color="light-primary" className="me-1">
+
+                        {/* Course */}
+                        <td>{item.courseId}</td>
+
+                        {/* Status */}
+                        <td className="text-center">
+                          {item.accept ? (
+                            <Badge pill color="light-primary">
                               تایید شده
                             </Badge>
                           ) : (
-                            <Badge pill color="light-warning" className="me-1">
+                            <Badge pill color="light-warning">
                               تایید نشده
                             </Badge>
                           )}
                         </td>
-                        <td
-                          className="p-0 text-center"
-                          style={{
-                            maxWidth: "20px",
-                            minWidth: "20px",
-                          }}
-                        >
-                          {item.replyCount > 0 ? (
-                            <Eye
-                              style={{ width: "18px", height: "16px" }}
-                              onClick={() => {
-                                setCommentModal(!commentModal);
-                                setCourseId(item.courseId);
-                                setCommentId(item.commentId);
-                                setDescribe(item.describe);
-                              }}
-                            />
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                        <td className="px-0 text-center">
+
+                        {/* Replies */}
+                        <td className="text-center">-</td>
+
+                        {/* Actions */}
+                        <td className="text-center">
                           <UncontrolledDropdown direction="start">
                             <DropdownToggle
                               className="icon-btn hide-arrow"
@@ -199,55 +200,56 @@ const CommentsListCourse = () => {
                             >
                               <MoreVertical size={15} />
                             </DropdownToggle>
+
                             <DropdownMenu className="d-flex flex-column p-0">
-                              {(item.accept === false
-                                ? DropdownItemArray.slice(0, 2)
-                                : DropdownItemArray.slice(1, 4)
-                              ).map((dropDown, index) => (
+                              {actions.map((itemDrop, index) => (
                                 <DropdownItem
                                   key={index}
                                   onClick={() => {
-                                    dropDown.apiFunction(item.commentId);
-                                    dropDown.other && dropDown.other();
-                                    dropDown.SetCourseId &&
-                                      dropDown.SetCourseId(item.courseId);
+                                    itemDrop.action(item.id);
+                                    setCourseId(item.courseId);
+                                    setDescribe(item.describe);
                                   }}
                                 >
-                                  <dropDown.icon className="me-50" size={15} />
-                                  <span className="align-middle">
-                                    {dropDown.text}
-                                  </span>
+                                  <itemDrop.icon
+                                    className="me-50"
+                                    size={15}
+                                  />
+                                  {itemDrop.text}
                                 </DropdownItem>
                               ))}
                             </DropdownMenu>
                           </UncontrolledDropdown>
                         </td>
                       </tr>
-                    </tbody>
-                  );
-                })
-              ) : (
-                <div className="container">
-                  <span className="row justify-content-center py-2">
-                    {" "}
-                    کامنتی پیدا نشد!
-                  </span>
-                </div>
-              )}
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="text-center py-2">
+                      کامنتی پیدا نشد!
+                    </td>
+                  </tr>
+                )}
+              </tbody>
             </Table>
           </div>
         </div>
       </Card>
+
+      {/* Pagination */}
       <CustomPagination
-        total={commentsData?.totalCount}
-        current={commentFilterObj?.PageNumber}
-        rowsPerPage={commentFilterObj?.RowsOfPage}
+        total={commentsData.length}
+        current={commentFilterObj.PageNumber}
+        rowsPerPage={commentFilterObj.RowsOfPage}
         handleClickFunc={handlePagination}
       />
+
+      {/* Reply list modal */}
       <ReplaysCommentModal
-        setCommentModal={setCommentModal}
         commentModal={commentModal}
-        replayData={ReplayData}
+        setCommentModal={setCommentModal}
+        replayData={replayData}
         handleAcceptComment={acceptComment}
         handleDeclineComment={declineComment}
         handleDeleteComment={deleteComment}
@@ -258,6 +260,8 @@ const CommentsListCourse = () => {
           refetchReplay();
         }}
       />
+
+      {/* Add reply modal */}
       <AddReplyCommentModal
         repShow={repShow}
         setRepShow={setRepShow}
@@ -268,7 +272,7 @@ const CommentsListCourse = () => {
           refetchReplay();
         }}
       />
-    </div>
+    </>
   );
 };
 

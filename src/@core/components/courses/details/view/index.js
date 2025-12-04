@@ -201,7 +201,7 @@ const Coursedetails = () => {
             </CardBody>
           </Card>
 
-          <Coursedetailstab active={"1"} toggleTab={() => {}} />
+          <Coursedetailstab active={"1"} toggleTab={() => {} } id={id}/>
         </Col>
       </Row>
 

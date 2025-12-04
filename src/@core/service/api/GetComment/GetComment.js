@@ -12,6 +12,17 @@ const GetAllComments = async (params) => {
     console.log(error);
     return [];
   }
+};const GetCourseComments = async (id) => {
+  console.log("iner",id);
+  try {
+    const result = await http.get(`/Course/GetCourseCommnets/${id}`, {
+   
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
 
 const AcceptCommentCourse = async (id) => {
@@ -110,5 +121,6 @@ export {
   DeleteCourseComment,
   RejectCourseComment,
   GetReplayComments,
-  AddReplayComment
+  AddReplayComment,
+  GetCourseComments
 };
