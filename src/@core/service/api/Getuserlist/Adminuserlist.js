@@ -43,7 +43,6 @@ const GetUserCommentList = async (userId) => {
   try {
     const respone = await http.get(`/Course/CommentManagment?userId=${userId}`);
 
-    console.log("user comment list: ", respone);
 
     return respone;
   } catch (error) {

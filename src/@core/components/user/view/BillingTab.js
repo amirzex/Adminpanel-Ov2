@@ -1,20 +1,20 @@
-// ** React Imports
-import { Fragment } from 'react'
+import "cleave.js/dist/addons/cleave-phone.us";
+import DataTable from "react-data-table-component";
+import { columns } from "../TabsColumns/ReserveColumns";
 
-// ** Billing Components
-import PaymentMethods from './PaymentMethods'
-import BillingAddress from './BillingAddress'
-import BillingCurrentPlan from './BillingCurrentPlan'
-
-const BillingTab = () => {
+const BillingPlanTab = ({ Data }) => {
   return (
-    <div>Billing</div>
-    // <Fragment>
-    //   <BillingCurrentPlan />
-    //   <PaymentMethods />
-    //   <BillingAddress />
-    // </Fragment>
-  )
-}
+    <div>
+      <DataTable
+        columns={columns}
+        data={Data?.courses || []}
+        pagination
+        highlightOnHover
+        striped
+        dense
+      />
+    </div>
+  );
+};
 
-export default BillingTab
+export default BillingPlanTab;

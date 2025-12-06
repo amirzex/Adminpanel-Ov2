@@ -2,36 +2,48 @@ import toast from "react-hot-toast";
 import http from "../../interceptor/index";
 import useFormData from "../../../../utility/hooks/useFormData";
 
-const GetAllComments = async (params) => {
+const GetAllComments = async (params, userId) => {
   try {
     const result = await http.get(`/Course/CommentManagment`, {
-      params: params,
+      params: {
+        ...params,
+        userId,
+      },
     });
+    return result;
+  } catch (error) {
+    console.error(error);
+    return { comments: [], totalCount: 0 };
+  }
+};
+const GetUserComments = async (params, userId) => {
+  try {
+    const result = await http.get(`/Course/CommentManagment=${userId}`, {
+      params: {
+        ...params,
+        userId,
+      },
+    });
+    return result;
+  } catch (error) {
+    console.error(error);
+    return { comments: [], totalCount: 0 };
+  }
+};
+const GetCourseComments = async (id) => {
+  try {
+    const result = await http.get(`/Course/GetCourseCommnets/${id}`, {});
     return result;
   } catch (error) {
     console.log(error);
     return [];
   }
-};const GetCourseComments = async (id) => {
-  console.log("iner",id);
+};
+const GetnewsComments = async (id) => {
   try {
-    const result = await http.get(`/Course/GetCourseCommnets/${id}`, {
-   
-    });
-    return result;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};;const GetnewsComments = async (id) => {
-  console.log("iner",id);
-  try {
-    const result = await http.get(`/News/GetNewsComments?NewsId=${id}`, {
-   
-    });
-    
+    const result = await http.get(`/News/GetNewsComments?NewsId=${id}`, {});
+
     return result.data;
-  
   } catch (error) {
     console.log(error);
     return [];
@@ -136,5 +148,6 @@ export {
   GetReplayComments,
   AddReplayComment,
   GetCourseComments,
-  GetnewsComments
+  GetnewsComments,
+  GetUserComments,
 };
