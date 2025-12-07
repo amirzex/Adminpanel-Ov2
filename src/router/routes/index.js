@@ -30,6 +30,7 @@ import CreateTechnologyForm from "../../@core/components/Technology/list/CreateT
 import Term from "../../pages/Term.js";
 import CreateTermForm from "../../@core/components/Term/list/CreateTerm.js";
 import CalendarComponent from "../../@core/components/schedual/calendar/index.js";
+import AdminPanelChat from "../../@core/components/Chats/ChatAPi.jsx";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -56,10 +57,15 @@ const UserList = lazy(() =>
 const News = lazy(() => import("../../pages/News.js"));
 const NewsDetails = lazy(() => import("../../pages/NewsDetails.js"));
 const CreateNews = lazy(() => import("../../pages/CreateNews.js"));
-const CourseView = lazy(() => import("../../@core/components/courses/view/index.js"));
-const Coursedetails = lazy(() => import("../../@core/components/courses/details/view/index.js"));
-const AddCourseSteps = lazy(() => import("../../@core/components/courses/create/index.js"));
-
+const CourseView = lazy(() =>
+  import("../../@core/components/courses/view/index.js")
+);
+const Coursedetails = lazy(() =>
+  import("../../@core/components/courses/details/view/index.js")
+);
+const AddCourseSteps = lazy(() =>
+  import("../../@core/components/courses/create/index.js")
+);
 
 const Wizard = lazy(() =>
   import("../../@core/components/Forms/wizard/WizardHorizontal.js")
@@ -202,15 +208,18 @@ const Routes = [
   {
     element: <CreateTermForm />,
     path: "/Create/Term",
-  },,
+  },
+  ,
   {
     element: <CalendarComponent />,
     path: "/calender",
-  },,
+  },
+  ,
   {
     element: <CourseView />,
     path: "/courses",
-  },,
+  },
+  ,
   {
     element: <AddCourseSteps />,
     path: "/Creat/courses",
@@ -219,6 +228,10 @@ const Routes = [
   {
     path: "/courses/courses/deatils/:id",
     element: <Coursedetails />,
+  },
+  {
+    path: "/AdminPanelChat",
+    element: <AdminPanelChat />,
   },
 ];
 

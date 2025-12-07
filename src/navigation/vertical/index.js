@@ -31,7 +31,8 @@ export default [
     title: "لیست کاربران",
     icon: <User size={20} />,
     navLink: "/users",
-  },,
+  },
+  ,
   {
     id: "courselist",
     title: "دوره ها ",
@@ -68,7 +69,8 @@ export default [
     title: "مدیریت کامنت ها",
     icon: <MessageSquare size={20} />,
     navLink: "/comments",
-  },,
+  },
+
   {
     id: "schedual",
     title: "برنامه ریزی",
@@ -207,5 +209,11 @@ export default [
         navLink: "/create/Term",
       },
     ],
+  },
+  {
+    id: "AdminPanelChat",
+    title: "  پشتیبانی",
+    icon: <MessageSquare size={20} />,
+    navLink: "/AdminPanelChat",
   },
 ];
