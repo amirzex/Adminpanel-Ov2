@@ -1,136 +1,89 @@
-// ** React Imports
 import { Fragment, useState, useEffect } from 'react'
-
-// ** Third Party Components
-import classnames from 'classnames'
 import { Row, Col } from 'reactstrap'
-
-// ** Calendar App Component Imports
+import classnames from 'classnames'
 import Calendar from './Calendar'
 import SidebarLeft from './SidebarLeft'
 import AddEventSidebar from './AddEventSidebar'
 
-// ** Custom Hooks
-import { useRTL } from '@hooks/useRTL'
-
-// ** Store & Actions
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchEvents, selectEvent, updateEvent, updateFilter, updateAllFilters, addEvent, removeEvent } from './store'
-import { Getadmincalndr } from '../../../service/api/calender/Getcalneder'
-
-// ** Styles
+import { Getadmincalndr } from '../../../service/api/calender/Getcalneder' // مسیر درست را بررسی کنید
 import '@styles/react/apps/app-calendar.scss'
 
-// ** CalendarColors
 const calendarsColor = {
-  Business: 'primary',
-  Holiday: 'success',
-  Personal: 'danger',
-  Family: 'warning',
-  ETC: 'info'
+  Business: 'primary'
 }
 
 const CalendarComponent = () => {
-  // ** Variables
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.calendar)
-  console.log(store,"sss");
-
-  // ** states
   const [calendarApi, setCalendarApi] = useState(null)
   const [addSidebarOpen, setAddSidebarOpen] = useState(false)
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false)
+  const [events, setEvents] = useState([]) // داده‌های تقویم
+  const startDate = "2025-12-10T09:30:00.000Z"
+  const endDate = "2025-12-10T11:00:00.000Z"
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await Getadmincalndr({startDate,endDate})
 
-  // ** Hooks
-  const [isRtl] = useRTL()
+        const data = response || []
+        console.log('Raw API data:', data)
 
-  // ** AddEventSidebar Toggle Function
+        const events = data.map(item => ({
+          id: item.id,
+          title: item.title || `Course ${item.courseGroupId}`,
+          start: `${item.startDate.split('T')[0]}T${item.startTime}:00`,
+          end: `${(item.endDate || item.startDate).split('T')[0]}T${item.endTime || item.startTime}:00`,
+        }))
+
+        console.log('Mapped events for calendar:', events)
+        setEvents(events)
+      } catch (err) {
+        console.log('Error fetching events:', err)
+      }
+    }
+
+    fetchEvents()
+  }, [])
+
+
+
+  const toggleSidebar = val => setLeftSidebarOpen(val)
   const handleAddEventSidebar = () => setAddSidebarOpen(!addSidebarOpen)
 
-  // ** LeftSidebar Toggle Function
-  const toggleSidebar = val => setLeftSidebarOpen(val)
-
-  // ** Blank Event Object
-  const blankEvent = {
-    title: '',
-    start: '',
-    end: '',
-    allDay: false,
-    url: '',
-    extendedProps: {
-      calendar: '',
-      guests: [],
-      location: '',
-      description: ''
-    }
+  const handleSelectEvent = event => {
+    console.log('Selected Event:', event)
+    // اینجا می‌توانید رفتار دلخواه انتخاب event را اضافه کنید
   }
-
-  // ** refetchEvents
-  const refetchEvents = () => {
-    if (calendarApi !== null) {
-      calendarApi.refetchEvents()
-    }
-  }
-
-  // ** Fetch Events On Mount
-  useEffect(() => {
-    dispatch(fetchEvents(store?.selectedCalendars))
-  }, [])
 
   return (
     <Fragment>
       <div className='app-calendar overflow-hidden border'>
         <Row className='g-0'>
-          <Col
+          {/* <Col
             id='app-calendar-sidebar'
             className={classnames('col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column', {
               show: leftSidebarOpen
             })}
           >
-            <SidebarLeft
-              // store={store}
-              dispatch={dispatch}
-              updateFilter={updateFilter}
-              toggleSidebar={toggleSidebar}
-              updateAllFilters={updateAllFilters}
-              handleAddEventSidebar={handleAddEventSidebar}
-            />
-          </Col>
+            <SidebarLeft toggleSidebar={toggleSidebar} />
+          </Col> */}
+
           <Col className='position-relative'>
             <Calendar
-              isRtl={isRtl}
-              store={store}
-              dispatch={dispatch}
-              blankEvent={blankEvent}
-              calendarApi={calendarApi}
-              selectEvent={selectEvent}
-              updateEvent={updateEvent}
-              toggleSidebar={toggleSidebar}
+              events={events} // به جای store
               calendarsColor={calendarsColor}
+              selectEvent={handleSelectEvent} // به جای selectEvent از Redux
+              calendarApi={calendarApi}
               setCalendarApi={setCalendarApi}
               handleAddEventSidebar={handleAddEventSidebar}
             />
           </Col>
-          <div
-            className={classnames('body-content-overlay', {
-              show: leftSidebarOpen === true
-            })}
-            onClick={() => toggleSidebar(false)}
-          ></div>
         </Row>
-
       </div>
+
       <AddEventSidebar
-        store={store}
-        dispatch={dispatch}
-        addEvent={addEvent}
         open={addSidebarOpen}
-        selectEvent={selectEvent}
-        updateEvent={updateEvent}
-        removeEvent={removeEvent}
+        events={events} // به جای store
         calendarApi={calendarApi}
-        refetchEvents={refetchEvents}
-        calendarsColor={calendarsColor}
         handleAddEventSidebar={handleAddEventSidebar}
       />
     </Fragment>

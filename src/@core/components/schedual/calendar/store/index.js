@@ -2,56 +2,37 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { Getadmincalndr } from '../../../../service/api/calender/Getcalneder'
 
-// ** Axios Imports
-import axios from 'axios'
-
-export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async calendars => {
+export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async () => {
   const response = await Getadmincalndr()
-  console.log(response);
-  return response
-})
 
-export const addEvent = createAsyncThunk('appCalendar/addEvent', async (event, { dispatch, getState }) => {
-  await axios.post('/apps/calendar/add-event', { event })
-  await dispatch(fetchEvents(getState().calendar.selectedCalendars))
-  return event
-})
+  const events = response.data.map(e => {
+    // ساخت تاریخ شروع
+    const start = new Date(e.startDate)
+    const [sh, sm] = e.startTime.split(':')
+    start.setHours(Number(sh), Number(sm), 0, 0)
 
-export const updateEvent = createAsyncThunk('appCalendar/updateEvent', async (event, { dispatch, getState }) => {
-  await axios.post('/apps/calendar/update-event', { event })
-  await dispatch(fetchEvents(getState().calendar.selectedCalendars))
-  return event
-})
+    // ساخت تاریخ پایان
+    const end = new Date(e.startDate)
+    const [eh, em] = e.endTime.split(':')
+    end.setHours(Number(eh), Number(em), 0, 0)
 
-export const updateFilter = createAsyncThunk('appCalendar/updateFilter', async (filter, { dispatch, getState }) => {
-  if (getState().calendar.selectedCalendars.includes(filter)) {
-    await dispatch(fetchEvents(getState().calendar.selectedCalendars.filter(i => i !== filter)))
-  } else {
-    await dispatch(fetchEvents([...getState().calendar.selectedCalendars, filter]))
-  }
-  return filter
-})
+    return {
+      id: e.id,
+      title: `Group ${e.courseGroupId.substring(0, 6)}`,
+      start: start.toISOString(),
+      end: end.toISOString(),
+      extendedProps: { ...e, calendar: 'Business' }
+    }
+  })
 
-export const updateAllFilters = createAsyncThunk('appCalendar/updateAllFilters', async (value, { dispatch }) => {
-  if (value === true) {
-    await dispatch(fetchEvents(['Personal', 'Business', 'Family', 'Holiday', 'ETC']))
-  } else {
-    await dispatch(fetchEvents([]))
-  }
-  return value
-})
-
-export const removeEvent = createAsyncThunk('appCalendar/removeEvent', async id => {
-  await axios.delete('/apps/calendar/remove-event', { id })
-  return id
+  return events
 })
 
 export const appCalendarSlice = createSlice({
   name: 'appCalendar',
   initialState: {
     events: [],
-    selectedEvent: {},
-    selectedCalendars: ['Personal', 'Business', 'Family', 'Holiday', 'ETC']
+    selectedEvent: {}
   },
   reducers: {
     selectEvent: (state, action) => {
@@ -59,27 +40,9 @@ export const appCalendarSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder
-      .addCase(fetchEvents.fulfilled, (state, action) => {
-        state.events = action.payload
-      })
-      .addCase(updateFilter.fulfilled, (state, action) => {
-        if (state.selectedCalendars.includes(action.payload)) {
-          state.selectedCalendars.splice(state.selectedCalendars.indexOf(action.payload), 1)
-        } else {
-          state.selectedCalendars.push(action.payload)
-        }
-      })
-      .addCase(updateAllFilters.fulfilled, (state, action) => {
-        const value = action.payload
-        let selected = []
-        if (value === true) {
-          selected = ['Personal', 'Business', 'Family', 'Holiday', 'ETC']
-        } else {
-          selected = []
-        }
-        state.selectedCalendars = selected
-      })
+    builder.addCase(fetchEvents.fulfilled, (state, action) => {
+      state.events = action.payload
+    })
   }
 })
 
