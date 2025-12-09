@@ -4,10 +4,14 @@ export default function AdminPanel() {
   const [messages, setMessages] = useState([]);
   const [reply, setReply] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
+  const [editingMessage, setEditingMessage] = useState(null);
+  const [editContent, setEditContent] = useState("");
 
   // گرفتن همه پیام‌ها از MockAPI
   const fetchMessages = async () => {
-    const res = await fetch("https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi");
+    const res = await fetch(
+      "https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi"
+    );
     const data = await res.json();
     setMessages(data);
   };
@@ -23,27 +27,63 @@ export default function AdminPanel() {
     const newMessage = {
       sender: "admin",
       receiver: selectedUser,
+      chatId: `admin_${selectedUser}`,
       content: reply,
       timestamp: new Date().toISOString(),
       status: "sent",
+      readBy: ["admin"],
+      type: "text",
+      replyTo: null,
+      edited: false,
+      attachments: [],
     };
 
-    const res = await fetch("https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newMessage),
-    });
+    const res = await fetch(
+      "https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newMessage),
+      }
+    );
 
-    await res.json(); // جواب رو می‌گیریم تا id درست ذخیره بشه
+    await res.json();
     setReply("");
-    fetchMessages(); // دوباره همه پیام‌ها رو می‌گیریم
+    fetchMessages();
+  };
+
+  // ویرایش پیام
+  const updateMessage = async () => {
+    if (!editingMessage) return;
+
+    const updatedMessage = {
+      ...editingMessage,
+      content: editContent,
+      edited: true,
+    };
+
+    await fetch(
+      `https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi/${editingMessage.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedMessage),
+      }
+    );
+
+    setEditingMessage(null);
+    setEditContent("");
+    fetchMessages();
   };
 
   // حذف یک پیام
   const deleteMessage = async (id) => {
-    await fetch(`https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi/${id}`, {
-      method: "DELETE",
-    });
+    await fetch(
+      `https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
     fetchMessages();
   };
 
@@ -54,9 +94,12 @@ export default function AdminPanel() {
     );
 
     for (let msg of userMessages) {
-      await fetch(`https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi/${msg.id}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://69358400fa8e704dafbe11e6.mockapi.io/Chat/chatapi/${msg.id}`,
+        {
+          method: "DELETE",
+        }
+      );
     }
 
     fetchMessages();
@@ -74,8 +117,20 @@ export default function AdminPanel() {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
+  const unreadCount = messages.filter(
+    (msg) => msg.receiver === "admin" && msg.status !== "read"
+  ).length;
+
+  useEffect(() => {
+    if (unreadCount > 0) {
+      document.title = `(${unreadCount}) AdminPanel`;
+    } else {
+      document.title = "AdminPanel";
+    }
+  }, [unreadCount]);
+
   return (
-    <div className="d-flex vh-100 bg-light">
+    <div className="d-flex bg-light">
       {/* Sidebar */}
       <div className="col-3 border-end bg-white p-3">
         <h5 className="fw-bold mb-3">Users</h5>
@@ -97,7 +152,8 @@ export default function AdminPanel() {
 
       {/* Chat Area */}
       <div className="col d-flex flex-column">
-        <div className="flex-grow-1 overflow-auto p-3">
+        {/* Chat messages area with fixed height */}
+        <div className="overflow-auto p-2 chat-bg" style={{ height: "70vh" }}>
           {messages
             .filter(
               (msg) =>
@@ -106,53 +162,101 @@ export default function AdminPanel() {
             .map((msg) => (
               <div
                 key={msg.id}
-                className={`d-flex mb-2 ${
+                className={`d-flex ${
                   msg.sender === "admin"
                     ? "justify-content-end"
                     : "justify-content-start"
                 }`}
+                style={{ marginBottom: "4px" }}
               >
                 <div
-                  className={`p-2 rounded ${
+                  className={`p-2 rounded-3 shadow-sm ${
                     msg.sender === "admin"
                       ? "bg-primary text-white"
-                      : "bg-secondary text-white"
+                      : "bg-light border"
                   }`}
-                  style={{ maxWidth: "60%" }}
+                  style={{ maxWidth: "70%", borderRadius: "18px" }}
                 >
                   <p className="mb-1">{msg.content}</p>
-                  <small className="opacity-75 d-block">
+                  <small className="opacity-75 d-block text-end">
                     {formatTime(msg.timestamp)} •{" "}
-                    {msg.status === "read" ? "خوانده شده" : "ارسال شده"}
+                    {msg.edited
+                      ? "ویرایش شده"
+                      : msg.status === "read"
+                      ? "خوانده شده"
+                      : "ارسال شده"}
                   </small>
-                  <button
-                    className="btn btn-sm btn-danger mt-1"
-                    onClick={() => deleteMessage(msg.id)}
-                  >
-                    حذف پیام
-                  </button>
+                  <div className="d-flex gap-2 mt-1">
+                    <button
+                      className="btn btn-sm btn-warning rounded-pill"
+                      onClick={() => {
+                        setEditingMessage(msg);
+                        setEditContent(msg.content);
+                      }}
+                    >
+                      ویرایش
+                    </button>
+                    <button
+                      className="btn btn-sm btn-danger rounded-pill"
+                      onClick={() => deleteMessage(msg.id)}
+                    >
+                      حذف
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
         </div>
 
-        {/* Reply + Clear Chat */}
-        {selectedUser && (
-          <div className="border-top p-3 d-flex align-items-center">
+        {/* Reply / Edit bar */}
+        {editingMessage ? (
+          <div className="border-top p-2 d-flex align-items-center bg-white">
             <input
               type="text"
-              className="form-control me-2"
-              placeholder="Type a reply..."
-              value={reply}
-              onChange={(e) => setReply(e.target.value)}
+              className="form-control rounded-pill me-2"
+              value={editContent}
+              onChange={(e) => setEditContent(e.target.value)}
             />
-            <button onClick={sendReply} className="btn btn-primary me-2">
-              Send
+            <button
+              onClick={updateMessage}
+              className="btn btn-success rounded-pill me-2"
+            >
+              Save
             </button>
-            <button onClick={clearChat} className="btn btn-outline-danger">
-              پاک کردن کل چت
+            <button
+              onClick={() => {
+                setEditingMessage(null);
+                setEditContent("");
+              }}
+              className="btn btn-outline-secondary rounded-pill"
+            >
+              Cancel
             </button>
           </div>
+        ) : (
+          selectedUser && (
+            <div className="border-top p-2 d-flex align-items-center bg-white">
+              <input
+                type="text"
+                className="form-control rounded-pill me-2"
+                placeholder="Type a reply..."
+                value={reply}
+                onChange={(e) => setReply(e.target.value)}
+              />
+              <button
+                onClick={sendReply}
+                className="btn btn-primary rounded-pill me-2"
+              >
+                Send
+              </button>
+              <button
+                onClick={clearChat}
+                className="btn btn-outline-danger rounded-pill"
+              >
+                پاک کردن کل چت
+              </button>
+            </div>
+          )
         )}
       </div>
     </div>
