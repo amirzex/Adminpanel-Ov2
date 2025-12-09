@@ -55,7 +55,11 @@ export const usecoursedatils = (id ) => {
 
 export const updateCourse = async (courseData) => {
   try {
-    const response = await putApi("/Course", courseData);
+    const response = await putApi("/Course", courseData,{
+        headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
     return response;
   } catch (error) {
     console.error("Error updating course:", error);

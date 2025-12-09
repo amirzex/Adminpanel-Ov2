@@ -53,7 +53,7 @@ const GetAssistanceWork = () => {
     <Card>
       <CardHeader>مدیریت دستیاران</CardHeader>
       <CardBody>
-        <Row className="mb-3">
+        {/* <Row className="mb-3">
           <Col lg="3" sm="6" className="mb-2">
             <div className="bg-white p-3 rounded shadow-sm">
               <StatsHorizontal
@@ -65,8 +65,7 @@ const GetAssistanceWork = () => {
                 }
               />
             </div>
-          </Col>
-          <Col lg="9" sm="12">
+
             <Input
               type="text"
               placeholder="جستجو دستیاران..."
@@ -74,7 +73,7 @@ const GetAssistanceWork = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </Col>
-        </Row>
+        </Row> */}
 
         <DataTable
           title="فهرست دستیاران"

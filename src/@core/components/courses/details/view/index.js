@@ -101,22 +101,30 @@ const Coursedetails = () => {
   }, [show, course]);
 
 
-  const onSubmit = async (data) => {
-    const payload = {
-      ...data,
-      id: id,
-      startTime: new Date(data.startTime).toISOString(),
-      endTime: new Date(data.endTime).toISOString()
-    };
+const onSubmit = async (data) => {
+  const formData = new FormData();
 
-    try {
-      await updateCourse(payload);
-      setShow(false);
-      refetch();
-    } catch (err) {
-      console.error(" Update Course Error:", err);
-    }
-  };
+  formData.append("id", id);
+  formData.append("title", data.title);
+  formData.append("capacity", data.capacity);
+  formData.append("cost", data.cost);
+  formData.append("miniDescribe", data.miniDescribe);
+  formData.append("describe", data.describe);
+  formData.append("uniqeUrlString", data.uniqeUrlString);
+
+  formData.append("startTime", new Date(data.startTime).toISOString());
+  formData.append("endTime", new Date(data.endTime).toISOString());
+
+
+  try {
+    await updateCourse(formData); 
+    setShow(false);
+    refetch();
+  } catch (err) {
+    console.error(" Update Course Error:", err);
+  }
+};
+
 
 
   const handleToggleActive = async () => {
@@ -211,7 +219,7 @@ const Coursedetails = () => {
         </Col>
       </Row>
 
-      {/* EDIT MODAL */}
+     
       <Modal isOpen={show} toggle={() => setShow(false)} className="modal-lg">
         <ModalHeader toggle={() => setShow(false)}>ویرایش دوره</ModalHeader>
         <ModalBody>

@@ -1,12 +1,14 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { Getadmincalndr } from '../../../../service/api/calender/Getcalneder'
 
 // ** Axios Imports
 import axios from 'axios'
 
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async calendars => {
-  const response = await axios.get('/apps/calendar/events', { calendars })
-  return response.data
+  const response = await Getadmincalndr()
+  console.log(response);
+  return response
 })
 
 export const addEvent = createAsyncThunk('appCalendar/addEvent', async (event, { dispatch, getState }) => {

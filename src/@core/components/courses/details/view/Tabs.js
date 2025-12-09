@@ -8,6 +8,7 @@ import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import { User, Lock, Bookmark, Bell, Link } from "react-feather";
 import CommentsListCourse from "../../../courseComment/list/CommentsList";
 import UsersListcourse from "../../../course reserved user/list";
+import GetAssistanceWork from "../../../AssistanceWork/list";
 
 // ** User Components
 // import InvoiceList from "./InvoiceList.js";
@@ -38,7 +39,7 @@ const Coursedetailstab = ({ active, toggleTab ,id}) => {
         <NavItem>
           <NavLink active={active === "3"} onClick={() => toggleTab("3")}>
             <Bookmark className="font-medium-3 me-50" />
-            <span className="fw-bold">Billing & Plans</span>
+            <span className="fw-bold">دستیاران</span>
           </NavLink>
         </NavItem>
         <NavItem>
@@ -65,7 +66,7 @@ const Coursedetailstab = ({ active, toggleTab ,id}) => {
           <UsersListcourse id={id}/>
           </TabPane>
         <TabPane tabId="3">
-
+      <GetAssistanceWork/>
           </TabPane>
         <TabPane tabId="4">
 

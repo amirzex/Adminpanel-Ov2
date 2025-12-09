@@ -16,6 +16,7 @@ import { useRTL } from '@hooks/useRTL'
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchEvents, selectEvent, updateEvent, updateFilter, updateAllFilters, addEvent, removeEvent } from './store'
+import { Getadmincalndr } from '../../../service/api/calender/Getcalneder'
 
 // ** Styles
 import '@styles/react/apps/app-calendar.scss'
@@ -33,6 +34,7 @@ const CalendarComponent = () => {
   // ** Variables
   const dispatch = useDispatch()
   const store = useSelector(state => state.calendar)
+  console.log(store,"sss");
 
   // ** states
   const [calendarApi, setCalendarApi] = useState(null)
