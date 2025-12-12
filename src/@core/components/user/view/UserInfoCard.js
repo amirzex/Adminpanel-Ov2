@@ -130,51 +130,59 @@ const UserInfoCard = ({ selectedUser }) => {
 
   const handleSubmiT = async (formData) => {
     try {
-      if (!Object.values(formData).every((field) => field?.length > 0)) {
+      // Validation: check all fields are filled
+      if (
+        !Object.values(formData).every(
+          (field) => field !== undefined && field !== null && field !== ""
+        )
+      ) {
         setShow(false);
         Object.keys(formData).forEach((key) => {
-          if (!formData[key]?.length) {
+          if (!formData[key]) {
             setError(key, { type: "manual" });
           }
         });
         return { success: false, error: "Please fill all required fields" };
       }
-      const userData = {
-        id: selectedUser.id,
-        fName: string(formData.fName || ""),
-        lName: string(formData.lName || ""),
-        userName: string(formData.userName || ""),
-        gmail: string(formData.gmail || ""),
-        phoneNumber: string(formData.phoneNumber || ""),
-        active: true,
-        isDelete: false,
-        isTecher: Boolean(formData.isTecher ?? false),
-        isStudent: Boolean(formData.isStudent ?? false),
-        recoveryEmail: string(formData.recoveryEmail || ""),
-        twoStepAuth: Boolean(formData.twoStepAuth ?? false),
-        userAbout: string(formData.userAbout || ""),
-        currentPictureAddress: string(formData.currentPictureAddress || ""),
-        linkdinProfile: string(formData.linkdinProfile || ""),
-        telegramLink: string(formData.telegramLink || "https://t.me/amirzex70"),
-        receiveMessageEvent: Boolean(formData.receiveMessageEvent ?? false),
-        homeAdderess: string(formData.homeAdderess || ""),
-        nationalCode: string(formData.nationalCode || ""),
-        gender: formData.gender !== undefined ? Boolean(formData.gender) : null,
-        latitude: isFinite(Number(formData.latitude))
-          ? string(formData.latitude)
-          : "",
-        longitude: isFinite(Number(formData.longitude))
-          ? string(formData.longitude)
-          : "",
-        insertDate: new Date().toISOString(),
-        birthDay:
-          formData.birthDay && !isNaN(new Date(formData.birthDay))
-            ? new Date(formData.birthDay).toISOString()
-            : "",
-      };
-      const response = await updateUserDetail(userData);
+
+      // Build FormData payload
+      const payload = new FormData();
+      payload.append("id", "65");
+      payload.append("fName", "amir");
+      payload.append("lName", "hossein");
+      payload.append("userName", "amirzex73");
+      payload.append("gmail", "amir@gmail.com");
+      payload.append("phoneNumber", "09112181444");
+      payload.append("active", true);
+      payload.append("isDelete", false);
+      payload.append("isTecher", true);
+      payload.append("isStudent", true);
+      payload.append("recoveryEmail", "amie@gmail.com");
+      payload.append("twoStepAuth", false);
+      payload.append("userAbout", "sssssssssssssss");
+      payload.append(
+        "currentPictureAddress",
+        "https://i.pinimg.com/736x/cd/70/51/cd7051f509bb825a4335c0ed05841f8b.jpg"
+      );
+      payload.append("linkdinProfile", "https://www.linkedin.com/in/amirzex");
+      payload.append("telegramLink", "https://t.me/Amirzex73");
+      payload.append("receiveMessageEvent", false);
+      payload.append("homeAdderess", "babol");
+      payload.append("nationalCode", "2051116989");
+      payload.append("gender", true);
+      payload.append("latitude", "36.5633");
+      payload.append("longitude", "53.0601");
+      payload.append("insertDate", "2025-11-29T13:10:00.000Z");
+      payload.append("birthDay", "1995-08-15T00:00:00.000Z");
+
+      // Send request
+      const response = await fetch("/User/UpdateUser/", {
+        method: "POST",
+        body: payload,
+      });
+
       setShow(false);
-      return { success: true, data: response.data };
+      return { success: true, data: await response.json() };
     } catch (error) {
       const errorMap = {
         400: `Invalid data: ${
@@ -624,7 +632,7 @@ const UserInfoCard = ({ selectedUser }) => {
                   <FormFeedback>{errors.birthDay.message}</FormFeedback>
                 )}
               </Col>
-
+{/* 
               <Col md={6} xs={12}>
                 <Label className="form-label d-block" for="active">
                   وضعیت:
@@ -789,13 +797,13 @@ const UserInfoCard = ({ selectedUser }) => {
                     به عنوان آدرس صورتحساب استفاده شود؟
                   </Label>
                 </div>
-              </Col>
+              </Col> */}
               <Col xs={12} className="text-center mt-2 pt-50">
                 <Button
                   type="submit"
                   className="me-1"
                   color="primary"
-                  onSubmit={() => handleSubmiT()}
+                  // onSubmit={handleSubmiT}
                 >
                   Submit
                 </Button>
