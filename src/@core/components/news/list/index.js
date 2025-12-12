@@ -116,26 +116,26 @@ const NewsTable = () => {
     return <ComponentSpinner />;
   }
 
-  // 🔎 Local search filter
+  
   const filteredNews = isSuccess
     ? data.news?.filter((item) =>
         item.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
       )
     : [];
 
-  // 📄 Local pagination slice
+  
   const totalItems = filteredNews.length;
   const totalPages = Math.ceil(totalItems / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const paginatedNews = filteredNews.slice(startIndex, endIndex);
 
-  // 📄 Dynamic pagination numbers
+  
   const getPageNumbers = () => {
     const pages = [];
-    const maxVisible = 3; // how many pages around current
+    const maxVisible = 3; 
 
-    pages.push(1); // always show first
+    pages.push(1); 
 
     if (currentPage > maxVisible) {
       pages.push("...");
@@ -154,7 +154,7 @@ const NewsTable = () => {
     }
 
     if (totalPages > 1) {
-      pages.push(totalPages); // always show last
+      pages.push(totalPages); 
     }
 
     return pages;
@@ -181,14 +181,14 @@ const NewsTable = () => {
                 sortOptions={NewsSortOption}
               /> */}
 
-              {/* 🔎 Local Search Input */}
+              {/*  Search  */}
               <input
                 type="text"
                 placeholder="جستجو در اخبار..."
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
-                  setCurrentPage(1); // reset to page 1 when searching
+                  setCurrentPage(1); 
                 }}
                 className="form-control mb-3"
               />
@@ -216,7 +216,7 @@ const NewsTable = () => {
                 ))}
               </div>
 
-              {/* 📄 Local Pagination */}
+              {/* Pagination */}
               <div className="d-flex justify-content-center mt-3">
                 <nav>
                   <ul className="pagination">
