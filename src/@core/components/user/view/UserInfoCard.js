@@ -145,46 +145,39 @@ const UserInfoCard = ({ selectedUser }) => {
         return { success: false, error: "Please fill all required fields" };
       }
 
+      const Dataforsend = {
+        id: selectedUser.id,
+        fName: formData.fname,
+        lName: formData.lName,
+        userName: formData.userName,
+        gmail: formData.gmail,
+        recoveryEmail: formData.recoveryEmail,
+        phoneNumber: formData.phoneNumber,
+        nationalCode: formData.nationalCode,
+        userAbout: formData.userAbout,
+        homeAdderess: formData.homeAdderess,
+        birthDay: new Date(formData.birthDay).toISOString(),
 
-     
-const Dataforsend = {
-  id: selectedUser.id, 
-  fName: formData.fname,
-  lName: formData.lName,
-  userName: formData.userName,
-  gmail: formData.gmail,
-  recoveryEmail: formData.recoveryEmail,
-  phoneNumber: formData.phoneNumber,
-  nationalCode: formData.nationalCode,
-  userAbout: formData.userAbout,
-  homeAdderess: formData.homeAdderess,
-  birthDay: formData.birthDay,
+        active: true,
+        isDelete: false,
+        gender: true,
+        twoStepAuth: false,
 
-  active: selectedActive[0] ?? true,
-  isDelete: SelectedDelete[0] ?? false,
-  gender: selectedGender[0] ?? true,
-  twoStepAuth: selectedStep[0] ?? false,
+        isTecher: true,
+        isStudent: true,
 
+        currentPictureAddress: selectedUser.avatar,
 
-  isTecher: selectedRoles.includes("teacher"),
-  isStudent: selectedRoles.includes("student"),
+        insertDate: selectedUser.insertDate,
+      };
 
-
-  currentPictureAddress: selectedUser.avatar,
-  latitude: selectedUser.latitude,
-  longitude: selectedUser.longitude,
-  insertDate: selectedUser.insertDate
-};
-
-
-      // Send request
-     try {
-         await updateUserDetail(Dataforsend); 
-         setShow(false)
-         refetch()
-       } catch (err) {
-         console.error(" Update Error:", err)
-       }
+      try {
+        await updateUserDetail(Dataforsend);
+        setShow(false);
+        refetch();
+      } catch (err) {
+        console.error(" Update Error:", err);
+      }
 
       setShow(false);
       return { success: true, data: await response.json() };
@@ -217,45 +210,7 @@ const Dataforsend = {
     });
   };
 
-  const [selectedRoles, setSelectedRoles] = useState([]);
-  const [selectedActive, setSelectedActive] = useState([]);
-  const [SelectedDelete, setSelectedDelete] = useState([]);
-  const [selectedGender, setSelectedGender] = useState([]);
-  const [selectedStep, setSelectedStep] = useState([]);
 
-  const handleRoleChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedRoles((prev) =>
-      checked ? [...prev, value] : prev.filter((role) => role !== value)
-    );
-  };
-  const handleActiveChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedActive((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
-  };
-
-  const handleDeleteChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedDelete((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
-  };
-
-  const handleGenderChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedGender((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
-  };
-
-  const handleStepChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedStep((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
-  };
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
@@ -315,26 +270,6 @@ const Dataforsend = {
                     </Badge>
                   ) : null}
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="d-flex justify-content-around my-2 pt-75">
-            <div className="d-flex align-items-start me-2">
-              <Badge color="light-primary" className="rounded p-75">
-                <Check className="font-medium-2" />
-              </Badge>
-              <div className="ms-75">
-                <h4 className="mb-0">1.23k</h4>
-                <small>Tasks Done</small>
-              </div>
-            </div>
-            <div className="d-flex align-items-start">
-              <Badge color="light-primary" className="rounded p-75">
-                <Briefcase className="font-medium-2" />
-              </Badge>
-              <div className="ms-75">
-                <h4 className="mb-0">568</h4>
-                <small>Projects Done</small>
               </div>
             </div>
           </div>
@@ -637,7 +572,7 @@ const Dataforsend = {
                   <FormFeedback>{errors.birthDay.message}</FormFeedback>
                 )}
               </Col>
-{/* 
+              {/* 
               <Col md={6} xs={12}>
                 <Label className="form-label d-block" for="active">
                   وضعیت:
