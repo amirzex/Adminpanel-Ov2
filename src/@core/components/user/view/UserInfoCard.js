@@ -145,41 +145,46 @@ const UserInfoCard = ({ selectedUser }) => {
         return { success: false, error: "Please fill all required fields" };
       }
 
-      // Build FormData payload
-      const payload = new FormData();
-      payload.append("id", "65");
-      payload.append("fName", "amir");
-      payload.append("lName", "hossein");
-      payload.append("userName", "amirzex73");
-      payload.append("gmail", "amir@gmail.com");
-      payload.append("phoneNumber", "09112181444");
-      payload.append("active", true);
-      payload.append("isDelete", false);
-      payload.append("isTecher", true);
-      payload.append("isStudent", true);
-      payload.append("recoveryEmail", "amie@gmail.com");
-      payload.append("twoStepAuth", false);
-      payload.append("userAbout", "sssssssssssssss");
-      payload.append(
-        "currentPictureAddress",
-        "https://i.pinimg.com/736x/cd/70/51/cd7051f509bb825a4335c0ed05841f8b.jpg"
-      );
-      payload.append("linkdinProfile", "https://www.linkedin.com/in/amirzex");
-      payload.append("telegramLink", "https://t.me/Amirzex73");
-      payload.append("receiveMessageEvent", false);
-      payload.append("homeAdderess", "babol");
-      payload.append("nationalCode", "2051116989");
-      payload.append("gender", true);
-      payload.append("latitude", "36.5633");
-      payload.append("longitude", "53.0601");
-      payload.append("insertDate", "2025-11-29T13:10:00.000Z");
-      payload.append("birthDay", "1995-08-15T00:00:00.000Z");
+
+     
+const Dataforsend = {
+  id: selectedUser.id, 
+  fName: formData.fname,
+  lName: formData.lName,
+  userName: formData.userName,
+  gmail: formData.gmail,
+  recoveryEmail: formData.recoveryEmail,
+  phoneNumber: formData.phoneNumber,
+  nationalCode: formData.nationalCode,
+  userAbout: formData.userAbout,
+  homeAdderess: formData.homeAdderess,
+  birthDay: formData.birthDay,
+
+  active: selectedActive[0] ?? true,
+  isDelete: SelectedDelete[0] ?? false,
+  gender: selectedGender[0] ?? true,
+  twoStepAuth: selectedStep[0] ?? false,
+
+
+  isTecher: selectedRoles.includes("teacher"),
+  isStudent: selectedRoles.includes("student"),
+
+
+  currentPictureAddress: selectedUser.avatar,
+  latitude: selectedUser.latitude,
+  longitude: selectedUser.longitude,
+  insertDate: selectedUser.insertDate
+};
+
 
       // Send request
-      const response = await fetch("/User/UpdateUser/", {
-        method: "POST",
-        body: payload,
-      });
+     try {
+         await updateUserDetail(Dataforsend); 
+         setShow(false)
+         refetch()
+       } catch (err) {
+         console.error(" Update Error:", err)
+       }
 
       setShow(false);
       return { success: true, data: await response.json() };

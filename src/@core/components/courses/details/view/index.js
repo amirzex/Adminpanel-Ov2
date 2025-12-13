@@ -102,18 +102,20 @@ const Coursedetails = () => {
 
 
 const onSubmit = async (data) => {
-  const formData = new FormData();
+  const formData = new FormData()
 
-  formData.append("id", id);
-  formData.append("title", data.title);
-  formData.append("capacity", data.capacity);
-  formData.append("cost", data.cost);
-  formData.append("miniDescribe", data.miniDescribe);
-  formData.append("describe", data.describe);
-  formData.append("uniqeUrlString", data.uniqeUrlString);
+  formData.append("Id", id)
+  formData.append("Title", data.title)
+   formData.append("Describe", data.describe)
+  formData.append("Capacity", data.capacity)
+  formData.append("TeacherId", course.teacherId)
+  formData.append("Cost", data.cost)
+  formData.append("miniDescribe", data.miniDescribe)
+ 
+  formData.append("UniqeUrlString", data.uniqeUrlString)
 
-  formData.append("startTime", new Date(data.startTime).toISOString());
-  formData.append("endTime", new Date(data.endTime).toISOString());
+  formData.append("StartTime", new Date(data.startTime).toISOString())
+  formData.append("EndTime", new Date(data.endTime).toISOString())
 
 
   try {
@@ -157,7 +159,8 @@ const onSubmit = async (data) => {
   return (
     <div className="app-user-view">
       <Row>
-        {/* LEFT */}
+        
+
         <Col xl="4" lg="5" md="12">
           <Card className="mb-2 shadow-sm">
             <CardImg
@@ -206,7 +209,7 @@ const onSubmit = async (data) => {
           </Button>
         </Col>
 
-        {/* RIGHT */}
+   
         <Col xl="8" lg="7" md="12">
           <Card>
             <CardBody>
@@ -216,8 +219,11 @@ const onSubmit = async (data) => {
           </Card>
 
           <Coursedetailstab active={active} toggleTab={toggleTab} id={id}/>
+          
         </Col>
+        
       </Row>
+      
 
      
       <Modal isOpen={show} toggle={() => setShow(false)} className="modal-lg">

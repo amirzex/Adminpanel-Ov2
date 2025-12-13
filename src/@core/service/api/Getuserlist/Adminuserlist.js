@@ -123,7 +123,7 @@ const useCreateUser = async (userData) => {
 
 const updateUserDetail = async (userData) => {
   try {
-    const response = await http.put("/User/UpdateUser/", userData);
+    const response = await http.put("/User/UpdateUser/", userData,);
     console.log("Updated user details:", response);
     return response;
   } catch (error) {
