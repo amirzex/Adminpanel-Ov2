@@ -153,5 +153,18 @@ export const AddTechnologies = async (courseId, Techs) => {
   }
 };
 
+const fetchAssistance = async () => {
+  const res = await http.get("/CourseAssistance");
+  return res; 
+};
+
+export const useGetAssistance = () => {
+  return useQuery({
+    queryKey: ["assistance-course"],
+    queryFn: fetchAssistance,
+  });
+};
+
+
 
 

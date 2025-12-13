@@ -9,6 +9,7 @@ import { User, Lock, Bookmark, Bell, Link } from "react-feather";
 import CommentsListCourse from "../../../courseComment/list/CommentsList";
 import UsersListcourse from "../../../course reserved user/list";
 import GetAssistanceWork from "../../../AssistanceWork/list";
+import GetAssistanceCOURSE from "../../../course Assistance/list";
 
 // ** User Components
 // import InvoiceList from "./InvoiceList.js";
@@ -66,7 +67,7 @@ const Coursedetailstab = ({ active, toggleTab ,id}) => {
           <UsersListcourse id={id}/>
           </TabPane>
         <TabPane tabId="3">
-      <GetAssistanceWork/>
+      <GetAssistanceCOURSE/>
           </TabPane>
         <TabPane tabId="4">
 
