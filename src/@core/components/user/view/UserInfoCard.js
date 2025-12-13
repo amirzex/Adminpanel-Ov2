@@ -130,7 +130,7 @@ const UserInfoCard = ({ selectedUser }) => {
 
   const handleSubmiT = async (formData) => {
     try {
-      // Validation: check all fields are filled
+      
       if (
         !Object.values(formData).every(
           (field) => field !== undefined && field !== null && field !== ""
@@ -145,42 +145,42 @@ const UserInfoCard = ({ selectedUser }) => {
         return { success: false, error: "Please fill all required fields" };
       }
 
+      // ✅ Use formData values instead of empty strings
       const Dataforsend = {
         id: selectedUser.id,
-        fName: formData.fname,
+        fName: formData.fName,
         lName: formData.lName,
         userName: formData.userName,
         gmail: formData.gmail,
-        recoveryEmail: formData.recoveryEmail,
         phoneNumber: formData.phoneNumber,
-        nationalCode: formData.nationalCode,
-        userAbout: formData.userAbout,
-        homeAdderess: formData.homeAdderess,
-        birthDay: new Date(formData.birthDay).toISOString(),
-
         active: true,
         isDelete: false,
-        gender: true,
-        twoStepAuth: false,
-
         isTecher: true,
         isStudent: true,
-
-        currentPictureAddress: selectedUser.avatar,
-
-        insertDate: selectedUser.insertDate,
+        recoveryEmail: formData.recoveryEmail,
+        twoStepAuth: false,
+        userAbout: formData.userAbout,
+        currentPictureAddress:
+          "https://i.pinimg.com/736x/cd/70/51/cd7051f509bb825a4335c0ed05841f8b.jpg",
+        linkdinProfile: "https://www.linkedin.com/in/amirzex",
+        telegramLink: "https://t.me/Amirzex73",
+        receiveMessageEvent: false,
+        homeAdderess: formData.homeAdderess,
+        nationalCode: formData.nationalCode,
+        gender: true,
+        latitude: "36.5633",
+        longitude: "53.0601",
+        insertDate: "2025-11-29T13:10:00.000Z",
+        birthDay: formData.birthDay,
       };
 
-      try {
-        await updateUserDetail(Dataforsend);
-        setShow(false);
-        refetch();
-      } catch (err) {
-        console.error(" Update Error:", err);
-      }
+      // ✅ Call your API function and capture response
+      const response = await updateUserDetail(Dataforsend);
 
       setShow(false);
-      return { success: true, data: await response.json() };
+      refetch();
+
+      return { success: true, data: response }; // no response.json() unless it's a fetch
     } catch (error) {
       const errorMap = {
         400: `Invalid data: ${
@@ -209,8 +209,6 @@ const UserInfoCard = ({ selectedUser }) => {
       firstName: selectedUser.fullName?.split(" ")[0] || "",
     });
   };
-
-
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
