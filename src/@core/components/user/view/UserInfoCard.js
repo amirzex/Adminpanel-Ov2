@@ -130,7 +130,7 @@ const UserInfoCard = ({ selectedUser }) => {
 
   const handleSubmiT = async (formData) => {
     try {
-      // Validation: check all fields are filled
+      
       if (
         !Object.values(formData).every(
           (field) => field !== undefined && field !== null && field !== ""
@@ -145,49 +145,42 @@ const UserInfoCard = ({ selectedUser }) => {
         return { success: false, error: "Please fill all required fields" };
       }
 
+      // ✅ Use formData values instead of empty strings
+      const Dataforsend = {
+        id: selectedUser.id,
+        fName: formData.fName,
+        lName: formData.lName,
+        userName: formData.userName,
+        gmail: formData.gmail,
+        phoneNumber: formData.phoneNumber,
+        active: true,
+        isDelete: false,
+        isTecher: true,
+        isStudent: true,
+        recoveryEmail: formData.recoveryEmail,
+        twoStepAuth: false,
+        userAbout: formData.userAbout,
+        currentPictureAddress:
+          "https://i.pinimg.com/736x/cd/70/51/cd7051f509bb825a4335c0ed05841f8b.jpg",
+        linkdinProfile: "https://www.linkedin.com/in/amirzex",
+        telegramLink: "https://t.me/Amirzex73",
+        receiveMessageEvent: false,
+        homeAdderess: formData.homeAdderess,
+        nationalCode: formData.nationalCode,
+        gender: true,
+        latitude: "36.5633",
+        longitude: "53.0601",
+        insertDate: "2025-11-29T13:10:00.000Z",
+        birthDay: formData.birthDay,
+      };
 
-     
-const Dataforsend = {
-  id: selectedUser.id, 
-  fName: formData.fname,
-  lName: formData.lName,
-  userName: formData.userName,
-  gmail: formData.gmail,
-  recoveryEmail: formData.recoveryEmail,
-  phoneNumber: formData.phoneNumber,
-  nationalCode: formData.nationalCode,
-  userAbout: formData.userAbout,
-  homeAdderess: formData.homeAdderess,
-  birthDay: formData.birthDay,
-
-  active: selectedActive[0] ?? true,
-  isDelete: SelectedDelete[0] ?? false,
-  gender: selectedGender[0] ?? true,
-  twoStepAuth: selectedStep[0] ?? false,
-
-
-  isTecher: selectedRoles.includes("teacher"),
-  isStudent: selectedRoles.includes("student"),
-
-
-  currentPictureAddress: selectedUser.avatar,
-  latitude: selectedUser.latitude,
-  longitude: selectedUser.longitude,
-  insertDate: selectedUser.insertDate
-};
-
-
-      // Send request
-     try {
-         await updateUserDetail(Dataforsend); 
-         setShow(false)
-         refetch()
-       } catch (err) {
-         console.error(" Update Error:", err)
-       }
+      // ✅ Call your API function and capture response
+      const response = await updateUserDetail(Dataforsend);
 
       setShow(false);
-      return { success: true, data: await response.json() };
+      refetch();
+
+      return { success: true, data: response }; // no response.json() unless it's a fetch
     } catch (error) {
       const errorMap = {
         400: `Invalid data: ${
@@ -215,46 +208,6 @@ const Dataforsend = {
       lastName: selectedUser.fullName?.split(" ")[1] || "",
       firstName: selectedUser.fullName?.split(" ")[0] || "",
     });
-  };
-
-  const [selectedRoles, setSelectedRoles] = useState([]);
-  const [selectedActive, setSelectedActive] = useState([]);
-  const [SelectedDelete, setSelectedDelete] = useState([]);
-  const [selectedGender, setSelectedGender] = useState([]);
-  const [selectedStep, setSelectedStep] = useState([]);
-
-  const handleRoleChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedRoles((prev) =>
-      checked ? [...prev, value] : prev.filter((role) => role !== value)
-    );
-  };
-  const handleActiveChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedActive((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
-  };
-
-  const handleDeleteChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedDelete((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
-  };
-
-  const handleGenderChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedGender((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
-  };
-
-  const handleStepChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedStep((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
   };
 
   const handleSuspendedClick = () => {
@@ -315,26 +268,6 @@ const Dataforsend = {
                     </Badge>
                   ) : null}
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="d-flex justify-content-around my-2 pt-75">
-            <div className="d-flex align-items-start me-2">
-              <Badge color="light-primary" className="rounded p-75">
-                <Check className="font-medium-2" />
-              </Badge>
-              <div className="ms-75">
-                <h4 className="mb-0">1.23k</h4>
-                <small>Tasks Done</small>
-              </div>
-            </div>
-            <div className="d-flex align-items-start">
-              <Badge color="light-primary" className="rounded p-75">
-                <Briefcase className="font-medium-2" />
-              </Badge>
-              <div className="ms-75">
-                <h4 className="mb-0">568</h4>
-                <small>Projects Done</small>
               </div>
             </div>
           </div>
@@ -637,7 +570,7 @@ const Dataforsend = {
                   <FormFeedback>{errors.birthDay.message}</FormFeedback>
                 )}
               </Col>
-{/* 
+              {/* 
               <Col md={6} xs={12}>
                 <Label className="form-label d-block" for="active">
                   وضعیت:
