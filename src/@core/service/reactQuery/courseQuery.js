@@ -217,6 +217,17 @@ export const useSendReserveToCourse = () => {
       console.error("Error sending reserve:", err);
     },
   });
+};export const AddSchedualSingle = async (currentCurseId) => {
+  return http.post(
+    `/Schedual/AddSchedualSingle`,
+    null,
+    {
+      params: {
+        currentCurseId
+      }
+    }
+  );
 };
+
 
 
