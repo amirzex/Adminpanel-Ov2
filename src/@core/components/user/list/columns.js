@@ -1,14 +1,19 @@
 // ** React Imports
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
-import { Tooltip } from "reactstrap";
-import { useState } from "react";
 
-// ** Store & Actions
-// import { store } from '@store/store'
-// import { getUser, deleteUser } from '../store'
+// ** Reactstrap Imports
+import {
+  Badge,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Tooltip,
+} from "reactstrap";
 
 // ** Icons Imports
 import {
@@ -23,16 +28,7 @@ import {
   Archive,
 } from "react-feather";
 
-// ** Reactstrap Imports
-import {
-  Badge,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
-
-// ** Renders Client Columns
+// ** Render Client Column
 const renderClient = (row) => {
   if (row?.pictureAddress?.length) {
     return (
@@ -55,7 +51,7 @@ const renderClient = (row) => {
   }
 };
 
-// ** Renders Role Columns (all icons with Reactstrap tooltips)
+// ** Render Roles Column (show max 3, truncate rest)
 const renderRoles = (row) => {
   const roleIcons = {
     Administrator: { class: "text-danger", icon: Slack },
@@ -69,18 +65,21 @@ const renderRoles = (row) => {
     return <span className="text-muted">No roles assigned</span>;
   }
 
+  // ✅ Split by comma (adjust if backend uses another delimiter)
   const roles = row.userRoles.split(",").map((r) => r.trim());
 
-  // Local state for tooltips
   const [tooltipOpen, setTooltipOpen] = useState({});
 
-  const toggle = (role) => {
-    setTooltipOpen((prev) => ({ ...prev, [role]: !prev[role] }));
+  const toggle = (id) => {
+    setTooltipOpen((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+  const visibleRoles = roles.slice(0, 3);
+  const hiddenCount = roles.length - visibleRoles.length;
 
   return (
     <span className="d-flex align-items-center">
-      {roles.map((role, i) => {
+      {visibleRoles.map((role, i) => {
         const Icon = roleIcons[role]?.icon || User;
         const iconClass =
           roleIcons[role]?.class ||
@@ -89,31 +88,36 @@ const renderRoles = (row) => {
               i % 6
             ]
           }`;
-        const id = `role-icon-${row.id}-${i}`;
+        const id = `role-icon-${row.id}-${i}`; // ✅ unique per row + index
 
         return (
-          <span key={i} id={id} className="me-50">
+          <span key={id} id={id} className="me-50">
             <Icon size={18} className={iconClass} />
             <Tooltip
-              isOpen={tooltipOpen[role] || false}
+              isOpen={tooltipOpen[id] || false}
               target={id}
-              toggle={() => toggle(role)}
+              toggle={() => toggle(id)}
             >
               {role}
             </Tooltip>
           </span>
         );
       })}
+      {hiddenCount > 0 && (
+        <span className="text-muted ms-1">+{hiddenCount} more</span>
+      )}
     </span>
   );
 };
 
+// ** Status Colors
 const statusObj = {
   pending: "light-warning",
   active: "light-success",
   inactive: "light-secondary",
 };
 
+// ** Table Columns
 export const columns = (actions = {}) => [
   {
     name: "کاربر",
