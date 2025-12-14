@@ -30,7 +30,7 @@ const UsersList = ({ id }) => {
       cell: (row) => (
         <Button color="primary" size="sm" onClick={() => handleEdit(row)}>
           <Edit size={16} className="me-1" />
-          ویرایش
+         تایید
         </Button>
       ),
     },

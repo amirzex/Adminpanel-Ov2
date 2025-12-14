@@ -12,6 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import { useAssistanceEdit } from "../../../service/reactQuery/AssistanceWorkQuery";
 import { useGetCourseGroups } from "../../../service/reactQuery/courseQuery";
+import { useSendReserveToCourse } from "../../../service/reactQuery/courseQuery";
 
 const EditAssistanceModal = ({
   isOpen,
@@ -40,8 +41,9 @@ const EditAssistanceModal = ({
 
   const { data: courseGroups = [], isLoading: groupsLoading } =
     useGetCourseGroups(teacherId, courseId.id);
+        console.log(courseGroups);
 
-  const { mutate, isLoading } = useAssistanceEdit();
+  const { mutate, isLoading } = useSendReserveToCourse();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,12 +57,13 @@ const EditAssistanceModal = ({
     const payload = {
       courseId: formValues.courseId,
       courseGroupId: formValues.courseGroupId,
-      studentId: formValues.studentId,
+       studentId: String(formValues.studentId || "")
     };
 
     mutate(payload, {
       onSuccess: () => toggle(),
     });
+
   };
 
   return (

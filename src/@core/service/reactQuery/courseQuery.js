@@ -4,6 +4,7 @@ import { getApi,postApi,putApi } from "../api/getApi";
 import toast from "react-hot-toast";
 import http from "../interceptor"
 import useFormData from "../../../utility/hooks/useFormData";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const UsecourseList = ({ page, rowsPerPage, sortColumn, sort, searchTerm }) => {
   const fetchCourses = async () => {
@@ -174,7 +175,7 @@ const getCourseGroups = async ({ queryKey }) => {
     `/CourseGroup/GetCourseGroup?TeacherId=${teacherId}&CourseId=${courseId}`
   );
 
-  return res.data;
+  return res;
 };
 
 export const useGetCourseGroups = (teacherId, courseId) => {
@@ -182,6 +183,26 @@ export const useGetCourseGroups = (teacherId, courseId) => {
     queryKey: ["courseGroups", { teacherId, courseId }],
     queryFn: getCourseGroups,
     enabled: Boolean(teacherId && courseId),
+  });
+};
+export const sendReserveToCourse = async (payload) => {
+  const res = await http.post("/CourseReserve/SendReserveToCourse", payload);
+  return res.data;
+};
+
+
+export const useSendReserveToCourse = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: sendReserveToCourse,
+    onSuccess: () => {
+
+      queryClient.invalidateQueries(["reservedUsers"]); 
+    },
+    onError: (err) => {
+      console.error("Error sending reserve:", err);
+    },
   });
 };
 
