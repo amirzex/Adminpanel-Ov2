@@ -1,20 +1,40 @@
-import { Fragment } from "react";
-import { Getreserveduser } from "../../../service/reactQuery/courseQuery";
+import { Fragment, useState } from "react";
+import { useGetReservedUser } from "../../../service/reactQuery/courseQuery";
 import DataTable from "react-data-table-component";
-import { ChevronDown } from "react-feather";
+import { ChevronDown, Edit } from "react-feather";
 import {
   Card,
   CardHeader,
   CardTitle,
-  CardBody
+  CardBody,
+  Button
 } from "reactstrap";
 import { reservedUsersColumns } from "./columns";
+import EditAssistanceModal from "./EditModal";
 
 const UsersList = ({ id }) => {
-  const { data, isLoading } = Getreserveduser(id);
+  const { data, isLoading } = useGetReservedUser(id);
 
-  const store = data || [];
-  console.log(data,"adasda");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedAssistance, setSelectedAssistance] = useState(null);
+
+  const handleEdit = (row) => {
+    setSelectedAssistance(row); 
+    setModalOpen(true);
+  };
+
+  const extendedColumns = [
+    ...reservedUsersColumns,
+    {
+      name: "عملیات",
+      cell: (row) => (
+        <Button color="primary" size="sm" onClick={() => handleEdit(row)}>
+          <Edit size={16} className="me-1" />
+          ویرایش
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <Fragment>
@@ -30,10 +50,17 @@ const UsersList = ({ id }) => {
             noHeader
             responsive
             progressPending={isLoading}
-            columns={reservedUsersColumns}
-            data={store}
+            columns={extendedColumns}
+            data={data || []}
             sortIcon={<ChevronDown />}
             pagination
+          />
+
+          <EditAssistanceModal
+            isOpen={modalOpen}
+            toggle={() => setModalOpen(!modalOpen)}
+            selectedAssistance={selectedAssistance}
+            courseId={id}      
           />
         </CardBody>
       </Card>

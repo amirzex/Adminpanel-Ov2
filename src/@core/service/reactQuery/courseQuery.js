@@ -86,15 +86,17 @@ export const GetCreateCourse = async () => {
     //   return [];
   }
 }; 
-export const Getreserveduser = async ({id}) => {
-  try {
-    const ress = await http.get(`/CourseReserve/${id}`);
-    return ress;
-  } catch (error) {
-    console.log(error);
-    //   return [];
-  }
-};
+const fetchReservedUser = async (id) => {
+  const res = await http.get(`/CourseReserve/${id}`)
+  return res
+}
+export const useGetReservedUser = ({id}) => {
+  return useQuery({
+    queryKey: ["reserved-user", id],
+    queryFn: () => fetchReservedUser(id),
+
+  });
+}
 export const CreateCourse = async (value) => {
   try {
     const formData = useFormData(value);
@@ -165,6 +167,22 @@ export const useGetAssistance = () => {
   });
 };
 
+const getCourseGroups = async ({ queryKey }) => {
+  const [_key, { teacherId, courseId }] = queryKey;
 
+  const res = await http.get(
+    `/CourseGroup/GetCourseGroup?TeacherId=${teacherId}&CourseId=${courseId}`
+  );
+
+  return res.data;
+};
+
+export const useGetCourseGroups = (teacherId, courseId) => {
+  return useQuery({
+    queryKey: ["courseGroups", { teacherId, courseId }],
+    queryFn: getCourseGroups,
+    enabled: Boolean(teacherId && courseId),
+  });
+};
 
 

@@ -65,6 +65,8 @@ const Coursedetails = () => {
     }
   };
   const { data: course, isLoading, error, refetch } = usecoursedatils(id);
+  localStorage.setItem("teacherId", course?.teacherId);
+
 
   const {
     control,

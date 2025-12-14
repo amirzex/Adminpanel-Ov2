@@ -66,6 +66,9 @@ const Coursedetails = lazy(() =>
 const AddCourseSteps = lazy(() =>
   import("../../@core/components/courses/create/index.js")
 );
+const CourseGroupList = lazy(() =>
+  import("../../@core/components/groups/list/index.js")
+);
 
 const Wizard = lazy(() =>
   import("../../@core/components/Forms/wizard/WizardHorizontal.js")
@@ -208,6 +211,10 @@ const Routes = [
   {
     element: <CreateTermForm />,
     path: "/Create/Term",
+  },,
+  {
+    element: <CourseGroupList />,
+    path: "/Gourp",
   },
   ,
   {

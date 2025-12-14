@@ -12,15 +12,13 @@ import { User, UserPlus, UserCheck, UserX } from "react-feather";
 
 // ** Styles
 import "@styles/react/apps/app-users.scss";
-import { useAdminUserList } from "../../../service/reactQuery/usersQuery";
-import EditAssistanceModal from "./EditModal";
-import { useState } from "react";
 
+import { useGetCourseGroup } from "../../../service/reactQuery/group";
 
-const UsersListcourse = (id) => {
+const CourseGroupList = () => {
 
-  console.log("level1",id);
-
+  const { data } = useGetCourseGroup();
+  
   return (
     <div className="app-user-list ">
       {/* <Row>
@@ -59,10 +57,9 @@ const UsersListcourse = (id) => {
           />
         </Col>
       </Row> */}
-      <Table id={id} />
-
+      <Table />
     </div>
   );
 };
 
-export default UsersListcourse;
+export default CourseGroupList;

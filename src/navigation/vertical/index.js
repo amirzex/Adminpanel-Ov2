@@ -36,7 +36,7 @@ export default [
   {
     id: "courselist",
     title: "دوره ها ",
-    icon: <User size={20} />,
+    icon: <Book size={20} />,
     navLink: "/courses",
   },
   {
@@ -70,7 +70,13 @@ export default [
     icon: <MessageSquare size={20} />,
     navLink: "/comments",
   },
-
+,
+  {
+    id: "coursegroup",
+    title: " گروه ها",
+    icon: <User size={20} />,
+    navLink: "/Gourp",
+  },
   {
     id: "schedual",
     title: "برنامه ریزی",

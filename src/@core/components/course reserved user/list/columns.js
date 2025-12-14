@@ -27,21 +27,17 @@ export const reservedUsersColumns = [
 
         <div className="d-flex flex-column">
           <span className="fw-bold">
-            {row.user?.fName} {row.user?.lName}
+            {row.studentName} {row.user?.lName}
           </span>
           <small className="text-muted">
-            {row.user?.gmail}
+            {row.studentEmail}
           </small>
         </div>
       </div>
     )
   },
 
-  {
-    name: "ایمیل",
-    selector: (row) => row.user?.gmail,
-    minWidth: "250px"
-  },
+
 
   {
     name: "وضعیت ثبت‌نام",
