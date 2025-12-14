@@ -1,55 +1,42 @@
-// ** React Imports
 import { Fragment, useState } from "react";
-
-// ** Reactstrap Imports
-import {
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-  Row,
-  Col,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-} from "reactstrap";
-
-// ** Icons Imports
+import { Nav, NavItem, NavLink, TabContent, TabPane, Row, Col, Button } from "reactstrap";
 import { User } from "react-feather";
 
-// ** Components
 import ListSearchbar from "../ListSearchbar";
 import Coursecard from "../coursecard";
 
-// ** React Query Hook
 import { UsecourseList } from "../../../service/reactQuery/courseQuery";
 
 const CoursesTabs = ({ active, toggleTab }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [page, setPage] = useState(1); 
-  const rowsPerPage = 20;
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 15;
 
   const { data, isLoading, isError } = UsecourseList({
-    page: page,
-    rowsPerPage: rowsPerPage,
+    page,
+    rowsPerPage,
     sort: "DESC",
-    searchTerm: searchTerm,
+    searchTerm,
   });
 
   const handleSearch = (value) => {
     setSearchTerm(value);
-    setPage(1); 
+    setPage(1);
   };
 
-
-  const totalPages = data?.totalPages || 1;
+  const totalCount = "";
+  const totalPages = 10;
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
     }
   };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
 
   return (
     <Fragment>
@@ -77,31 +64,42 @@ const CoursesTabs = ({ active, toggleTab }) => {
             ))}
           </Row>
 
-          {/* Pagination */}
           {totalPages > 1 && (
-            <Pagination className="mt-2 justify-content-center">
-              <PaginationItem disabled={page === 1}>
-                <PaginationLink
-                  previous
-                  onClick={() => handlePageChange(page - 1)}
-                />
-              </PaginationItem>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "0.5rem",
+                flexWrap: "wrap",
+                marginTop: "1rem",
+              }}
+            >
+              <Button
+                color="primary"
+                disabled={page === 1}
+                onClick={() => handlePageChange(page - 1)}
+              >
+                قبلی
+              </Button>
 
-              {[...Array(totalPages)].map((_, i) => (
-                <PaginationItem active={page === i + 1} key={i}>
-                  <PaginationLink onClick={() => handlePageChange(i + 1)}>
-                    {i + 1}
-                  </PaginationLink>
-                </PaginationItem>
+              {pageNumbers.map((num) => (
+                <Button
+                  key={num}
+                  color={page === num ? "secondary" : "primary"}
+                  onClick={() => handlePageChange(num)}
+                >
+                  {num}
+                </Button>
               ))}
 
-              <PaginationItem disabled={page === totalPages}>
-                <PaginationLink
-                  next
-                  onClick={() => handlePageChange(page + 1)}
-                />
-              </PaginationItem>
-            </Pagination>
+              <Button
+                color="primary"
+                disabled={page === totalPages}
+                onClick={() => handlePageChange(page + 1)}
+              >
+                بعدی
+              </Button>
+            </div>
           )}
         </TabPane>
       </TabContent>
