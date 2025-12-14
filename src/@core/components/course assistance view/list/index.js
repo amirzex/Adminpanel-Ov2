@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { columns } from "./columns";
 import { useAssistanceWork } from "../../../service/reactQuery/AssistanceWorkQuery";
-import {  useGetAssistance } from "../../../service/reactQuery/courseQuery";
+import {  useGetAssistance, useGetAssistanceById } from "../../../service/reactQuery/courseQuery";
 import { useDebounce } from "use-debounce";
 import {
   Button,
@@ -15,10 +15,12 @@ import {
 } from "reactstrap";
 import StatsHorizontal from "../../widgets/stats/StatsHorizontal";
 import { Edit, HelpCircle } from "react-feather";
-import EditAssistanceModal from "./EditModal";
+import { useParams } from "react-router-dom";
 
-const GetAssistanceCOURSE = (id) => {
-  const { data } = useGetAssistance();
+const GetAssistanceCOURSE = ({id}) => {
+
+
+  const { data } = useGetAssistanceById(id);
 
   console.log(data,"asaa");
 
@@ -33,17 +35,7 @@ const GetAssistanceCOURSE = (id) => {
     setModalOpen(true);
   };
 
-  const extendedColumns = [
-    ...columns,
-    {
-      name: "عملیات",
-      cell: (row) => (
-        <Button color="primary" size="sm" onClick={() => handleEdit(row)}>
-          <Edit size={16} className="me-1" /> ویرایش
-        </Button>
-      ),
-    },
-  ];
+
 
   const filteredData = (data || []).filter((assistance) =>
     Object.values(assistance)
@@ -80,7 +72,7 @@ const GetAssistanceCOURSE = (id) => {
 
         <DataTable
           title="فهرست دستیاران"
-          columns={extendedColumns}
+          columns={columns}
           data={data}
           pagination
           highlightOnHover
@@ -88,13 +80,7 @@ const GetAssistanceCOURSE = (id) => {
           responsive
         />
 
-        {/* Pass selected row into modal */}
-        <EditAssistanceModal
-          isOpen={modalOpen}
-          toggle={() => setModalOpen(!modalOpen)}
-          selectedAssistance={selectedAssistance}
-          courseid={id}
-        />
+
       </CardBody>
     </Card>
   );

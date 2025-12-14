@@ -1,6 +1,6 @@
 // ** React Imports
 import { Card, CardImg, CardBody, CardTitle, CardText, CardFooter } from 'reactstrap';
-import imgDefault from '@src/assets/images/slider/03.jpg';
+import imgDefault from '../../assets/images/elements/bg.png';
 import { Link } from 'react-router-dom';
 
 const formatDate = (dateString) => {
