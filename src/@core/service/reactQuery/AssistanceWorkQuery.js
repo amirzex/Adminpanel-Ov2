@@ -4,6 +4,7 @@ import {
   EditAssistance,
   GetAssistanceWork,
 } from "../api/AssistanceWork/AssistanceWork";
+import http from "../interceptor"
 
 export const useAssistanceWork = () => {
   return useQuery({
@@ -31,15 +32,14 @@ export const useAssistanceCreate = () => {
 
 export const useAssistanceEdit = () => {
   return useMutation({
-    mutationFn: EditAssistance,
-    onSuccess: (data) => {
-      console.log("Assistance edited successfully:", data);
+    mutationFn: async (payload) => {
+      const res = await http.put("/CourseAssistance", payload, {
+        headers: { "Content-Type": "application/json" },
+      });
+      return res;
     },
-    onError: (error) => {
-      console.error(
-        "Error editing Assistance:",
-        error.response?.data?.ErrorMessage || error.message
-      );
-    },
+    onSuccess: (data) => console.log("Assistance edited:", data),
+    onError: (error) =>
+      console.error("Error editing Assistance:", error.response?.data?.ErrorMessage || error.message),
   });
 };

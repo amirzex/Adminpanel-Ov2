@@ -8,6 +8,7 @@ import {
   updateCourse,
   deactiveCourse
 } from "../../../../service/reactQuery/courseQuery";
+import imgDefault from '../../../../assets/images/elements/bg.png';
 
 // ** React Hook Form
 import { useForm, Controller } from "react-hook-form";
@@ -167,7 +168,7 @@ const onSubmit = async (data) => {
           <Card className="mb-2 shadow-sm">
             <CardImg
               top
-              src={course.imageAddress || "https://via.placeholder.com/500x300"}
+              src={course.imageAddress || imgDefault}
               style={{ height: "240px", objectFit: "cover" }}
             />
             <CardBody>

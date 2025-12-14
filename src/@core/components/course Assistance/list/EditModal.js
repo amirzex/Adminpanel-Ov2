@@ -1,60 +1,17 @@
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-} from "reactstrap";
-import { useState, useEffect } from "react";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { useAssistanceEdit } from "../../../service/reactQuery/AssistanceWorkQuery";
 
-const EditAssistanceModal = ({ isOpen, toggle, selectedAssistance }) => {
-  const [formValues, setFormValues] = useState({
-    id: "",
-    worktitle: "",
-    workDescribe: "",
-    assistanceId: "",
-    workDate: "",
-  });
-
-  // preload values when modal opens
-  useEffect(() => {
-    if (selectedAssistance) {
-      setFormValues({
-        id: selectedAssistance.id ?? "",
-        worktitle: selectedAssistance.worktitle || "",
-        workDescribe: selectedAssistance.workDescribe || "",
-        assistanceId: selectedAssistance.assistanceId ?? "",
-        workDate: selectedAssistance.workDate
-          ? new Date(selectedAssistance.workDate).toISOString().slice(0, 16) // for datetime-local input
-          : "",
-      });
-    }
-  }, [selectedAssistance]);
-
+const EditAssistanceModal = ({ isOpen, toggle, selectedAssistance, courseid, userId }) => {
   const { mutate, isLoading } = useAssistanceEdit();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
-
   const handleSubmit = () => {
+
+
     const payload = {
-      id: formValues.id,
-      worktitle: formValues.worktitle.trim(),
-      workDescribe: formValues.workDescribe.trim(),
-      assistanceId: formValues.assistanceId,
-      workDate: formValues.workDate
-        ? new Date(formValues.workDate).toISOString()
-        : null,
+      id: selectedAssistance.id,
+            userId:selectedAssistance.userId ,
+      courseId: courseid.id,
+
     };
 
     console.log("Edit Assistance payload:", payload);
@@ -73,52 +30,11 @@ const EditAssistanceModal = ({ isOpen, toggle, selectedAssistance }) => {
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle}>ویرایش وظیفه</ModalHeader>
       <ModalBody>
-        <Form>
-          <FormGroup>
-            <Label for="worktitle">عنوان کار</Label>
-            <Input
-              id="worktitle"
-              name="worktitle"
-              value={formValues.worktitle}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label for="workDescribe">توضیحات</Label>
-            <Input
-              id="workDescribe"
-              name="workDescribe"
-              value={formValues.workDescribe}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label for="assistanceId">شناسه دستیار</Label>
-            <Input
-              id="assistanceId"
-              name="assistanceId"
-              value={formValues.assistanceId}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label for="workDate">تاریخ کار</Label>
-            <Input
-              id="workDate"
-              name="workDate"
-              type="datetime-local"
-              value={formValues.workDate}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </Form>
+        آیا مطمئن هستید می‌خواهید این وظیفه را ویرایش کنید؟
       </ModalBody>
       <ModalFooter>
         <Button color="primary" onClick={handleSubmit} disabled={isLoading}>
-          ذخیره
+          تایید
         </Button>
         <Button color="secondary" onClick={toggle}>
           لغو

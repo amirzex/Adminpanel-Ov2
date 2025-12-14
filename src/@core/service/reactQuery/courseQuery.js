@@ -167,6 +167,19 @@ export const useGetAssistance = () => {
     queryFn: fetchAssistance,
   });
 };
+const fetchAssistanceById = async (id) => {
+  const res = await http.get(`/CourseAssistance/${id}`);
+  return res;
+};
+
+
+export const useGetAssistanceById = (id) => {
+  return useQuery({
+    queryKey: ["assistance-course", id],
+    queryFn: () => fetchAssistanceById(id),
+    enabled: !!id, 
+  });
+};
 
 const getCourseGroups = async ({ queryKey }) => {
   const [_key, { teacherId, courseId }] = queryKey;
